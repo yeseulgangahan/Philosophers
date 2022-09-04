@@ -17,11 +17,11 @@ int	main(int argc, char **argv)
 
 	if (argc < 5 || 6 < argc)
 	{
-		printf("Error: the number of arguments must be 4 or 5.\n");
+		printf("Error: the number of arguments must be 4 or 5\n");
 		return (1);
 	}
 	cond = ft_calloc(1, sizeof(t_condition));
-	if (set_condition(cond, argc, argv) == false)
+	if (init_condition(cond, argc, argv) == false)
 	{
 		free(cond);
 		return (1);

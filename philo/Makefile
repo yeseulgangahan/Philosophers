@@ -9,15 +9,17 @@ ifdef DEBUG
 endif
 
 SRCS	:= \
-				main.c
+				main.c \
+				init.c \
+				utils.c
 
 OBJS		= $(SRCS:.c=.o)
 
-.PHONY:			all debug clean fclean re
+.PHONY:			all de clean fclean re
 
 all:			$(NAME)
 
-debug:			
+de:			
 				$(MAKE) DEBUG=true
 
 clean:

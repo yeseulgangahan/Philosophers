@@ -1,6 +1,7 @@
 #include <sys/time.h>
 #include <stdbool.h>
 #include <string.h>
+#include <stdlib.h>
 #include "philo.h"
 
 void	*ft_calloc(size_t count, size_t size)
@@ -14,6 +15,7 @@ void	*ft_calloc(size_t count, size_t size)
 	return (buf);
 }
 
+//tv_sec은 long이고, tv_usec은 int임.
 t_millisec	get_current_time(void)
 {
 	struct timeval	time;
