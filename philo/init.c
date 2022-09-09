@@ -96,6 +96,7 @@ static void	init_philosopher(t_condition *cond, t_philosopher *philo, int i)
 {
 	philo->name = i + 1;
 	philo->start_time_of_last_meal = cond->start_time_of_simlutation;
+	philo->condition = cond;
 }
 
 static bool	init_philosophers(t_condition *cond)
@@ -130,6 +131,7 @@ bool	init_condition(t_condition *cond, int argc, char **argv)
 	if (cond->fork == NULL)
 		return (false);
 	//4. 포크 뮤텍스 할당
+	//(이후 뮤텍스 destroy도 해주어야 한다.)
 	if (init_mutex(cond) == false)
 	{
 		free(cond->fork);
