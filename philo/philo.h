@@ -51,7 +51,7 @@ typedef struct s_condition_of_simulation
 
 	t_philosopher	*philosopher;//어떻게 여러 개 주소를 저장하지?: 할당해서
 
-	pthread_t		*monitor_tid;
+	pthread_t		*monitor_tid;//할당 필요
 }	t_condition;
 
 
@@ -64,7 +64,12 @@ void	usleep_precise(t_condition *cond, t_millisec must_time);
 /* init.c */
 bool	init_condition(t_condition *cond, int argc, char **argv);
 
-/* threads_philo.c */
-void	create_philosopher_threads(t_condition *cond);
+/* philo.c */
+void	create_philosophers(t_condition *cond);
+
+/* monitor.c */
+void	create_monitor_death(t_condition *cond);
+void	create_monitor_must_eat(t_condition *cond);
+
 
 #endif /*PHILO_H*/

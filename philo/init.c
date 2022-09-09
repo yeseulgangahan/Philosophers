@@ -143,6 +143,14 @@ bool	init_need_stop(t_condition *cond)
 	return (true);
 }
 
+bool	init_monitor(t_condition *cond)
+{
+	cond->monitor_tid = ft_calloc(2, sizeof(pthread_t));
+	if (cond->monitor_tid == NULL)
+		return (false);
+	return (true);
+}
+
 bool	init_condition(t_condition *cond, int argc, char **argv)
 {
 	//0. 스탑 플래그
@@ -156,8 +164,7 @@ bool	init_condition(t_condition *cond, int argc, char **argv)
 	//3. stop flag 변수, 뮤텍스 할당
 	if (init_need_stop(cond) == false)
 		return (false);
-	//4. 포크 변수, 뮤텍스 할당
-	//(이후 뮤텍스 destroy도 해주어야 한다.)
+	//4. 포크 변수, 뮤텍스 할당 (이후 뮤텍스 destroy도 해주어야 한다.)
 	if (init_forks(cond) == false)
 	{
 		free(cond->need_stop_lock);
@@ -168,6 +175,11 @@ bool	init_condition(t_condition *cond, int argc, char **argv)
 	{
 		free(cond->fork);
 		free(cond->fork_lock);
+		return (false);
+	}
+	//6. 모니터 쓰레드 할당
+	if (init_monitor(cond) == false)
+	{
 		return (false);
 	}
 	return (true);

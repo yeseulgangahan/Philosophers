@@ -96,11 +96,11 @@ bool	thinking(t_philosopher *self)
 	return (true);
 }
 
-void	*start_routine(void *philo)
+void	*start_routine(void *arg)
 {
 	t_philosopher	*self;
 
-	self = (t_philosopher *)philo;
+	self = (t_philosopher *)arg;
 
 	if (self->name % 2)
 		usleep(5000);
@@ -118,7 +118,7 @@ void	*start_routine(void *philo)
 	return (NULL);
 }
 
-void	create_philosopher_threads(t_condition *cond)
+void	create_philosophers(t_condition *cond)
 {
 	int				i;
 	t_philosopher	*philo;

@@ -37,10 +37,13 @@ bool	print_state(t_condition *cond, int name, t_state_type type)
 	t_millisec	time_passed;
 
 	time_passed = get_current_time() - cond->start_time_of_simlutation;
+	
 	pthread_mutex_lock(cond->need_stop_lock);
 	if (cond->need_stop == false)
 	{
 		printf("%lld %d %s\n", time_passed, name, state_list[type]);
+		if (type == DEAD)
+			cond->need_stop = true;
 		pthread_mutex_unlock(cond->need_stop_lock);
 	}
 	else

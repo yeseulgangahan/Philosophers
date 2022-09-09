@@ -12,13 +12,8 @@
 ** 에러 메시지 출력은 되도록 같은 단계에서 하도록 한다.
 */
 
-// void	create_monitor_threads(t_condition *cond)
-// {
-// 	pthread_create(&(cond->monitor_tid[0]), NULL, death_detach_thread, cond);
-// 	pthread_create(&(cond->monitor_tid[0]), NULL, must_eat_detach_thread, cond);
-// }
-
 //join의 2번째 인자 역할은 무엇일까?
+//exit()의 종료값이 포인터에 저장된다. ???
 void	wait_threads(t_condition *cond)
 {
 	int	i;
@@ -49,8 +44,10 @@ int	main(int argc, char **argv)
 		free(cond);
 		return (1);
 	}
-	create_philosopher_threads(cond);
-	// create_monitor_threads(cond);
+	create_philosophers(cond);
+	create_monitor_death(cond);
+	if (argc == 6)
+		create_monitor_must_eat(cond);
 	wait_threads(cond);
 	return (errno);
 }
