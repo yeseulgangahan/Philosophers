@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <unistd.h>
 #include "philo.h"
 
 void	*ft_calloc(size_t count, size_t size)
@@ -50,7 +51,24 @@ bool	print_state(t_condition *cond, int name, t_state_type type)
 	return (true);
 }
 
-// void	usleep_precise()
-// {
+void	usleep_precise(t_condition *cond, t_millisec must_time)
+{
+	t_millisec	standard_time;
 
-// }
+	standard_time = get_current_time();
+	while (1)
+	{
+		pthread_mutex_lock(cond->need_stop_lock);
+		if (cond->need_stop == true)
+		{
+			pthread_mutex_unlock(cond->need_stop_lock);
+			break ;
+		}
+		pthread_mutex_unlock(cond->need_stop_lock);
+
+		if (get_current_time() - standard_time > must_time)
+			break ;
+
+		usleep(1000);//1 milli seconds
+	}
+}

@@ -59,6 +59,7 @@ typedef struct s_condition_of_simulation
 void	*ft_calloc(size_t count, size_t size);
 t_millisec	get_current_time(void);
 bool	print_state(t_condition *cond, int name, t_state_type type);
+void	usleep_precise(t_condition *cond, t_millisec must_time);
 
 /* init.c */
 bool	init_condition(t_condition *cond, int argc, char **argv);
