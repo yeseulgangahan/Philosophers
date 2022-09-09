@@ -2,6 +2,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include "philo.h"
 
 void	*ft_calloc(size_t count, size_t size)
@@ -25,7 +26,7 @@ t_millisec	get_current_time(void)
 	return ((time.tv_sec * 1000000 + time.tv_usec) / 1000);
 }
 
-void	print_state(t_millisec start_time_of_simlutation, int name, t_state_type type)
+bool	print_state(t_condition *cond, int name, t_state_type type)
 {
 	static char	*state_list[] = {"has taken a fork", \
 								"is eating", \
@@ -34,6 +35,22 @@ void	print_state(t_millisec start_time_of_simlutation, int name, t_state_type ty
 								"died"};
 	t_millisec	time_passed;
 
-	time_passed = get_current_time() - start_time_of_simlutation;
-	printf("%lld %d %s\n", time_passed, name, state_list[type]);
+	time_passed = get_current_time() - cond->start_time_of_simlutation;
+	pthread_mutex_lock(cond->need_stop_lock);
+	if (cond->need_stop == false)
+	{
+		printf("%lld %d %s\n", time_passed, name, state_list[type]);
+		pthread_mutex_unlock(cond->need_stop_lock);
+	}
+	else
+	{
+		pthread_mutex_unlock(cond->need_stop_lock);
+		return (false);
+	}
+	return (true);
 }
+
+// void	usleep_precise()
+// {
+
+// }

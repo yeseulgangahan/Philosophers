@@ -21,22 +21,23 @@ typedef int t_fork;
 
 typedef struct s_state_of_philosopher
 {
-	int				name;//i+1
-	pthread_t		tid;
+	int			name;//i+1
+	pthread_t	tid;
 
-	t_millisec		start_time_of_last_meal;//시작시간으로 초기화
-	int				number_of_times_eaten;//0
+	t_millisec	start_time_of_last_meal;//시작시간으로 초기화
+	int			number_of_times_eaten;//0
 
-	// 메인에 있는데 포인터로 가져올 것인지 고민
 	struct s_condition_of_simulation	*condition;
-	// void			*left_fork;
-	// void			*right_fork;
-	// pthread_mutex_t	*left_fork_lock;
-	// pthread_mutex_t	*right_fork_lock;
+
+	size_t		left;
+	size_t		right;
 }	t_philosopher;
 
 typedef struct s_condition_of_simulation
 {
+	bool			need_stop;//default: false
+	pthread_mutex_t	*need_stop_lock;
+
 	//인자로 받아오는 5개 정보
 	int				number_of_philosophers;
 	t_millisec		time_to_die;
@@ -57,13 +58,12 @@ typedef struct s_condition_of_simulation
 /* utils.c */
 void	*ft_calloc(size_t count, size_t size);
 t_millisec	get_current_time(void);
-void	print_state(t_millisec start_time_of_simlutation, int name, t_state_type type);
+bool	print_state(t_condition *cond, int name, t_state_type type);
 
 /* init.c */
 bool	init_condition(t_condition *cond, int argc, char **argv);
 
 /* threads_philo.c */
 void	create_philosopher_threads(t_condition *cond);
-
 
 #endif /*PHILO_H*/

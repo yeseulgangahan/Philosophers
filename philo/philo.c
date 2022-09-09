@@ -2,43 +2,74 @@
 #include <unistd.h>
 #include "philo.h"
 
-void	eating(t_philosopher *philo)
+bool	take_forks(t_philosopher *philo)
 {
-	int	left;
-	int	right;
+	t_condition	*cond;
+
+	cond = philo->condition;
+
+	pthread_mutex_lock(&(cond->fork_lock[philo->left]));
+	if (print_state(cond, philo->name, TAKED) == false)
+	{
+		pthread_mutex_unlock(&(cond->fork_lock[philo->left]));
+		return (false);
+	}
+
+	pthread_mutex_lock(&(cond->fork_lock[philo->right]));
+	if (print_state(cond, philo->name, TAKED) == false)
+	{
+		pthread_mutex_unlock(&(cond->fork_lock[philo->left]));
+		pthread_mutex_unlock(&(cond->fork_lock[philo->right]));
+		return (false);
+	}
+	return (true);
+}
+
+bool	eating(t_philosopher *philo)
+{
 	t_condition	*cond;
 	
 	cond = philo->condition;
-	left = (philo->name - 1) % cond->number_of_philosophers;
-	right = (philo->name + cond->number_of_philosophers - 2) % cond->number_of_philosophers;
-
-	pthread_mutex_lock(&(cond->fork_lock[left]));
-	print_state(cond->start_time_of_simlutation, philo->name, TAKED);
 	
-	pthread_mutex_lock(&(cond->fork_lock[right]));
-	print_state(cond->start_time_of_simlutation, philo->name, TAKED);
+	//1. eating 출력
+	if (print_state(cond, philo->name, EAT) == false)
+	{
+		pthread_mutex_unlock(&(cond->fork_lock[philo->left]));
+		pthread_mutex_unlock(&(cond->fork_lock[philo->right]));
+		return (false);	
+	}
+	//2. 먹은 횟수 +1
+	//3. 먹은 시각 재세팅
+	philo->number_of_times_eaten++;
+	philo->start_time_of_last_meal = get_current_time();
 	
-	print_state(cond->start_time_of_simlutation, philo->name, EAT);
+	//4. 먹어야 하는 시간 만큼
 	usleep(cond->time_to_eat);
 	
-	pthread_mutex_unlock(&(cond->fork_lock[left]));
-	pthread_mutex_unlock(&(cond->fork_lock[right]));
+	pthread_mutex_unlock(&(cond->fork_lock[philo->left]));
+	pthread_mutex_unlock(&(cond->fork_lock[philo->right]));
+
+	return (true);
 }
 
-void	sleeping(t_philosopher *philo)
+bool	sleeping(t_philosopher *philo)
 {
 	t_condition	*cond;
 	
 	cond = philo->condition;
-	print_state(cond->start_time_of_simlutation, philo->name, SLEEP);
+	if (print_state(cond, philo->name, SLEEP) == false)
+		return (false);	
+	return (true);
 }
 
-void	thinking(t_philosopher *philo)
+bool	thinking(t_philosopher *philo)
 {
 	t_condition	*cond;
 	
 	cond = philo->condition;
-	print_state(cond->start_time_of_simlutation, philo->name, THINK);
+	if (print_state(cond, philo->name, THINK) == false)
+		return (false);	
+	return (true);
 }
 
 void	*start_routine(void *philo)
@@ -47,10 +78,17 @@ void	*start_routine(void *philo)
 
 	self = (t_philosopher *)philo;
 
-	eating(self);
-	sleeping(self);
-	thinking(self);
-
+	while (1)
+	{
+		if (take_forks(self) == false)
+			break ;
+		if (eating(self) == false)
+			break ;
+		if (sleeping(self) == false)
+			break ;
+		if (thinking(self) == false)
+			break ;
+	}
 	return (NULL);
 }
 

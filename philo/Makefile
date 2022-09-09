@@ -12,7 +12,7 @@ SRCS	:= \
 				main.c \
 				init.c \
 				utils.c \
-				threads_philo.c
+				philo.c
 
 OBJS		= $(SRCS:.c=.o)
 
