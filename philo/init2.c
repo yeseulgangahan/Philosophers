@@ -1,10 +1,8 @@
-#include <pthread.h>
 #include <stdio.h>
 #include <limits.h>
 #include <stdlib.h>
 #include "philo.h"
 
-//문자만 거르고, 오버플로우는 처리하지 않음
 static bool	init_number(int *buf, char *str)
 {
 	long long	num;
@@ -26,7 +24,7 @@ static bool	init_number(int *buf, char *str)
 	return (true);
 }
 
-static bool	init_millisec(t_millisec *buf, char *str)
+static bool	init_msec(t_msec *buf, char *str)
 {
 	long long	num;
 	int			i;
@@ -47,12 +45,17 @@ static bool	init_millisec(t_millisec *buf, char *str)
 	return (true);
 }
 
+/** NOTE:
+ * 1) init_number() and init_msec() are different
+ * just because they have different argument type.
+ * 2) both doesn't handle overflow or underflow.
+ */
 bool	init_argument(t_condition *cond, int argc, char **argv)
 {
 	if (!init_number(&(cond->number_of_philosophers), argv[1])
-		|| !init_millisec(&(cond->time_to_die), argv[2])
-		|| !init_millisec(&(cond->time_to_eat), argv[3])
-		|| !init_millisec(&(cond->time_to_sleep), argv[4]))
+		|| !init_msec(&(cond->time_to_die), argv[2])
+		|| !init_msec(&(cond->time_to_eat), argv[3])
+		|| !init_msec(&(cond->time_to_sleep), argv[4]))
 	return (false);
 
 	cond->number_of_times_each_must_eat = -1;
@@ -65,31 +68,22 @@ bool	init_argument(t_condition *cond, int argc, char **argv)
 
 bool	init_need_stop(t_condition *cond)
 {
-	//변수
 	cond->need_stop = false;
-
-	//뮤텍스
 	cond->need_stop_lock = ft_calloc(1, sizeof(pthread_mutex_t));
 	if (cond->need_stop_lock == NULL)
 		return (false);
 	pthread_mutex_init(cond->need_stop_lock, NULL);
-	
 	return (true);
 }
 
-//뮤텍스init이 실패해도 0을 반환하지 않는다. 에러넘만 설정된다. 그래서 에러처리 안 함.
-//실패하는 경우: 2번째 인자가 틀렸을 경우 or 메모리 문제
 bool	init_forks(t_condition *cond)
 {
 	int	i;
 
-	//포크 변수 할당
 	cond->fork = \
 		ft_calloc(cond->number_of_philosophers, sizeof(t_fork));
 	if (cond->fork == NULL)
 		return (false);
-
-	//포크 뮤텍스 할당
 	cond->fork_lock = \
 		ft_calloc(cond->number_of_philosophers, sizeof(pthread_mutex_t));
 	if (cond->fork_lock == NULL)
@@ -97,7 +91,6 @@ bool	init_forks(t_condition *cond)
 		free(cond->fork);
 		return (false);
 	}
-
 	i = 0;
 	while (i < cond->number_of_philosophers)
 	{

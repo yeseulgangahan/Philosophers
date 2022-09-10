@@ -4,9 +4,6 @@
 #include <unistd.h>
 #include "philo.h"
 
-# define DEATH 0
-# define MUSTEAT 1
-
 void	*ft_calloc(size_t count, size_t size)
 {
 	void	*buf;
@@ -20,7 +17,7 @@ void	*ft_calloc(size_t count, size_t size)
 
 //tv_sec은 long이고, tv_usec은 int임.
 //권한이 없거나 들어온 주소가 없는 주소일 때, -1 반환하지만 따로 거르지 않음( errno 확인)
-t_millisec	get_current_time(void)
+t_msec	get_current_time(void)
 {
 	struct timeval	time;
 
@@ -36,7 +33,7 @@ bool	print_state(t_condition *cond, int name, t_state_type type)
 								"is sleeping", \
 								"is thinking",
 								"died"};
-	t_millisec	time_passed;
+	t_msec		time_passed;
 
 	time_passed = get_current_time() - cond->start_time_of_simlutation;
 	
@@ -56,43 +53,31 @@ bool	print_state(t_condition *cond, int name, t_state_type type)
 	return (true);
 }
 
-void	usleep_precise(t_condition *cond, t_millisec must_time)
+void	usleep_precise(t_condition *cond, t_msec must_time)
 {
-	t_millisec	enter_time;
+	t_msec	enter_time;
 
 	enter_time = get_current_time();
 	while (1)
 	{
 		pthread_mutex_lock(cond->need_stop_lock);
-		if (cond->need_stop == true)
-		{
-			pthread_mutex_unlock(cond->need_stop_lock);
+		if (is_need_stop_true(cond) == true)
 			break ;
-		}
-		pthread_mutex_unlock(cond->need_stop_lock);
-
 		if (get_current_time() - enter_time > must_time)
 			break ;
-
 		usleep(1000);//1 milli seconds
 	}
 }
 
-//join의 2번째 인자 역할은 무엇일까?
-//exit()의 종료값이 포인터에 저장된다. ???
-void	wait_threads(t_condition *cond)
+bool	is_need_stop_true(t_condition *cond)
 {
-	int	i;
-	t_philosopher	*philo;
+	bool	is_true;
 
-	i = 0;
-	while (i < cond->number_of_philosophers)
-	{
-		philo = &(cond->philosopher[i]);
-		pthread_join(philo->tid, NULL);
-		i++;
-	}
-	pthread_join(cond->monitor_tid[DEATH], NULL);
-	if (cond->number_of_times_each_must_eat > 0)
-		pthread_join(cond->monitor_tid[MUSTEAT], NULL);
+	pthread_mutex_lock(cond->need_stop_lock);
+	if (cond->need_stop == true)
+		is_true = true;
+	else
+		is_true = false;	
+	pthread_mutex_unlock(cond->need_stop_lock);
+	return (is_true);
 }

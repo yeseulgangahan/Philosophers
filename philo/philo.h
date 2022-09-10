@@ -5,72 +5,78 @@
 #include <stdbool.h>
 #include <sys/time.h>
 
-/* monitors */
+/* for monitor threads */
 # define MONITOR_CNT 2
 # define DEATH 0
 # define MUSTEAT 1
 
-/* structs are allocated at heap secment(which is common) */
-
+/* for print state */
 typedef enum e_state_type
 {
-	TAKED,
+	FORK,
 	EAT,
 	SLEEP,
 	THINK,
 	DEAD
 }	t_state_type;
 
-typedef	long long t_millisec;
+/* milliseconds */
+typedef	long long t_msec;
+
+/* fork valuable */
 typedef int t_fork;
 
+
+/** NOTE:
+ * 1) the name of philosophers start from 1.
+ * 2) start_time_of_last_meal: for monitoring death.
+ * 3) number_of_times_eaten: for monitoring must-eat.
+ * 4) left, right: own fork's indexs.
+ * 5) condition: pointer of condition struct.
+ */
+typedef struct s_condition_of_simulation t_condition;
 typedef struct s_state_of_philosopher
 {
-	int			name;//i+1
+	int			name;
 	pthread_t	tid;
-
-	//시뮬레이션 종료 체크를 위한 변수
-	t_millisec	start_time_of_last_meal;//시작시간으로 초기화
-	int			number_of_times_eaten;//0
-
-	//포크 인덱스
+	t_msec		start_time_of_last_meal;
+	int			number_of_times_eaten;
 	size_t		left;
 	size_t		right;
-
-	//공통정보
-	struct s_condition_of_simulation	*condition;
+	t_condition	*condition;
 }	t_philosopher;
 
+/** NOTE:
+ * 1) first 5 members are arguments got from user.
+ * 2) start_time_of_simlutation: to get time passed.
+ * 3) need_stop: 1) check if somebody dead, 2) prevent message mixing.
+ * 4) fork: used while eating.
+ * 5) philosopher: all structs of philosophers.
+ * 6) monitor_tid: store monitor thread id.
+ */
 typedef struct s_condition_of_simulation
 {
-	//인자로 받아오는 5개 정보
 	int				number_of_philosophers;
-	t_millisec		time_to_die;
-	t_millisec		time_to_eat;
-	t_millisec		time_to_sleep;
+	t_msec			time_to_die;
+	t_msec			time_to_eat;
+	t_msec			time_to_sleep;
 	int				number_of_times_each_must_eat;
-
-	t_millisec		start_time_of_simlutation;
-
-	bool			need_stop;//default: false
+	t_msec			start_time_of_simlutation;
+	bool			need_stop;
 	pthread_mutex_t	*need_stop_lock;
-
-	t_fork			*fork;//개수대로 할당
-	pthread_mutex_t	*fork_lock;//개수대로 할당
-
-	t_philosopher	*philosopher;//어떻게 여러 개 주소를 저장하지?: 할당해서
-
-	pthread_t		*monitor_tid;//할당 필요
+	t_fork			*fork;
+	pthread_mutex_t	*fork_lock;
+	t_philosopher	*philosopher;
+	pthread_t		*monitor_tid;
 }	t_condition;
 
-
 /* init.c */
-bool		init_condition(t_condition *cond, int argc, char **argv);
+bool	init_condition(t_condition *cond, int argc, char **argv);
 
 /* init2.c */
-bool		init_argument(t_condition *cond, int argc, char **argv);
-bool		init_need_stop(t_condition *cond);
-bool		init_forks(t_condition *cond);
+bool	init_argument(t_condition *cond, int argc, char **argv);
+bool	init_need_stop(t_condition *cond);
+bool	init_forks(t_condition *cond);
 
 /* philo.c */
 void		create_philosophers(t_condition *cond);
@@ -81,22 +87,22 @@ bool	eating(t_philosopher *self);
 bool	sleeping(t_philosopher *self);
 bool	thinking(t_philosopher *self);
 
-
 /* monitor.c */
-void		create_monitor_death(t_condition *cond);
-void		create_monitor_must_eat(t_condition *cond);
+void	create_monitor_death(t_condition *cond);
+void	create_monitor_must_eat(t_condition *cond);
 
 /* free.c */
-void		free_forks(t_condition *cond);
-void		free_need_stop(t_condition *cond);
-void		free_all(t_condition *cond);
+void	wait_threads(t_condition *cond);
+void	free_forks(t_condition *cond);
+void	free_need_stop(t_condition *cond);
+void	free_all(t_condition *cond);
 
 
 /* utils.c */
-void		*ft_calloc(size_t count, size_t size);
-t_millisec	get_current_time(void);
-bool		print_state(t_condition *cond, int name, t_state_type type);
-void		usleep_precise(t_condition *cond, t_millisec must_time);
-void		wait_threads(t_condition *cond);
+void	*ft_calloc(size_t count, size_t size);
+t_msec	get_current_time(void);
+bool	print_state(t_condition *cond, int name, t_state_type type);
+void	usleep_precise(t_condition *cond, t_msec must_time);
+bool	is_need_stop_true(t_condition *cond);
 
 #endif /* PHILO_H */

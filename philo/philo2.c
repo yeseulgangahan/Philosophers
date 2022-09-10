@@ -1,6 +1,10 @@
 #include "philo.h"
 
-static void	set_order(t_philosopher *self, int *first, int *second)
+/** NOTE:
+ * 1) to prevent dead-lock,
+ * the last Philosopher catches the other side first.
+*/
+static void	set_order(t_philosopher *self, size_t *first, size_t *second)
 {
 	t_condition	*cond;
 
@@ -17,6 +21,10 @@ static void	set_order(t_philosopher *self, int *first, int *second)
 	}
 }
 
+/** STEPS:
+ * 1) pick up the first fork.
+ * 2) puck up the second fork.
+*/
 bool	take_forks(t_philosopher *self)
 {
 	t_condition	*cond;
@@ -26,13 +34,13 @@ bool	take_forks(t_philosopher *self)
 	cond = self->condition;
 	set_order(self, &first, &second);
 	pthread_mutex_lock(&(cond->fork_lock[first]));
-	if (print_state(cond, self->name, TAKED) == false)
+	if (print_state(cond, self->name, FORK) == false)
 	{
 		pthread_mutex_unlock(&(cond->fork_lock[first]));
 		return (false);
 	}
 	pthread_mutex_lock(&(cond->fork_lock[second]));
-	if (print_state(cond, self->name, TAKED) == false)
+	if (print_state(cond, self->name, FORK) == false)
 	{
 		pthread_mutex_unlock(&(cond->fork_lock[first]));
 		pthread_mutex_unlock(&(cond->fork_lock[second]));
@@ -41,30 +49,28 @@ bool	take_forks(t_philosopher *self)
 	return (true);
 }
 
+/** STEPS:
+ * 1) print message.
+ * 2) reset valuables about eating.
+ * 3) sleep until 'time_to_eat'.
+ * 4) put down forks.
+*/
 bool	eating(t_philosopher *self)
 {
 	t_condition	*cond;
 	
 	cond = self->condition;
-	
-	//1. eating 출력
 	if (print_state(cond, self->name, EAT) == false)
 	{
 		pthread_mutex_unlock(&(cond->fork_lock[self->left]));
 		pthread_mutex_unlock(&(cond->fork_lock[self->right]));
 		return (false);	
 	}
-	//2. 먹은 횟수 +1
-	//3. 먹은 시각 재세팅
 	self->number_of_times_eaten++;
 	self->start_time_of_last_meal = get_current_time();
-	
-	//4. 먹어야 하는 시간 만큼
 	usleep_precise(cond, cond->time_to_eat);
-	
 	pthread_mutex_unlock(&(cond->fork_lock[self->left]));
 	pthread_mutex_unlock(&(cond->fork_lock[self->right]));
-
 	return (true);
 }
 
@@ -79,6 +85,9 @@ bool	sleeping(t_philosopher *self)
 	return (true);
 }
 
+/** NOTE:
+ * eat보다 sleep 시간이 더 길면 홀수여도 자지 않아도 된다.
+*/
 bool	thinking(t_philosopher *self)
 {
 	t_condition	*cond;

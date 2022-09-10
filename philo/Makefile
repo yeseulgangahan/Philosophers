@@ -13,6 +13,7 @@ SRCS	:= \
 				init.c \
 				init2.c \
 				philo.c \
+				philo2.c \
 				monitor.c \
 				free.c \
 				utils.c \

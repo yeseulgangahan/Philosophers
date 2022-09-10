@@ -2,85 +2,11 @@
 #include <unistd.h>
 #include "philo.h"
 
-bool	take_forks(t_philosopher *self)
-{
-	size_t		first;
-	size_t		second;
+/** NOTE:
+ * 1) 4 actions return false, if the 'need_stop' valuable turns to 'true'.
+*/
 
-	first = self->right;
-	second = self->left;
-	if (self->name == self->condition->number_of_philosophers)
-	{
-		first = self->left;
-		second = self->right;
-	}
-	pthread_mutex_lock(&(self->condition->fork_lock[first]));
-	if (print_state(self->condition, self->name, TAKED) == false)
-	{
-		pthread_mutex_unlock(&(self->condition->fork_lock[first]));
-		return (false);
-	}
-	pthread_mutex_lock(&(self->condition->fork_lock[second]));
-	if (print_state(self->condition, self->name, TAKED) == false)
-	{
-		pthread_mutex_unlock(&(self->condition->fork_lock[first]));
-		pthread_mutex_unlock(&(self->condition->fork_lock[second]));
-		return (false);
-	}
-	return (true);
-}
-
-bool	eating(t_philosopher *self)
-{
-	t_condition	*cond;
-	
-	cond = self->condition;
-	
-	//1. eating 출력
-	if (print_state(cond, self->name, EAT) == false)
-	{
-		pthread_mutex_unlock(&(cond->fork_lock[self->left]));
-		pthread_mutex_unlock(&(cond->fork_lock[self->right]));
-		return (false);	
-	}
-	//2. 먹은 횟수 +1
-	//3. 먹은 시각 재세팅
-	self->number_of_times_eaten++;
-	self->start_time_of_last_meal = get_current_time();
-	
-	//4. 먹어야 하는 시간 만큼
-	usleep_precise(cond, cond->time_to_eat);
-	
-	pthread_mutex_unlock(&(cond->fork_lock[self->left]));
-	pthread_mutex_unlock(&(cond->fork_lock[self->right]));
-
-	return (true);
-}
-
-bool	sleeping(t_philosopher *self)
-{
-	t_condition	*cond;
-	
-	cond = self->condition;
-	if (print_state(cond, self->name, SLEEP) == false)
-		return (false);	
-	usleep_precise(cond, cond->time_to_sleep);
-	return (true);
-}
-
-bool	thinking(t_philosopher *self)
-{
-	t_condition	*cond;
-	
-	cond = self->condition;
-	if (print_state(cond, self->name, THINK) == false)
-		return (false);
-	if (cond->number_of_philosophers % 2)
-		usleep_precise(cond, cond->time_to_eat);
-	return (true);
-}
-
-void	*start_routine(void *arg)
+static void	*start_routine(void *arg)
 {
 	t_philosopher	*self;
 

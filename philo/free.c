@@ -19,6 +19,25 @@ void	free_need_stop(t_condition *cond)
 	free(cond->need_stop_lock);
 }
 
+//join의 2번째 인자 역할은 무엇일까?
+//exit()의 종료값이 포인터에 저장된다. ???
+void	wait_threads(t_condition *cond)
+{
+	int	i;
+	t_philosopher	*philo;
+
+	i = 0;
+	while (i < cond->number_of_philosophers)
+	{
+		philo = &(cond->philosopher[i]);
+		pthread_join(philo->tid, NULL);
+		i++;
+	}
+	pthread_join(cond->monitor_tid[DEATH], NULL);
+	if (cond->number_of_times_each_must_eat > 0)
+		pthread_join(cond->monitor_tid[MUSTEAT], NULL);
+}
+
 void	free_all(t_condition *cond)
 {
 	free_need_stop(cond);

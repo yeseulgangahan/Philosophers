@@ -1,5 +1,12 @@
 #include "philo.h"
 
+/** STEPS:
+ * 1) constantly checks the 'need_stop' valuable, in case everyone full.
+ * NOTE:
+ * 1) this is only place where print death.
+ * 1-1) philosophers don't calculate their death time, 
+ * but it just checks the 'need_stop' valuable to decide whether to stop.
+ */
 static void	*monitor_death_routine(void *arg)
 {
 	t_condition		*cond;
@@ -15,51 +22,40 @@ static void	*monitor_death_routine(void *arg)
 			philo = &(cond->philosopher[i]);
 			if (get_current_time() - philo->start_time_of_last_meal	>= cond->time_to_die)
 			{
-				print_state(cond, philo->name, DEAD);//유일하게 death를 출력하는 곳
+				print_state(cond, philo->name, DEAD);
 				return (NULL);
 			}
 			i++;
 		}
-
-		//누가 다 먹어서 멈춰야 할 수도 있으니 체크
-		pthread_mutex_lock(cond->need_stop_lock);
-		if (cond->need_stop == true)
-		{
-			pthread_mutex_unlock(cond->need_stop_lock);
+		if (is_need_stop_true(cond) == true)
 			return (NULL);
-		}
-		pthread_mutex_unlock(cond->need_stop_lock);
 	}
 }
 
+/** STEPS:
+ * 1) constantly checks the 'need_stop' valuable, in case somebody dies.
+ * 2) if while() statement is finished, it means everyone has met the must-eat condition.
+ */
 static void	*monitor_must_eat_routine(void *arg)
 {
 	t_condition		*cond;
 	t_philosopher 	*philo;
 	int				i;
 
-	cond = (t_condition *)arg;
-	
+	cond = (t_condition *)arg;	
 	i = 0;
 	while (i < cond->number_of_philosophers)
 	{
 		philo = &(cond->philosopher[i]);
-		if (philo->number_of_times_eaten < cond->number_of_times_each_must_eat)//아직 다 안 먹었으면
+		if (philo->number_of_times_eaten < cond->number_of_times_each_must_eat)
 		{
 			i = 0;
 			continue ;
 		}
-		else//다 먹었음 다다음 확인
+		else
 			i++;
-
-		//누가 죽어서 멈춰야 할 수도 있으니 체크
-		pthread_mutex_lock(cond->need_stop_lock);
-		if (cond->need_stop == true)
-		{
-			pthread_mutex_unlock(cond->need_stop_lock);
+		if (is_need_stop_true(cond) == true)
 			return (NULL);
-		}
-		pthread_mutex_unlock(cond->need_stop_lock);
 	}
 	pthread_mutex_lock(cond->need_stop_lock);
 	cond->need_stop = true;

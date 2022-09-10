@@ -36,12 +36,17 @@ static bool	init_monitor(t_condition *cond)
 	return (true);
 }
 
-	//1. 인자 받아오기
-	//2. 시간설정
-	//3. stop flag 변수, 뮤텍스 할당
-	//4. 포크 변수, 뮤텍스 할당 (이후 뮤텍스 destroy도 해주어야 한다.)
-	//5. 필로소퍼 구조체 할당 후 초기화
-	//6. 모니터 쓰레드 할당
+/** NOTE:
+ * 1) structs are allocated at heap segment(which is common)
+ * so that any thread can use any struct.
+ * STEP:
+ * 1) init arguments
+ * 2) init start time
+ * 3) malloc & init need_stop valuable and mutex
+ * 4) malloc & init forks valuable and mutex
+ * 5) malloc & init philosophers
+ * 6) malloc monitor
+ */
 bool	init_condition(t_condition *cond, int argc, char **argv)
 {
 	if (init_argument(cond, argc, argv) == false)
