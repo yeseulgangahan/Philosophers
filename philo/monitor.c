@@ -1,6 +1,6 @@
 #include "philo.h"
 
-void	*monitor_death_routine(void *arg)
+static void	*monitor_death_routine(void *arg)
 {
 	t_condition		*cond;
 	t_philosopher 	*philo;
@@ -32,7 +32,7 @@ void	*monitor_death_routine(void *arg)
 	}
 }
 
-void	*monitor_must_eat_routine(void *arg)
+static void	*monitor_must_eat_routine(void *arg)
 {
 	t_condition		*cond;
 	t_philosopher 	*philo;

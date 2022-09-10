@@ -1,30 +1,41 @@
-#include <stdio.h>
-#include <unistd.h>
 #include "philo.h"
+
+static void	set_order(t_philosopher *self, int *first, int *second)
+{
+	t_condition	*cond;
+
+	cond = self->condition;
+	if (self->name == cond->number_of_philosophers)
+	{
+		*first = self->left;
+		*second = self->right;
+	}
+	else
+	{		
+		*first = self->right;
+		*second = self->left;
+	}
+}
 
 bool	take_forks(t_philosopher *self)
 {
+	t_condition	*cond;
 	size_t		first;
 	size_t		second;
 
-	first = self->right;
-	second = self->left;
-	if (self->name == self->condition->number_of_philosophers)
+	cond = self->condition;
+	set_order(self, &first, &second);
+	pthread_mutex_lock(&(cond->fork_lock[first]));
+	if (print_state(cond, self->name, TAKED) == false)
 	{
-		first = self->left;
-		second = self->right;
-	}
-	pthread_mutex_lock(&(self->condition->fork_lock[first]));
-	if (print_state(self->condition, self->name, TAKED) == false)
-	{
-		pthread_mutex_unlock(&(self->condition->fork_lock[first]));
+		pthread_mutex_unlock(&(cond->fork_lock[first]));
 		return (false);
 	}
-	pthread_mutex_lock(&(self->condition->fork_lock[second]));
-	if (print_state(self->condition, self->name, TAKED) == false)
+	pthread_mutex_lock(&(cond->fork_lock[second]));
+	if (print_state(cond, self->name, TAKED) == false)
 	{
-		pthread_mutex_unlock(&(self->condition->fork_lock[first]));
-		pthread_mutex_unlock(&(self->condition->fork_lock[second]));
+		pthread_mutex_unlock(&(cond->fork_lock[first]));
+		pthread_mutex_unlock(&(cond->fork_lock[second]));
 		return (false);
 	}
 	return (true);
@@ -78,40 +89,4 @@ bool	thinking(t_philosopher *self)
 	if (cond->number_of_philosophers % 2)
 		usleep_precise(cond, cond->time_to_eat);
 	return (true);
-}
-
-void	*start_routine(void *arg)
-{
-	t_philosopher	*self;
-
-	self = (t_philosopher *)arg;
-
-	if (self->name % 2)
-		usleep(5000);
-	while (1)
-	{
-		if (take_forks(self) == false)
-			break ;
-		if (eating(self) == false)
-			break ;
-		if (sleeping(self) == false)
-			break ;
-		if (thinking(self) == false)
-			break ;
-	}
-	return (NULL);
-}
-
-void	create_philosophers(t_condition *cond)
-{
-	int				i;
-	t_philosopher	*philo;
-
-	i = 0;
-	while (i < cond->number_of_philosophers)
-	{
-		philo = &(cond->philosopher[i]);
-		pthread_create(&(philo->tid), NULL, start_routine, philo);
-		i++;
-	}
 }

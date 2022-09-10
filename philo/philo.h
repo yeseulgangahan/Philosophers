@@ -75,6 +75,13 @@ bool		init_forks(t_condition *cond);
 /* philo.c */
 void		create_philosophers(t_condition *cond);
 
+/* philo2.c */
+bool	take_forks(t_philosopher *self);
+bool	eating(t_philosopher *self);
+bool	sleeping(t_philosopher *self);
+bool	thinking(t_philosopher *self);
+
+
 /* monitor.c */
 void		create_monitor_death(t_condition *cond);
 void		create_monitor_must_eat(t_condition *cond);
