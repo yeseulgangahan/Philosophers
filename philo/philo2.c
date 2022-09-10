@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 15:28:14 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/10 16:04:53 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/10 16:52:14 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,17 +71,22 @@ bool	sleeping(t_philosopher *self)
 	return (true);
 }
 
+/** NOTE:
+ * 1) Situations that require more than 'time_to_eat' time to think:
+ * 1-1) When the number of philosophers is odd.
+ * (Divide into 3 groups and compete)
+ * 1-2) Sleeping less than eating.
+ * (Wakes up too quickly and try to compete with a starving one)
+*/
 bool	thinking(t_philosopher *self)
 {
-/** NOTE:
- * eat보다 sleep 시간이 더 길면 홀수여도 자지 않아도 된다.??
-*/
 	t_condition	*cond;
 
 	cond = self->condition;
 	if (print_state(cond, self->name, THINK) == false)
 		return (false);
-	if (cond->number_of_philosophers % 2)
+	if (cond->number_of_philosophers % 2
+		&& cond->time_to_eat >= cond->time_to_sleep)
 		usleep_precise(cond, cond->time_to_eat);
 	return (true);
 }
