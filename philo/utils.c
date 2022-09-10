@@ -27,6 +27,7 @@ t_millisec	get_current_time(void)
 	return ((time.tv_sec * 1000000 + time.tv_usec) / 1000);
 }
 
+//need_stop 변수의 역할: 1. 멈춰야 하는지 체크해서 die 이후 출력하지 않도록 보장 2. 한 번에 하나만 출력할 수 있도록 보장
 bool	print_state(t_condition *cond, int name, t_state_type type)
 {
 	static char	*state_list[] = {"has taken a fork", \

@@ -7,6 +7,9 @@
 
 #include <sys/errno.h>
 
+# define DEATH 0
+# define MUSTEAT 1
+
 /* 에러 처리 규칙: errno가 설정되면 그냥 1로 끝내도록 한다.
 ** 자체 설정한 에러면 메시지 프린트하고 1로 리턴한다.
 ** 에러 메시지 출력은 되도록 같은 단계에서 하도록 한다.
@@ -26,6 +29,9 @@ void	wait_threads(t_condition *cond)
 		pthread_join(philo->tid, NULL);
 		i++;
 	}
+	pthread_join(cond->monitor_tid[DEATH], NULL);
+	if (cond->number_of_times_each_must_eat > 0)
+		pthread_join(cond->monitor_tid[MUSTEAT], NULL);
 }
 
 //쓰레드는 모두 스스로 끝나야 한다.

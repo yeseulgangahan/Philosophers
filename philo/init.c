@@ -56,9 +56,9 @@ static bool	init_argument(t_condition *cond, int argc, char **argv)
 		|| !init_millisec(&(cond->time_to_sleep), argv[4]))
 	return (false);
 
-	cond->number_of_times_to_eat = -1;
+	cond->number_of_times_each_must_eat = -1;
 	if (argc == 6)
-		if (!init_number(&(cond->number_of_times_to_eat), argv[5]))
+		if (!init_number(&(cond->number_of_times_each_must_eat), argv[5]))
 			return (false);
 
 	return (true);

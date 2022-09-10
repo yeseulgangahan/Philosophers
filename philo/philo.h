@@ -43,7 +43,7 @@ typedef struct s_condition_of_simulation
 	t_millisec		time_to_die;
 	t_millisec		time_to_eat;
 	t_millisec		time_to_sleep;
-	int				number_of_times_to_eat;
+	int				number_of_times_each_must_eat;
 
 	t_millisec		start_time_of_simlutation;
 	t_fork			*fork;//개수대로 할당
