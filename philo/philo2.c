@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 15:28:14 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/10 15:53:16 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/10 16:04:53 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,10 @@ bool	take_forks(t_philosopher *self)
  * 1) print message.
  * 2) reset valuables about eating.
  * 3) sleep until 'time_to_eat'.
- * 4) put down forks. */
+ * 4) put down forks.
+ * NOTE:
+ * 1) if you want to use fork valuable, add codes before unlock fork-mutexs.
+ * */
 bool	eating(t_philosopher *self)
 {
 	t_condition	*cond;
@@ -68,11 +71,11 @@ bool	sleeping(t_philosopher *self)
 	return (true);
 }
 
-/** NOTE:
- * eat보다 sleep 시간이 더 길면 홀수여도 자지 않아도 된다.
-*/
 bool	thinking(t_philosopher *self)
 {
+/** NOTE:
+ * eat보다 sleep 시간이 더 길면 홀수여도 자지 않아도 된다.??
+*/
 	t_condition	*cond;
 
 	cond = self->condition;

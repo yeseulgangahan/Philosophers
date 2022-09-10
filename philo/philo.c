@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 15:30:35 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/10 15:30:35 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/10 16:31:20 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,18 @@
 #include "philo.h"
 
 /** STEPS:
- * 1) if the name is odd number, sleep for 0.5 milliseconds.
+ * 1) if the name is odd number, sleep for 3 milliseconds.
+ * 1-1) make order to prevent data race.
+ * 1-2) the enough time to wait all threads generated.
  * 2) 4 actions return false, if the 'need_stop' valuable turns to 'true'.
 */
-
 static void	*start_routine(void *arg)
 {
 	t_philosopher	*self;
 
 	self = (t_philosopher *)arg;
 	if (self->name % 2)
-		usleep(500);
+		usleep(3000);
 	while (1)
 	{
 		if (take_forks(self) == false)

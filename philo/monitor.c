@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 15:31:38 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/10 15:33:10 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/10 16:17:22 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 static void	*death_routine(void *arg)
 {
 	t_condition		*cond;
-	t_philosopher	*philo;
+	t_philosopher	philo;
 	int				i;
 
 	cond = (t_condition *)arg;
@@ -31,11 +31,11 @@ static void	*death_routine(void *arg)
 		i = 0;
 		while (i < cond->number_of_philosophers)
 		{
-			philo = &(cond->philosopher[i]);
-			if (get_current_time() - philo->start_time_of_last_meal
+			philo = cond->philosopher[i];
+			if (get_current_time() - philo.start_time_of_last_meal
 				>= cond->time_to_die)
 			{
-				print_state(cond, philo->name, DEAD);
+				print_state(cond, philo.name, DEAD);
 				return (NULL);
 			}
 			i++;
@@ -53,15 +53,15 @@ static void	*death_routine(void *arg)
 static void	*must_eat_routine(void *arg)
 {
 	t_condition		*cond;
-	t_philosopher	*philo;
+	t_philosopher	philo;
 	int				i;
 
 	cond = (t_condition *)arg;
 	i = 0;
 	while (i < cond->number_of_philosophers)
 	{
-		philo = &(cond->philosopher[i]);
-		if (philo->number_of_times_eaten < cond->number_of_times_each_must_eat)
+		philo = cond->philosopher[i];
+		if (philo.number_of_times_eaten < cond->number_of_times_each_must_eat)
 		{
 			i = 0;
 			continue ;
