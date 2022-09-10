@@ -11,9 +11,11 @@ endif
 SRCS	:= \
 				main.c \
 				init.c \
-				utils.c \
+				init2.c \
 				philo.c \
-				monitor.c
+				monitor.c \
+				free.c \
+				utils.c \
 
 OBJS		= $(SRCS:.c=.o)
 

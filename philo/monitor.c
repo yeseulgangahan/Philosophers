@@ -69,10 +69,10 @@ void	*monitor_must_eat_routine(void *arg)
 
 void	create_monitor_death(t_condition *cond)
 {
-	pthread_create(&(cond->monitor_tid[0]), NULL, monitor_death_routine, cond);
+	pthread_create(&(cond->monitor_tid[DEATH]), NULL, monitor_death_routine, cond);
 }
 
 void	create_monitor_must_eat(t_condition *cond)
 {
-	pthread_create(&(cond->monitor_tid[1]), NULL, monitor_must_eat_routine, cond);
+	pthread_create(&(cond->monitor_tid[MUSTEAT]), NULL, monitor_must_eat_routine, cond);
 }

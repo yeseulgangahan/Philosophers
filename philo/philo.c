@@ -5,43 +5,33 @@
 bool	take_forks(t_philosopher *self)
 {
 	t_condition	*cond;
+	size_t		first;
+	size_t		second;
 
 	cond = self->condition;
-
-	if (self->name != cond->number_of_philosophers)
+	first = self->right;
+	second = self->left;
+	if (self->name == cond->number_of_philosophers)
 	{
-		pthread_mutex_lock(&(cond->fork_lock[self->right]));
-		if (print_state(cond, self->name, TAKED) == false)
-		{
-			pthread_mutex_unlock(&(cond->fork_lock[self->right]));
-			return (false);
-		}
-
-		pthread_mutex_lock(&(cond->fork_lock[self->left]));
-		if (print_state(cond, self->name, TAKED) == false)
-		{
-			pthread_mutex_unlock(&(cond->fork_lock[self->right]));
-			pthread_mutex_unlock(&(cond->fork_lock[self->left]));
-			return (false);
-		}
+		first = self->left;
+		second = self->right;
 	}
-	else
+
+	pthread_mutex_lock(&(cond->fork_lock[first]));
+	if (print_state(cond, self->name, TAKED) == false)
 	{
-		pthread_mutex_lock(&(cond->fork_lock[self->left]));
-		if (print_state(cond, self->name, TAKED) == false)
-		{
-			pthread_mutex_unlock(&(cond->fork_lock[self->left]));
-			return (false);
-		}
-
-		pthread_mutex_lock(&(cond->fork_lock[self->right]));
-		if (print_state(cond, self->name, TAKED) == false)
-		{
-			pthread_mutex_unlock(&(cond->fork_lock[self->left]));
-			pthread_mutex_unlock(&(cond->fork_lock[self->right]));
-			return (false);
-		}
+		pthread_mutex_unlock(&(cond->fork_lock[first]));
+		return (false);
 	}
+
+	pthread_mutex_lock(&(cond->fork_lock[second]));
+	if (print_state(cond, self->name, TAKED) == false)
+	{
+		pthread_mutex_unlock(&(cond->fork_lock[first]));
+		pthread_mutex_unlock(&(cond->fork_lock[second]));
+		return (false);
+	}
+
 	return (true);
 }
 

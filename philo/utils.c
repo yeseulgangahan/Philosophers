@@ -1,10 +1,11 @@
-#include <sys/time.h>
-#include <stdbool.h>
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
 #include "philo.h"
+
+# define DEATH 0
+# define MUSTEAT 1
 
 void	*ft_calloc(size_t count, size_t size)
 {
@@ -18,12 +19,12 @@ void	*ft_calloc(size_t count, size_t size)
 }
 
 //tv_sec은 long이고, tv_usec은 int임.
+//권한이 없거나 들어온 주소가 없는 주소일 때, -1 반환하지만 따로 거르지 않음( errno 확인)
 t_millisec	get_current_time(void)
 {
 	struct timeval	time;
 
-	if (gettimeofday(&time, NULL) == -1)
-		return (0);
+	gettimeofday(&time, NULL);
 	return ((time.tv_sec * 1000000 + time.tv_usec) / 1000);
 }
 
@@ -57,9 +58,9 @@ bool	print_state(t_condition *cond, int name, t_state_type type)
 
 void	usleep_precise(t_condition *cond, t_millisec must_time)
 {
-	t_millisec	standard_time;
+	t_millisec	enter_time;
 
-	standard_time = get_current_time();
+	enter_time = get_current_time();
 	while (1)
 	{
 		pthread_mutex_lock(cond->need_stop_lock);
@@ -70,9 +71,28 @@ void	usleep_precise(t_condition *cond, t_millisec must_time)
 		}
 		pthread_mutex_unlock(cond->need_stop_lock);
 
-		if (get_current_time() - standard_time > must_time)
+		if (get_current_time() - enter_time > must_time)
 			break ;
 
 		usleep(1000);//1 milli seconds
 	}
+}
+
+//join의 2번째 인자 역할은 무엇일까?
+//exit()의 종료값이 포인터에 저장된다. ???
+void	wait_threads(t_condition *cond)
+{
+	int	i;
+	t_philosopher	*philo;
+
+	i = 0;
+	while (i < cond->number_of_philosophers)
+	{
+		philo = &(cond->philosopher[i]);
+		pthread_join(philo->tid, NULL);
+		i++;
+	}
+	pthread_join(cond->monitor_tid[DEATH], NULL);
+	if (cond->number_of_times_each_must_eat > 0)
+		pthread_join(cond->monitor_tid[MUSTEAT], NULL);
 }
