@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/10 15:35:58 by yehan             #+#    #+#             */
+/*   Updated: 2022/09/10 15:36:23 by yehan            ###   ########seoul.kr  */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdlib.h>
 #include "philo.h"
 
@@ -7,7 +19,8 @@ static void	init_philosopher(t_condition *cond, t_philosopher *philo, int i)
 	philo->start_time_of_last_meal = cond->start_time_of_simlutation;
 	philo->condition = cond;
 	philo->left = i;
-	philo->right = (i + cond->number_of_philosophers - 1) % cond->number_of_philosophers;
+	philo->right
+		= (i + cond->number_of_philosophers - 1) % cond->number_of_philosophers;
 }
 
 static bool	init_philosophers(t_condition *cond)
@@ -18,7 +31,6 @@ static bool	init_philosophers(t_condition *cond)
 		ft_calloc(cond->number_of_philosophers, sizeof(t_philosopher));
 	if (cond->philosopher == NULL)
 		return (false);
-
 	i = 0;
 	while (i < cond->number_of_philosophers)
 	{

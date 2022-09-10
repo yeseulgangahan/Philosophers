@@ -1,10 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   free.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/10 15:37:54 by yehan             #+#    #+#             */
+/*   Updated: 2022/09/10 15:38:12 by yehan            ###   ########seoul.kr  */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdlib.h>
 #include "philo.h"
 
 void	free_forks(t_condition *cond)
 {
+	int	i;
+
 	free(cond->fork);
-	int	i = 0;
+	i = 0;
 	while (i < cond->number_of_philosophers)
 	{
 		pthread_mutex_destroy(&(cond->fork_lock[i]));
@@ -19,11 +33,9 @@ void	free_need_stop(t_condition *cond)
 	free(cond->need_stop_lock);
 }
 
-//join의 2번째 인자 역할은 무엇일까?
-//exit()의 종료값이 포인터에 저장된다. ???
 void	wait_threads(t_condition *cond)
 {
-	int	i;
+	int				i;
 	t_philosopher	*philo;
 
 	i = 0;

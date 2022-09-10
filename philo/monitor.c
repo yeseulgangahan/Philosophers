@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   monitor.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/10 15:31:38 by yehan             #+#    #+#             */
+/*   Updated: 2022/09/10 15:33:10 by yehan            ###   ########seoul.kr  */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 /** STEPS:
@@ -7,10 +19,10 @@
  * 1-1) philosophers don't calculate their death time, 
  * but it just checks the 'need_stop' valuable to decide whether to stop.
  */
-static void	*monitor_death_routine(void *arg)
+static void	*death_routine(void *arg)
 {
 	t_condition		*cond;
-	t_philosopher 	*philo;
+	t_philosopher	*philo;
 	int				i;
 
 	cond = (t_condition *)arg;
@@ -20,7 +32,8 @@ static void	*monitor_death_routine(void *arg)
 		while (i < cond->number_of_philosophers)
 		{
 			philo = &(cond->philosopher[i]);
-			if (get_current_time() - philo->start_time_of_last_meal	>= cond->time_to_die)
+			if (get_current_time() - philo->start_time_of_last_meal
+				>= cond->time_to_die)
 			{
 				print_state(cond, philo->name, DEAD);
 				return (NULL);
@@ -34,15 +47,16 @@ static void	*monitor_death_routine(void *arg)
 
 /** STEPS:
  * 1) constantly checks the 'need_stop' valuable, in case somebody dies.
- * 2) if while() statement is finished, it means everyone has met the must-eat condition.
+ * 2) if while() statement is finished, 
+ * it means everyone has met the must-eat condition.
  */
-static void	*monitor_must_eat_routine(void *arg)
+static void	*must_eat_routine(void *arg)
 {
 	t_condition		*cond;
-	t_philosopher 	*philo;
+	t_philosopher	*philo;
 	int				i;
 
-	cond = (t_condition *)arg;	
+	cond = (t_condition *)arg;
 	i = 0;
 	while (i < cond->number_of_philosophers)
 	{
@@ -65,10 +79,10 @@ static void	*monitor_must_eat_routine(void *arg)
 
 void	create_monitor_death(t_condition *cond)
 {
-	pthread_create(&(cond->monitor_tid[DEATH]), NULL, monitor_death_routine, cond);
+	pthread_create(&(cond->monitor_tid[DEATH]), NULL, death_routine, cond);
 }
 
 void	create_monitor_must_eat(t_condition *cond)
 {
-	pthread_create(&(cond->monitor_tid[MUSTEAT]), NULL, monitor_must_eat_routine, cond);
+	pthread_create(&(cond->monitor_tid[MUSTEAT]), NULL, must_eat_routine, cond);
 }

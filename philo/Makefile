@@ -5,7 +5,7 @@ CFLAGS		:= -Wall -Wextra -Werror
 RM			:= rm -f
 
 ifdef DEBUG
-	CFLAGS	+=	-g
+	CFLAGS	+=	-fsanitize=thread
 endif
 
 SRCS	:= \

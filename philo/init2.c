@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init2.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/10 15:35:10 by yehan             #+#    #+#             */
+/*   Updated: 2022/09/10 15:38:35 by yehan            ###   ########seoul.kr  */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdio.h>
 #include <limits.h>
 #include <stdlib.h>
@@ -52,17 +64,16 @@ static bool	init_msec(t_msec *buf, char *str)
  */
 bool	init_argument(t_condition *cond, int argc, char **argv)
 {
-	if (!init_number(&(cond->number_of_philosophers), argv[1])
-		|| !init_msec(&(cond->time_to_die), argv[2])
-		|| !init_msec(&(cond->time_to_eat), argv[3])
-		|| !init_msec(&(cond->time_to_sleep), argv[4]))
-	return (false);
-
+	if (init_number(&(cond->number_of_philosophers), argv[1]) == false
+		|| init_msec(&(cond->time_to_die), argv[2]) == false
+		|| init_msec(&(cond->time_to_eat), argv[3]) == false
+		|| init_msec(&(cond->time_to_sleep), argv[4]) == false)
+		return (false);
 	cond->number_of_times_each_must_eat = -1;
 	if (argc == 6)
-		if (!init_number(&(cond->number_of_times_each_must_eat), argv[5]))
+		if (init_number(&(cond->number_of_times_each_must_eat), argv[5])
+			== false)
 			return (false);
-
 	return (true);
 }
 

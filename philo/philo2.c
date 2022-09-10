@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo2.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/10 15:28:14 by yehan             #+#    #+#             */
+/*   Updated: 2022/09/10 15:28:16 by yehan            ###   ########seoul.kr  */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 /** NOTE:
@@ -48,23 +60,22 @@ bool	take_forks(t_philosopher *self)
 	}
 	return (true);
 }
-#include <stdio.h>
+
 /** STEPS:
  * 1) print message.
  * 2) reset valuables about eating.
  * 3) sleep until 'time_to_eat'.
- * 4) put down forks.
-*/
+ * 4) put down forks. */
 bool	eating(t_philosopher *self)
 {
 	t_condition	*cond;
-	
+
 	cond = self->condition;
 	if (print_state(cond, self->name, EAT) == false)
 	{
 		pthread_mutex_unlock(&(cond->fork_lock[self->left]));
 		pthread_mutex_unlock(&(cond->fork_lock[self->right]));
-		return (false);	
+		return (false);
 	}
 	self->number_of_times_eaten++;
 	self->start_time_of_last_meal = get_current_time();
@@ -77,10 +88,10 @@ bool	eating(t_philosopher *self)
 bool	sleeping(t_philosopher *self)
 {
 	t_condition	*cond;
-	
+
 	cond = self->condition;
 	if (print_state(cond, self->name, SLEEP) == false)
-		return (false);	
+		return (false);
 	usleep_precise(cond, cond->time_to_sleep);
 	return (true);
 }
@@ -91,7 +102,7 @@ bool	sleeping(t_philosopher *self)
 bool	thinking(t_philosopher *self)
 {
 	t_condition	*cond;
-	
+
 	cond = self->condition;
 	if (print_state(cond, self->name, THINK) == false)
 		return (false);

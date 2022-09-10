@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/10 15:22:20 by yehan             #+#    #+#             */
+/*   Updated: 2022/09/10 15:27:06 by yehan            ###   ########seoul.kr  */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -15,8 +27,12 @@ void	*ft_calloc(size_t count, size_t size)
 	return (buf);
 }
 
-//tv_sec은 long이고, tv_usec은 int임.
-//권한이 없거나 들어온 주소가 없는 주소일 때, -1 반환하지만 따로 거르지 않음( errno 확인)
+/** NOTE:
+ * 1) tv_sec: long long type
+ * 1-1) tv_usec: microsecond, int type
+ * 1-2) 1 microsecond == 1000 milliseconds == 1000000 seconds.
+ * 3) gettimeofday() returns -1 when error occurs, but we ignore it.
+*/
 t_msec	get_current_time(void)
 {
 	struct timeval	time;
@@ -25,18 +41,16 @@ t_msec	get_current_time(void)
 	return ((time.tv_sec * 1000000 + time.tv_usec) / 1000);
 }
 
-//need_stop 변수의 역할: 1. 멈춰야 하는지 체크해서 die 이후 출력하지 않도록 보장 2. 한 번에 하나만 출력할 수 있도록 보장
 bool	print_state(t_condition *cond, int name, t_state_type type)
 {
 	static char	*state_list[] = {"has taken a fork", \
 								"is eating", \
 								"is sleeping", \
-								"is thinking",
+								"is thinking", \
 								"died"};
 	t_msec		time_passed;
 
 	time_passed = get_current_time() - cond->start_time_of_simlutation;
-	
 	pthread_mutex_lock(cond->need_stop_lock);
 	if (cond->need_stop == false)
 	{
@@ -53,6 +67,9 @@ bool	print_state(t_condition *cond, int name, t_state_type type)
 	return (true);
 }
 
+/** NOTE: 
+ * 1) sleep for 0.1 milliseconds.
+*/
 void	usleep_precise(t_condition *cond, t_msec must_time)
 {
 	t_msec	enter_time;
@@ -60,12 +77,11 @@ void	usleep_precise(t_condition *cond, t_msec must_time)
 	enter_time = get_current_time();
 	while (1)
 	{
-		// pthread_mutex_lock(cond->need_stop_lock);
 		if (is_need_stop_true(cond) == true)
 			break ;
 		if (get_current_time() - enter_time >= must_time)
 			break ;
-		usleep(100);//1 milli seconds
+		usleep(100);
 	}
 }
 
@@ -73,11 +89,10 @@ bool	is_need_stop_true(t_condition *cond)
 {
 	bool	is_true;
 
+	is_true = false;
 	pthread_mutex_lock(cond->need_stop_lock);
 	if (cond->need_stop == true)
 		is_true = true;
-	else
-		is_true = false;	
 	pthread_mutex_unlock(cond->need_stop_lock);
 	return (is_true);
 }

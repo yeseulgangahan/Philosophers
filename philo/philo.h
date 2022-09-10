@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/10 15:30:10 by yehan             #+#    #+#             */
+/*   Updated: 2022/09/10 15:30:11 by yehan            ###   ########seoul.kr  */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PHILO_H
 # define PHILO_H
 
-#include <pthread.h>
-#include <stdbool.h>
-#include <sys/time.h>
+# include <pthread.h>
+# include <stdbool.h>
+# include <sys/time.h>
 
 /* for monitor threads */
 # define MONITOR_CNT 2
@@ -21,20 +33,20 @@ typedef enum e_state_type
 }	t_state_type;
 
 /* milliseconds */
-typedef	long long t_msec;
+typedef long long							t_msec;
 
 /* fork valuable */
-typedef int t_fork;
+typedef int									t_fork;
 
+typedef struct s_condition_of_simulation	t_condition;
 
 /** NOTE:
  * 1) the name of philosophers start from 1.
  * 2) start_time_of_last_meal: for monitoring death.
  * 3) number_of_times_eaten: for monitoring must-eat.
- * 4) left, right: own fork's indexs.
+ * 4) left, right: pre-calculate own fork's indexs, just for convinence.
  * 5) condition: pointer of condition struct.
  */
-typedef struct s_condition_of_simulation t_condition;
 typedef struct s_state_of_philosopher
 {
 	int			name;
@@ -79,7 +91,7 @@ bool	init_need_stop(t_condition *cond);
 bool	init_forks(t_condition *cond);
 
 /* philo.c */
-void		create_philosophers(t_condition *cond);
+void	create_philosophers(t_condition *cond);
 
 /* philo2.c */
 bool	take_forks(t_philosopher *self);
@@ -96,7 +108,6 @@ void	wait_threads(t_condition *cond);
 void	free_forks(t_condition *cond);
 void	free_need_stop(t_condition *cond);
 void	free_all(t_condition *cond);
-
 
 /* utils.c */
 void	*ft_calloc(size_t count, size_t size);
