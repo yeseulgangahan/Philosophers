@@ -48,7 +48,7 @@ bool	take_forks(t_philosopher *self)
 	}
 	return (true);
 }
-
+#include <stdio.h>
 /** STEPS:
  * 1) print message.
  * 2) reset valuables about eating.

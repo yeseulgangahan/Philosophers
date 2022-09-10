@@ -60,12 +60,12 @@ void	usleep_precise(t_condition *cond, t_msec must_time)
 	enter_time = get_current_time();
 	while (1)
 	{
-		pthread_mutex_lock(cond->need_stop_lock);
+		// pthread_mutex_lock(cond->need_stop_lock);
 		if (is_need_stop_true(cond) == true)
 			break ;
-		if (get_current_time() - enter_time > must_time)
+		if (get_current_time() - enter_time >= must_time)
 			break ;
-		usleep(1000);//1 milli seconds
+		usleep(100);//1 milli seconds
 	}
 }
 
