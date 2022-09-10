@@ -6,56 +6,28 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 15:28:14 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/10 15:28:16 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/10 15:53:16 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-/** NOTE:
- * 1) to prevent dead-lock,
- * the last Philosopher catches the other side first.
-*/
-static void	set_order(t_philosopher *self, size_t *first, size_t *second)
-{
-	t_condition	*cond;
-
-	cond = self->condition;
-	if (self->name == cond->number_of_philosophers)
-	{
-		*first = self->left;
-		*second = self->right;
-	}
-	else
-	{		
-		*first = self->right;
-		*second = self->left;
-	}
-}
-
-/** STEPS:
- * 1) pick up the first fork.
- * 2) puck up the second fork.
-*/
 bool	take_forks(t_philosopher *self)
 {
 	t_condition	*cond;
-	size_t		first;
-	size_t		second;
 
 	cond = self->condition;
-	set_order(self, &first, &second);
-	pthread_mutex_lock(&(cond->fork_lock[first]));
+	pthread_mutex_lock(&(cond->fork_lock[self->left]));
 	if (print_state(cond, self->name, FORK) == false)
 	{
-		pthread_mutex_unlock(&(cond->fork_lock[first]));
+		pthread_mutex_unlock(&(cond->fork_lock[self->left]));
 		return (false);
 	}
-	pthread_mutex_lock(&(cond->fork_lock[second]));
+	pthread_mutex_lock(&(cond->fork_lock[self->right]));
 	if (print_state(cond, self->name, FORK) == false)
 	{
-		pthread_mutex_unlock(&(cond->fork_lock[first]));
-		pthread_mutex_unlock(&(cond->fork_lock[second]));
+		pthread_mutex_unlock(&(cond->fork_lock[self->left]));
+		pthread_mutex_unlock(&(cond->fork_lock[self->right]));
 		return (false);
 	}
 	return (true);
