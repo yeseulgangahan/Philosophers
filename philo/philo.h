@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 15:30:10 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/14 11:10:57 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/15 08:14:35 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,25 +38,7 @@ typedef long long							t_msec;
 /* fork valuable */
 typedef int									t_fork;
 
-typedef struct s_condition_of_simulation	t_condition;
-
-/** NOTE:
- * 1) the name of philosophers start from 1.
- * 2) start_time_of_last_meal: for monitoring death.
- * 3) number_of_times_eaten: for monitoring must-eat.
- * 4) left, right: pre-calculate own fork's indexs, just for convinence.
- * 5) condition: pointer of condition struct.
- */
-typedef struct s_state_of_philosopher
-{
-	int			name;
-	pthread_t	tid;
-	t_msec		start_time_of_last_meal;
-	int			number_of_times_eaten;
-	size_t		left;
-	size_t		right;
-	t_condition	*condition;
-}	t_philosopher;
+typedef struct s_state_of_philosopher t_philosopher;
 
 /** NOTE:
  * 1) first 5 members are arguments got from user.
@@ -81,6 +63,24 @@ typedef struct s_condition_of_simulation
 	t_philosopher	*philosopher;
 	pthread_t		*monitor_tid;
 }	t_condition;
+
+/** NOTE:
+ * 1) the name of philosophers start from 1.
+ * 2) start_time_of_last_meal: for monitoring death.
+ * 3) number_of_times_eaten: for monitoring must-eat.
+ * 4) left, right: pre-calculate own fork's indexs, just for convinence.
+ * 5) condition: pointer of condition struct.
+ */
+typedef struct s_state_of_philosopher
+{
+	int			name;
+	pthread_t	tid;
+	t_msec		start_time_of_last_meal;
+	int			number_of_times_eaten;
+	size_t		left;
+	size_t		right;
+	t_condition	*condition;
+}	t_philosopher;
 
 /* init.c */
 bool	init_condition(t_condition *cond, int argc, char **argv);
