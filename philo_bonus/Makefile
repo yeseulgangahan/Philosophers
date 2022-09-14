@@ -5,30 +5,34 @@
 #                                                     +:+ +:+         +:+      #
 #    By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2022/09/14 09:53:06 by yehan             #+#    #+#              #
-#    Updated: 2022/09/14 13:49:56 by yehan            ###   ########seoul.kr   #
+#    Created: 2022/09/14 09:53:01 by yehan             #+#    #+#              #
+#    Updated: 2022/09/14 14:05:02 by yehan            ###   ########seoul.kr   #
 #                                                                              #
 # **************************************************************************** #
 
-NAME		:= philo
+NAME		:= philo_bonus
 
 CC			:= cc
 CFLAGS		:= -Wall -Wextra -Werror
 RM			:= rm -f
 
 ifdef DEBUG
+	CFLAGS	+=	-g
+endif
+
+ifdef THREAD
 	CFLAGS	+=	-fsanitize=thread
 endif
 
 SRCS	:= \
-				main.c \
-				init.c \
-				init2.c \
-				philo.c \
-				philo2.c \
-				monitor.c \
-				free.c \
-				utils.c \
+				main_bonus.c \
+				init_bonus.c \
+				init2_bonus.c \
+				philo_bonus.c \
+				philo2_bonus.c \
+				monitor_bonus.c \
+				free_bonus.c \
+				utils_bonus.c \
 
 OBJS		= $(SRCS:.c=.o)
 
@@ -36,8 +40,11 @@ OBJS		= $(SRCS:.c=.o)
 
 all:			$(NAME)
 
-de:			
+g:			
 				$(MAKE) DEBUG=true
+
+th:			
+				$(MAKE) THREAD=true
 
 clean:
 				$(RM) $(OBJS) $(OBJS_BONUS)

@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init2.c                                            :+:      :+:    :+:   */
+/*   init2_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/10 15:35:10 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/14 11:02:21 by yehan            ###   ########seoul.kr  */
+/*   Created: 2022/09/14 09:51:52 by yehan             #+#    #+#             */
+/*   Updated: 2022/09/14 13:56:01 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "philo.h"
+#include "philo_bonus.h"
 
 static bool	init_number(int *buf, char *str)
 {
@@ -76,36 +76,12 @@ bool	init_argument(t_condition *cond, int argc, char **argv)
 	return (true);
 }
 
-bool	init_need_stop(t_condition *cond)
+void	init_semaphores(t_condition *cond)
 {
-	cond->need_stop = false;
-	cond->need_stop_lock = ft_calloc(1, sizeof(pthread_mutex_t));
-	if (cond->need_stop_lock == NULL)
-		return (false);
-	pthread_mutex_init(cond->need_stop_lock, NULL);
-	return (true);
-}
-
-bool	init_forks(t_condition *cond)
-{
-	int	i;
-
-	cond->fork = \
-		ft_calloc(cond->number_of_philosophers, sizeof(t_fork));
-	if (cond->fork == NULL)
-		return (false);
-	cond->fork_lock = \
-		ft_calloc(cond->number_of_philosophers, sizeof(pthread_mutex_t));
-	if (cond->fork_lock == NULL)
-	{
-		free(cond->fork);
-		return (false);
-	}
-	i = 0;
-	while (i < cond->number_of_philosophers)
-	{
-		pthread_mutex_init(&(cond->fork_lock[i]), NULL);
-		i++;
-	}
-	return (true);
+	cond->print_lock \
+		= sem_open("print_lock", O_CREAT | O_EXCL, 0644, 1);
+	cond->fork_lock \
+		= sem_open("fork_lock", O_CREAT | O_EXCL, 0644, cond->number_of_philosophers);
+	cond->full_lock \
+		= sem_open("full_lock", O_CREAT | O_EXCL, 0644, cond->number_of_philosophers);
 }
