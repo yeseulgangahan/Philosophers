@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:52:42 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/14 14:34:22 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/15 08:30:00 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ void	create_monitor_death(t_condition *cond);
 void	create_monitor_must_eat(t_condition *cond);
 
 /* free.c */
+void	close_semaphores(t_condition *cond);
 void	free_philosopher(t_condition *cond);
 void	kill_all(t_condition *cond);
 void	wait_threads(t_condition *cond);

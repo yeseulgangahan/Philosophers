@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:53:54 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/14 14:53:48 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/15 08:26:39 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,10 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	create_philosophers(cond);
-	create_monitor_death(cond);
-	if (argc == 6)
-		create_monitor_must_eat(cond);
+	// create_monitor_death(cond);
+	// if (argc == 6)
+	// 	create_monitor_must_eat(cond);
+	wait_threads(cond);
+	free_all(cond);
+	return (errno);
 }
