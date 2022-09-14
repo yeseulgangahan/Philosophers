@@ -6,7 +6,7 @@
 #    By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/14 09:53:01 by yehan             #+#    #+#              #
-#    Updated: 2022/09/14 14:05:02 by yehan            ###   ########seoul.kr   #
+#    Updated: 2022/09/14 14:20:16 by yehan            ###   ########seoul.kr   #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ SRCS	:= \
 
 OBJS		= $(SRCS:.c=.o)
 
-.PHONY:			all de clean fclean re
+.PHONY:			all g th clean fclean re
 
 all:			$(NAME)
 

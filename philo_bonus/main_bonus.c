@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:53:54 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/14 13:51:06 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/14 14:53:48 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 #include <stdlib.h>
 #include <sys/errno.h>
 #include "philo_bonus.h"
-
-# define CHILD 0
 
 /** NOTE:
  * 1) visualizer: https://nafuka11.github.io/philosophers-visualizer/
@@ -40,15 +38,7 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	create_philosophers(cond);
-	if (cond->philosopher_pid[0] == CHILD)
-		run_simulation(cond);
-	else
-	{
-		create_monitor_death(cond);
-		if (argc == 6)
-			create_monitor_must_eat(cond);
-		// wait_threads(cond);
-		// free_all(cond);
-		return (errno);
-	}
+	create_monitor_death(cond);
+	if (argc == 6)
+		create_monitor_must_eat(cond);
 }

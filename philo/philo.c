@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 15:30:35 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/10 16:31:20 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/14 14:45:40 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,3 +54,4 @@ void	create_philosophers(t_condition *cond)
 		i++;
 	}
 }
+

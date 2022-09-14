@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:55:09 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/14 14:15:14 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/14 14:55:41 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include "philo_bonus.h"
+
+# define CHILD 0
 
 /** STEPS:
  * 1) if the name is odd number, sleep for 3 milliseconds.
@@ -62,14 +64,17 @@ void	run_simulation(t_condition *cond)
 
 void	create_philosophers(t_condition *cond)
 {
-	int				i;
-	// t_philosopher	*philo;
+	int	i;
 
 	i = 0;
 	while (i < cond->number_of_philosophers)
 	{
 		cond->self->name = i + 1;
 		cond->philosopher_pid[i] = fork();
-		i++;
+
+		if (cond->philosopher_pid[0] == 0)//child proccess이면,
+			run_simulation(cond);
+		else
+			i++;
 	}
 }

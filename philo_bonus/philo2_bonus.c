@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:54:29 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/14 14:01:19 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/14 14:45:37 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,9 @@ void	eating(t_condition *cond)
 	print_state(cond, self->name, EAT);
 
 	self->number_of_times_eaten++;//보호하지 않아도 됨. 언젠간 확인하겠지.
+	if (cond->number_of_times_each_must_eat \
+		<= self->number_of_times_eaten)
+		sem_post(cond->full_lock);
 	self->start_time_of_last_meal = get_current_time();
 
 	usleep_precise(cond->time_to_eat);
