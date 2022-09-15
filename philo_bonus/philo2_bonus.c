@@ -6,11 +6,10 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:54:29 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/15 16:07:00 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/15 12:33:32 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include "philo_bonus.h"
 
 void	take_forks(t_condition *cond)
@@ -37,26 +36,23 @@ void	take_forks(t_condition *cond)
  * NOTE:
  * 1) if you want to use fork valuable, add codes before unlock fork-mutexs.
  * */
-bool	eating(t_condition *cond)
+void	eating(t_condition *cond)
 {
 	t_philosopher	*self;
 	
 	self = cond->self;
 	print_state(cond, self->name, EAT);
-	self->number_of_times_eaten++;
+
+	self->number_of_times_eaten++;//보호하지 않아도 됨. 언젠간 확인하겠지.
 	if (cond->number_of_times_each_must_eat \
 		<= self->number_of_times_eaten)
-	{
-		sem_wait(cond->self->need_stop_lock);
-		self->need_stop = true;
-		sem_post(cond->self->need_stop_lock);
-		return (false);
-	}
+		sem_post(cond->full_lock);
 	self->start_time_of_last_meal = get_current_time();
+
 	usleep_precise(cond->time_to_eat);
+
 	sem_post(cond->fork_lock);
 	sem_post(cond->fork_lock);
-	return (true);
 }
 
 void	sleeping(t_condition *cond)

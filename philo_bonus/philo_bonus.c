@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:55:09 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/15 16:10:12 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/15 15:46:12 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,10 @@ void	run_simulation(t_condition *cond)
 	while (1)
 	{
 		take_forks(cond);
-		if (eating(cond) == false)
-			break ;
+		eating(cond);
 		sleeping(cond);
 		thinking(cond);
 	}
-	pthread_join(cond->self->monitor_tid[0], NULL);
 }
 void	create_philosophers(t_condition *cond)
 {

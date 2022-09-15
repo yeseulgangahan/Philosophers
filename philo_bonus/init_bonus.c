@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:51:38 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/15 16:05:38 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/15 15:41:09 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,6 @@ static bool	init_philosopher(t_condition *cond)
 	}
 	cond->self->start_time_of_last_meal \
 		= cond->start_time_of_simlutation;
-
-	cond->self->need_stop = false;
-
 	cond->self->monitor_tid = ft_calloc(MONITOR_CNT, sizeof(pthread_t));
 	if (cond->self->monitor_tid == NULL)
 	{
