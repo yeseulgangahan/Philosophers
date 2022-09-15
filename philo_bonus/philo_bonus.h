@@ -6,7 +6,7 @@
 /*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:52:42 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/15 21:02:22 by han-yeseul       ###   ########.fr       */
+/*   Updated: 2022/09/15 21:51:00 by han-yeseul       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # include <semaphore.h>
 # include <stdbool.h>
 # include <sys/time.h>
+
+#include <stdio.h>///////////////////
 
 /* process id */
 # define CHILD 0
@@ -73,8 +75,8 @@ typedef struct s_state_of_philosopher
 	int			name;
 	t_msec		start_time_of_last_meal;
 	int			number_of_times_eaten;
-	bool		is_dead;
-	bool		is_full;
+	int			exit_status;
+	sem_t		*print_lock;
 	pthread_t	*monitor_tid;
 }	t_philosopher;
 

@@ -6,7 +6,7 @@
 /*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:55:09 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/15 21:03:28 by han-yeseul       ###   ########.fr       */
+/*   Updated: 2022/09/15 21:47:19 by han-yeseul       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,16 +39,12 @@ int	run_simulation(t_condition *cond)
 			break ;
 	}
 	pthread_join(self->monitor_tid[0], NULL);
-	if (self->is_dead == true)
-		return (EXIT_DEATH);
-	else if (self->is_full == true)
-		return (EXIT_FULL);
-	return (EXIT_SUCCESS);
+	return (self->exit_status);
 }
 
 void	create_philosophers(t_condition *cond)
 {
-	int	i;
+	int				i;
 
 	i = 0;
 	while (i < cond->number_of_philosophers)

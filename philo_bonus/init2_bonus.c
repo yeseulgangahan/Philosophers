@@ -6,7 +6,7 @@
 /*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:51:52 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/15 20:44:21 by han-yeseul       ###   ########.fr       */
+/*   Updated: 2022/09/15 21:36:29 by han-yeseul       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,11 +74,4 @@ bool	init_argument(t_condition *cond, int argc, char **argv)
 			== false)
 			return (false);
 	return (true);
-}
-
-void	init_semaphores(t_condition *cond)
-{
-	remove_semaphores(cond);
-	cond->fork_lock \
-		= sem_open("fork_lock", O_CREAT | O_EXCL, 0644, cond->number_of_philosophers);
 }

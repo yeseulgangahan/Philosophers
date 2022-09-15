@@ -6,7 +6,7 @@
 /*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:51:38 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/15 20:46:03 by han-yeseul       ###   ########.fr       */
+/*   Updated: 2022/09/15 21:50:41 by han-yeseul       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,10 @@ static bool	init_philosopher(t_condition *cond)
 	}
 	cond->self->start_time_of_last_meal \
 		= cond->start_time_of_simlutation;
-	cond->self->is_dead = false;
-	cond->self->is_full = false;
+	cond->self->exit_status = EXIT_SUCCESS;
+	cond->self->print_lock \
+		= sem_open("print_lock", O_CREAT | O_EXCL, 0644, 1);
+	perror("sem_open");
 	cond->self->monitor_tid = ft_calloc(1, sizeof(pthread_t));
 	if (cond->self->monitor_tid == NULL)
 	{
@@ -54,7 +56,9 @@ bool	init_condition(t_condition *cond, int argc, char **argv)
 	if (init_argument(cond, argc, argv) == false)
 		return (false);
 	cond->start_time_of_simlutation = get_current_time();
-	init_semaphores(cond);
+	remove_semaphores(cond);
+	cond->fork_lock \
+		= sem_open("fork_lock", O_CREAT | O_EXCL, 0644, cond->number_of_philosophers);
 	if (init_philosopher(cond) == false)
 	{
 		remove_semaphores(cond);

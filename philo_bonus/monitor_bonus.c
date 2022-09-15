@@ -6,16 +6,13 @@
 /*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:52:27 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/15 21:04:53 by han-yeseul       ###   ########.fr       */
+/*   Updated: 2022/09/15 21:32:46 by han-yeseul       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "philo_bonus.h"
 
-/** NOTE:
- * 1) only place where "is_dead" "is_full" variable is modified.
- */
 static void	*self_routine(void *arg)
 {
 	t_condition		*cond;
@@ -29,13 +26,12 @@ static void	*self_routine(void *arg)
 			>= cond->time_to_die)
 		{
 			print_state(cond, self->name, DIE);
-			self->is_dead = true;
 			return (NULL);
 		}
 		if (cond->number_of_times_each_must_eat > -1
 			&& self->number_of_times_eaten >= cond->number_of_times_each_must_eat)
 		{
-			self->is_full = true;
+			self->exit_status = EXIT_FULL;
 			return (NULL);
 		}
 	}

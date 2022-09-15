@@ -6,7 +6,7 @@
 /*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:55:40 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/15 20:44:25 by han-yeseul       ###   ########.fr       */
+/*   Updated: 2022/09/15 21:32:30 by han-yeseul       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,17 +49,25 @@ bool	print_state(t_condition *cond, int name, t_state_type type)
 								"is thinking", \
 								"died"};
 	t_msec			time_passed;
-	t_philosopher	self;
+	t_philosopher	*self;
 
 	time_passed = get_current_time() - cond->start_time_of_simlutation;
-	self = *(cond->self);
-	if (self.is_dead == false && self.is_full == false)
+
+	self = cond->self;
+	sem_wait(self->print_lock);
+	if (self->exit_status == 0)
 	{
 		printf("%lld %d %s\n", time_passed, name, state_list[type]);
+		if (type == DIE)
+			self->exit_status = EXIT_DEATH;
+		sem_post(self->print_lock);
 		return (true);
 	}
 	else
+	{
+		sem_post(self->print_lock);
 		return (false);
+	}
 }
 
 /** NOTE:
