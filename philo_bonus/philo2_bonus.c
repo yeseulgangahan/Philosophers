@@ -6,26 +6,36 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:54:29 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/15 12:33:32 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/15 16:55:31 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-void	take_forks(t_condition *cond)
+bool	take_forks(t_condition *cond)
 {
 	t_philosopher	*self;
 
 	self = cond->self;
 	sem_wait(cond->fork_lock);
-	print_state(cond, self->name, FORK);
+	if (print_state(cond, self->name, FORK) == false)
+	{
+		sem_post(cond->fork_lock);
+		return (false);
+	}
 	if (cond->number_of_philosophers == 1)
 	{
 		sem_post(cond->fork_lock);
 		usleep_precise(cond->time_to_die * 2);
 	}
 	sem_wait(cond->fork_lock);
-	print_state(cond, self->name, FORK);
+	if (print_state(cond, self->name, FORK) == false)
+	{
+		sem_post(cond->fork_lock);
+		sem_post(cond->fork_lock);
+		return (false);	
+	}
+	return (true);
 }
 
 /** STEPS:
@@ -36,32 +46,33 @@ void	take_forks(t_condition *cond)
  * NOTE:
  * 1) if you want to use fork valuable, add codes before unlock fork-mutexs.
  * */
-void	eating(t_condition *cond)
+bool	eating(t_condition *cond)
 {
 	t_philosopher	*self;
 	
 	self = cond->self;
-	print_state(cond, self->name, EAT);
-
-	self->number_of_times_eaten++;//보호하지 않아도 됨. 언젠간 확인하겠지.
-	if (cond->number_of_times_each_must_eat \
-		<= self->number_of_times_eaten)
-		sem_post(cond->full_lock);
+	if (print_state(cond, self->name, EAT) == false)
+	{
+		sem_post(cond->fork_lock);
+		sem_post(cond->fork_lock);
+		return (false);
+	}
 	self->start_time_of_last_meal = get_current_time();
-
 	usleep_precise(cond->time_to_eat);
-
+	self->number_of_times_eaten++;
 	sem_post(cond->fork_lock);
 	sem_post(cond->fork_lock);
 }
 
-void	sleeping(t_condition *cond)
+bool	sleeping(t_condition *cond)
 {
 	t_philosopher	*self;
 	
 	self = cond->self;
-	print_state(cond, self->name, SLEEP);
+	if (print_state(cond, self->name, SLEEP) == false)
+		return (false);
 	usleep_precise(cond->time_to_sleep);
+	return (true);
 }
 
 /** NOTE:
@@ -71,13 +82,15 @@ void	sleeping(t_condition *cond)
  * 1-2) Sleeping less than eating.
  * (Wakes up too quickly and try to compete with a starving one)
 */
-void	thinking(t_condition *cond)
+bool	thinking(t_condition *cond)
 {
 	t_philosopher	*self;
 	
 	self = cond->self;
-	print_state(cond, self->name, THINK);
+	if (print_state(cond, self->name, THINK) == false)
+		return (false);
 	if (cond->number_of_philosophers % 2 \
 		&& cond->time_to_eat >= cond->time_to_sleep)
 		usleep_precise(cond->time_to_eat);
+	return (true);
 }

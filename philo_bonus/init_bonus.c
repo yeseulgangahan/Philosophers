@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:51:38 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/15 15:41:09 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/15 16:44:43 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ static bool	init_philosopher(t_condition *cond)
 		= ft_calloc(cond->number_of_philosophers, sizeof(pid_t));
 	if (cond->philosopher_pid == NULL)
 		return (false);
-	
 	cond->self = ft_calloc(1, sizeof(t_philosopher));
 	if (cond->self == NULL)
 	{
@@ -28,6 +27,8 @@ static bool	init_philosopher(t_condition *cond)
 	}
 	cond->self->start_time_of_last_meal \
 		= cond->start_time_of_simlutation;
+	cond->self->e_death = false;
+	cond->self->e_full = false;
 	cond->self->monitor_tid = ft_calloc(MONITOR_CNT, sizeof(pthread_t));
 	if (cond->self->monitor_tid == NULL)
 	{

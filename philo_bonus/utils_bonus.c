@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:55:40 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/15 12:22:50 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/15 16:51:06 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_msec	get_current_time(void)
 	return ((time.tv_sec * 1000000 + time.tv_usec) / 1000);
 }
 
-void	print_state(t_condition *cond, int name, t_state_type type)
+bool	print_state(t_condition *cond, int name, t_state_type type)
 {
 	//만약 프린트 안 해야 하면, 다른 얘가 unlock을 안하고 모두 죽을 것.
 	static char	*state_list[] = {"has taken a fork", \
@@ -53,9 +53,19 @@ void	print_state(t_condition *cond, int name, t_state_type type)
 
 	time_passed = get_current_time() - cond->start_time_of_simlutation;
 	sem_wait(cond->print_lock);
-	printf("%lld %d %s\n", time_passed, name, state_list[type]);
-	if (type != DEAD)
+	if (cond->self->e_death == false && cond->self->e_full == false)
+	{
+		printf("%lld %d %s\n", time_passed, name, state_list[type]);
+		if (type == DEAD)
+			cond->self->e_death = true;
 		sem_post(cond->print_lock);
+	}
+	else
+	{
+		sem_post(cond->print_lock);
+		return (false);
+	}
+	return (true);
 }
 
 /** NOTE: 

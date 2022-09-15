@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 15:28:14 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/15 08:12:56 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/15 16:55:45 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,9 @@ bool	eating(t_philosopher *self)
 		pthread_mutex_unlock(&(cond->fork_lock[self->right]));
 		return (false);
 	}
-	self->number_of_times_eaten++;
 	self->start_time_of_last_meal = get_current_time();
 	usleep_precise(cond, cond->time_to_eat);
+	self->number_of_times_eaten++;
 	pthread_mutex_unlock(&(cond->fork_lock[self->left]));
 	pthread_mutex_unlock(&(cond->fork_lock[self->right]));
 	return (true);
