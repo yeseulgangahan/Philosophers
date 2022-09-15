@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:53:54 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/15 08:26:39 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/15 12:06:03 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	cond = ft_calloc(1, sizeof(t_condition));
+	remove_semaphores(cond);
 	if (init_condition(cond, argc, argv) == false)
 	{
 		free(cond);

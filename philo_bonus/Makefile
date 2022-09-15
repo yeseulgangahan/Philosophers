@@ -6,7 +6,7 @@
 #    By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/14 09:53:01 by yehan             #+#    #+#              #
-#    Updated: 2022/09/14 14:20:16 by yehan            ###   ########seoul.kr   #
+#    Updated: 2022/09/15 09:46:50 by yehan            ###   ########seoul.kr   #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,10 @@ RM			:= rm -f
 
 ifdef DEBUG
 	CFLAGS	+=	-g
+endif
+
+ifdef ADDRESS
+	CFLAGS	+=	-fsanitize=address
 endif
 
 ifdef THREAD
@@ -40,11 +44,14 @@ OBJS		= $(SRCS:.c=.o)
 
 all:			$(NAME)
 
-g:			
+g:				fclean
 				$(MAKE) DEBUG=true
 
-th:			
+th:				fclean
 				$(MAKE) THREAD=true
+
+ad:				fclean
+				$(MAKE) ADDRESS=true
 
 clean:
 				$(RM) $(OBJS) $(OBJS_BONUS)

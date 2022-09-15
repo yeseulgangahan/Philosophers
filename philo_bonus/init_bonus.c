@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:51:38 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/15 08:30:39 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/15 10:56:13 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,12 @@ bool	init_condition(t_condition *cond, int argc, char **argv)
 	init_semaphores(cond);
 	if (init_philosopher(cond) == false)
 	{
-		close_semaphores(cond);
+		remove_semaphores(cond);
 		return (false);
 	}
 	if (init_monitor(cond) == false)
 	{
-		close_semaphores(cond);
+		remove_semaphores(cond);
 		free_philosopher(cond);
 		return (false);
 	}

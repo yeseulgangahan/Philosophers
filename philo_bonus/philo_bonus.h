@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:52:42 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/15 08:30:00 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/15 10:55:38 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # include <semaphore.h>
 # include <stdbool.h>
 # include <sys/time.h>
+
+#include <stdio.h>//for test
 
 /* for monitor threads */
 # define MONITOR_CNT 2
@@ -39,21 +41,7 @@ typedef long long							t_msec;
 /* fork valuable */
 typedef int									t_fork;
 
-typedef struct s_condition_of_simulation	t_condition;
-
-/** NOTE:
- * 1) the name of philosophers start from 1.
- * 2) start_time_of_last_meal: for monitoring death.
- * 3) number_of_times_eaten: for monitoring must-eat.
- * 4) left, right: pre-calculate own fork's indexs, just for convinence.
- * 5) condition: pointer of condition struct.
- */
-typedef struct s_state_of_philosopher
-{
-	int			name;
-	t_msec		start_time_of_last_meal;
-	int			number_of_times_eaten;
-}	t_philosopher;
+typedef struct s_state_of_philosopher t_philosopher;
 
 /** NOTE:
  * 1) first 5 members are arguments got from user.
@@ -83,6 +71,20 @@ typedef struct s_condition_of_simulation
 	pthread_t		*monitor_tid;
 }	t_condition;
 
+/** NOTE:
+ * 1) the name of philosophers start from 1.
+ * 2) start_time_of_last_meal: for monitoring death.
+ * 3) number_of_times_eaten: for monitoring must-eat.
+ * 4) left, right: pre-calculate own fork's indexs, just for convinence.
+ * 5) condition: pointer of condition struct.
+ */
+typedef struct s_state_of_philosopher
+{
+	int			name;
+	t_msec		start_time_of_last_meal;
+	int			number_of_times_eaten;
+}	t_philosopher;
+
 /* init.c */
 bool	init_condition(t_condition *cond, int argc, char **argv);
 
@@ -105,7 +107,7 @@ void	create_monitor_death(t_condition *cond);
 void	create_monitor_must_eat(t_condition *cond);
 
 /* free.c */
-void	close_semaphores(t_condition *cond);
+void	remove_semaphores(t_condition *cond);
 void	free_philosopher(t_condition *cond);
 void	kill_all(t_condition *cond);
 void	wait_threads(t_condition *cond);

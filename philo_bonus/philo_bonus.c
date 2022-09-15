@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:55:09 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/14 14:55:41 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/15 11:40:55 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ static void	*death_self_routine(void *arg)
 			if (get_current_time() - philo.start_time_of_last_meal
 				>= cond->time_to_die)
 			{
-				sem_wait(cond->print_lock);
 				print_state(cond, philo.name, DEAD);
 				exit(0);
 			}
@@ -50,9 +49,9 @@ void	create_monitor_death_self(t_condition *cond)
 
 void	run_simulation(t_condition *cond)
 {
-	create_monitor_death_self(cond);
+	// create_monitor_death_self(cond);
 	if (cond->number_of_philosophers / 2 < cond->self->name)
-		usleep(3000);
+		usleep(300);
 	while (1)
 	{
 		take_forks(cond);
@@ -61,7 +60,6 @@ void	run_simulation(t_condition *cond)
 		thinking(cond);
 	}
 }
-
 void	create_philosophers(t_condition *cond)
 {
 	int	i;
@@ -71,8 +69,7 @@ void	create_philosophers(t_condition *cond)
 	{
 		cond->self->name = i + 1;
 		cond->philosopher_pid[i] = fork();
-
-		if (cond->philosopher_pid[0] == 0)//child proccess이면,
+		if (cond->philosopher_pid[i] == CHILD)//child proccess이면,
 			run_simulation(cond);
 		else
 			i++;

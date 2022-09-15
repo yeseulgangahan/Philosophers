@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:55:40 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/14 14:00:24 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/15 11:52:51 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ void	print_state(t_condition *cond, int name, t_state_type type)
 	time_passed = get_current_time() - cond->start_time_of_simlutation;
 	sem_wait(cond->print_lock);
 	printf("%lld %d %s\n", time_passed, name, state_list[type]);
-	sem_post(cond->print_lock);
+	if (type != DEAD)
+		sem_post(cond->print_lock);
 }
 
 /** NOTE: 

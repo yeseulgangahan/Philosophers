@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:51:52 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/14 14:54:06 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/15 12:06:50 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,18 +78,18 @@ bool	init_argument(t_condition *cond, int argc, char **argv)
 
 void	init_semaphores(t_condition *cond)
 {
-	int	i;
+	// int	i;
 
 	cond->print_lock \
-		= sem_open("print_lock", O_CREAT, 0644, 1);
+		= sem_open("print_lock", O_CREAT | O_EXCL, 0644, 1);
 	cond->fork_lock \
-		= sem_open("fork_lock", O_CREAT, 0644, cond->number_of_philosophers);
+		= sem_open("fork_lock", O_CREAT | O_EXCL, 0644, cond->number_of_philosophers);
 	cond->full_lock \
-		= sem_open("full_lock", O_CREAT, 0644, cond->number_of_philosophers);
-	i = 0;
-	while (i < cond->number_of_philosophers)
-	{
-		sem_wait(cond->full_lock);
-		i++;
-	}
+		= sem_open("full_lock", O_CREAT | O_EXCL, 0644, cond->number_of_philosophers);
+	// i = 0;
+	// while (i < cond->number_of_philosophers)
+	// {
+	// 	sem_wait(cond->full_lock);
+	// 	i++;
+	// }
 }

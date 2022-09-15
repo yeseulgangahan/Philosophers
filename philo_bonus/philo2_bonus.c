@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:54:29 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/14 14:45:37 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/15 09:46:52 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	take_forks(t_condition *cond)
 {
 	t_philosopher	*self;
-	
+
 	self = cond->self;
 	sem_wait(cond->fork_lock);
 	print_state(cond, self->name, FORK);
