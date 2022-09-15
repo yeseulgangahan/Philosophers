@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:56:09 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/15 15:40:46 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/15 20:01:12 by han-yeseul       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,13 @@ void	wait_threads(t_condition *cond)
 	while (i < cond->number_of_philosophers)
 	{
 		waitpid(-1, &wstatus, 0);
-		if (WEXITSTATUS(wstatus) == 2)
+		if (WEXITSTATUS(wstatus) == E_DEATH)
+		{
 			kill_all(cond);
-		i++;
+			break ;
+		}
+		else if (WEXITSTATUS(wstatus) == E_FULL)
+			i++;
 	}
 }
 

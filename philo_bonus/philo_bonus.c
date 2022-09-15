@@ -6,7 +6,7 @@
 /*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:55:09 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/15 19:44:35 by han-yeseul       ###   ########.fr       */
+/*   Updated: 2022/09/15 19:59:55 by han-yeseul       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int	run_simulation(t_condition *cond)
 		if (thinking(cond) == false)
 			break ;
 	}
+	pthread_join(self->monitor_tid[0], NULL);
 	if (self->e_death == true)
 		return (E_DEATH);
 	else if (self->e_full == true)
