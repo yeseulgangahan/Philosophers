@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:54:29 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/15 09:46:52 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/15 12:33:32 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,11 @@ void	take_forks(t_condition *cond)
 	self = cond->self;
 	sem_wait(cond->fork_lock);
 	print_state(cond, self->name, FORK);
+	if (cond->number_of_philosophers == 1)
+	{
+		sem_post(cond->fork_lock);
+		usleep_precise(cond->time_to_die * 2);
+	}
 	sem_wait(cond->fork_lock);
 	print_state(cond, self->name, FORK);
 }
