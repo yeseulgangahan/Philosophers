@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:55:09 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/15 15:37:18 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/15 15:46:12 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,14 @@
 #include <unistd.h>
 #include "philo_bonus.h"
 
-/** NOTES:
-* 1) first n philosophers could have chance to take a fork.
+/** STEPS:
+ * 1) first n philosophers could have chance to take a fork.
+ * 2) this proccess end, if monitoring thread exit().
 */
 void	run_simulation(t_condition *cond)
 {
+	sem_wait(cond->start_lock);
+	sem_post(cond->start_lock);
 	create_monitor_death_self(cond);
 	if (cond->number_of_philosophers / 2 < cond->self->name)
 		usleep(300);
@@ -45,4 +48,5 @@ void	create_philosophers(t_condition *cond)
 		else
 			i++;
 	}
+	sem_post(cond->start_lock);
 }

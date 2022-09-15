@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:52:42 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/15 15:38:52 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/15 15:43:49 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ typedef struct s_condition_of_simulation
 
 	t_msec			start_time_of_simlutation;
 
+	sem_t			*start_lock;
 	sem_t			*print_lock;
 	sem_t			*fork_lock;
 	sem_t			*full_lock;
