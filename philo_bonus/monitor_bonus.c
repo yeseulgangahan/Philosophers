@@ -6,38 +6,51 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:52:27 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/15 14:43:47 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/15 12:28:40 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <unistd.h>
 #include "philo_bonus.h"
+#include <stdlib.h>
 
-/**  NOTES:
- * 1) Since the while statement has a lower priority
- * in the ready-queue, do usleep().
-*/
-static void	*death_self_routine(void *arg)
+/** STEPS:
+ * 1) wait any philosopher end, by monitoring itself.
+ */
+static void	*death_routine(void *arg)
 {
 	t_condition		*cond;
-	t_philosopher	philo;
 
 	cond = (t_condition *)arg;
-	while (1)
-	{
-			philo = *(cond->self);
-			if (get_current_time() - philo.start_time_of_last_meal
-				>= cond->time_to_die)
-			{
-				print_state(cond, philo.name, DEAD);
-				exit(E_DEATH);
-			}
-			usleep(100);
-	}
+	waitpid(-1, NULL, 0);
+	kill_all(cond);
+	exit(0);
 }
 
-void	create_monitor_death_self(t_condition *cond)
+/** STEPS:
+ * 1) wait all "full_lock" semaphores to check everyone full.
+ */
+static void	*must_eat_routine(void *arg)
 {
-	pthread_create(&(cond->self->monitor_tid[M_DEATH]), NULL, death_self_routine, cond);
+	t_condition		*cond;
+	int				i;
+
+	cond = (t_condition *)arg;
+	i = 0;
+	while (i < cond->number_of_philosophers)
+	{
+		sem_wait(cond->full_lock);
+		i++;
+	}
+	kill_all(cond);
+	exit(0);
+}
+
+void	create_monitor_death(t_condition *cond)
+{
+	pthread_create(&(cond->monitor_tid[M_DEATH]), NULL, death_routine, cond);
+}
+
+void	create_monitor_must_eat(t_condition *cond)
+{
+	pthread_create(&(cond->monitor_tid[M_MUSTEAT]), NULL, must_eat_routine, cond);
 }

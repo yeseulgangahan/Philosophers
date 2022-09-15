@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:55:40 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/15 14:35:08 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/15 12:22:50 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,9 @@ t_msec	get_current_time(void)
 	return ((time.tv_sec * 1000000 + time.tv_usec) / 1000);
 }
 
-/** NOTES:
- * 1) if one philosopher die, no print needed.
-*/
 void	print_state(t_condition *cond, int name, t_state_type type)
 {
+	//만약 프린트 안 해야 하면, 다른 얘가 unlock을 안하고 모두 죽을 것.
 	static char	*state_list[] = {"has taken a fork", \
 								"is eating", \
 								"is sleeping", \
