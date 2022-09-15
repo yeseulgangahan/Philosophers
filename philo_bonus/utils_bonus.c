@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:55:40 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/15 16:51:06 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/15 19:41:27 by han-yeseul       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ bool	print_state(t_condition *cond, int name, t_state_type type)
 	return (true);
 }
 
-/** NOTE: 
+/** NOTE:
  * 1) sleep for 0.1 milliseconds.
 */
 void	usleep_precise(t_msec must_time)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:55:09 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/15 16:43:58 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/15 19:44:35 by han-yeseul       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	run_simulation(t_condition *cond)
 	self = cond->self;
 	sem_wait(cond->start_lock);
 	sem_post(cond->start_lock);
-	create_monitor_death_self(cond);
+	create_monitor_self(cond);
 	if (cond->number_of_philosophers / 2 < self->name)
 		usleep(300);
 	while (1)
@@ -42,9 +42,11 @@ int	run_simulation(t_condition *cond)
 	}
 	if (self->e_death == true)
 		return (E_DEATH);
-	if (self->e_full == true)
+	else if (self->e_full == true)
 		return (E_FULL);
+	return (EXIT_SUCCESS);
 }
+
 void	create_philosophers(t_condition *cond)
 {
 	int	i;

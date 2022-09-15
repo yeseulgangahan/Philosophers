@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:52:42 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/15 16:54:11 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/15 19:44:45 by han-yeseul       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ bool	init_argument(t_condition *cond, int argc, char **argv);
 void	init_semaphores(t_condition *cond);
 
 /* philo.c */
-void	run_simulation(t_condition *cond);
+int		run_simulation(t_condition *cond);
 void	create_philosophers(t_condition *cond);
 
 /* philo2.c */
@@ -112,7 +112,7 @@ bool	sleeping(t_condition *cond);
 bool	thinking(t_condition *cond);
 
 /* monitor.c */
-void	create_monitor_death_self(t_condition *cond);
+void	create_monitor_self(t_condition *cond);
 
 /* free.c */
 void	remove_semaphores(t_condition *cond);
