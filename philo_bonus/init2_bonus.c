@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:51:52 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/15 15:43:33 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/15 16:04:45 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	init_semaphores(t_condition *cond)
 		= sem_open("print_lock", O_CREAT | O_EXCL, 0644, 1);
 	cond->fork_lock \
 		= sem_open("fork_lock", O_CREAT | O_EXCL, 0644, cond->number_of_philosophers);
-	cond->full_lock \
-		= sem_open("full_lock", O_CREAT | O_EXCL, 0644, cond->number_of_philosophers);
+	cond->self->need_stop_lock \
+		= sem_open("need_stop_lock", O_CREAT | O_EXCL, 0644, 1);
 	sem_wait(cond->start_lock);
 }

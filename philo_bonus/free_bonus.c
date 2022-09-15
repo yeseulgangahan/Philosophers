@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:56:09 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/15 15:40:46 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/15 16:05:12 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ void	remove_semaphores(t_condition *cond)
 {
 	sem_close(cond->print_lock);
 	sem_close(cond->fork_lock);
-	sem_close(cond->full_lock);
+	sem_close(cond->self->need_stop_lock);
 	sem_unlink("print_lock");
 	sem_unlink("fork_lock");
-	sem_unlink("full_lock");
+	sem_unlink("need_stop_lock");
 }
 
 void	free_philosopher(t_condition *cond)

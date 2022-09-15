@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:52:42 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/15 15:43:49 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/15 16:05:54 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 
 /* exit status */
 # define E_DEATH 2
+# define E_FULL 3
 
 /* for print state */
 typedef enum e_state_type
@@ -88,6 +89,8 @@ typedef struct s_state_of_philosopher
 	int			name;
 	t_msec		start_time_of_last_meal;
 	int			number_of_times_eaten;
+	bool		need_stop;
+	sem_t		*need_stop_lock;
 	pthread_t	*monitor_tid;
 }	t_philosopher;
 
@@ -104,7 +107,7 @@ void	create_philosophers(t_condition *cond);
 
 /* philo2.c */
 void	take_forks(t_condition *cond);
-void	eating(t_condition *cond);
+bool	eating(t_condition *cond);
 void	sleeping(t_condition *cond);
 void	thinking(t_condition *cond);
 
