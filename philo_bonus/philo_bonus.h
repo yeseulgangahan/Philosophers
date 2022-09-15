@@ -6,7 +6,7 @@
 /*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:52:42 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/15 19:44:45 by han-yeseul       ###   ########.fr       */
+/*   Updated: 2022/09/15 20:42:23 by han-yeseul       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,12 @@
 
 #include <stdio.h>//for test
 
-/* for monitor threads */
-# define MONITOR_CNT 2
-# define M_DEATH 0
-# define M_MUSTEAT 1
-
 /* process id */
 # define CHILD 0
 
 /* exit status */
-# define E_DEATH 2
-# define E_FULL 3
+# define EXIT_DEATH 2
+# define EXIT_FULL 3
 
 /* for print state */
 typedef enum e_state_type
@@ -39,7 +34,7 @@ typedef enum e_state_type
 	EAT,
 	SLEEP,
 	THINK,
-	DEAD
+	DIE
 }	t_state_type;
 
 /* milliseconds */
@@ -65,14 +60,8 @@ typedef struct s_condition_of_simulation
 	t_msec			time_to_eat;
 	t_msec			time_to_sleep;
 	int				number_of_times_each_must_eat;
-
 	t_msec			start_time_of_simlutation;
-
-	sem_t			*start_lock;
-	sem_t			*print_lock;
 	sem_t			*fork_lock;
-	sem_t			*full_lock;
-
 	pid_t			*philosopher_pid;
 	t_philosopher	*self;
 }	t_condition;
@@ -89,8 +78,8 @@ typedef struct s_state_of_philosopher
 	int			name;
 	t_msec		start_time_of_last_meal;
 	int			number_of_times_eaten;
-	bool		e_death;
-	bool		e_full;
+	bool		is_dead;
+	bool		is_full;
 	pthread_t	*monitor_tid;
 }	t_philosopher;
 

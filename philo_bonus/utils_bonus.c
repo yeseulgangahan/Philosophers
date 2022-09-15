@@ -6,7 +6,7 @@
 /*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:55:40 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/15 19:58:30 by han-yeseul       ###   ########.fr       */
+/*   Updated: 2022/09/15 20:41:02 by han-yeseul       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,29 +43,23 @@ t_msec	get_current_time(void)
 
 bool	print_state(t_condition *cond, int name, t_state_type type)
 {
-	//만약 프린트 안 해야 하면, 다른 얘가 unlock을 안하고 모두 죽을 것.
-	static char	*state_list[] = {"has taken a fork", \
+	static char		*state_list[] = {"has taken a fork", \
 								"is eating", \
 								"is sleeping", \
 								"is thinking", \
 								"died"};
-	t_msec		time_passed;
+	t_msec			time_passed;
+	t_philosopher	self;
 
 	time_passed = get_current_time() - cond->start_time_of_simlutation;
-	sem_wait(cond->print_lock);
-	if (cond->self->e_death == false && cond->self->e_full == false)
+	self = *(cond->self);
+	if (self.is_dead == false && self.is_full == false)
 	{
 		printf("%lld %d %s\n", time_passed, name, state_list[type]);
-		if (type == DEAD)
-			cond->self->e_death = true;
-		sem_post(cond->print_lock);
+		return (true);
 	}
 	else
-	{
-		sem_post(cond->print_lock);
 		return (false);
-	}
-	return (true);
 }
 
 /** NOTE:

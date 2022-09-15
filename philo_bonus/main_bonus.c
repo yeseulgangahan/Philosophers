@@ -6,7 +6,7 @@
 /*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:53:54 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/15 19:45:26 by han-yeseul       ###   ########.fr       */
+/*   Updated: 2022/09/15 20:04:36 by han-yeseul       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,5 @@ int	main(int argc, char **argv)
 	create_philosophers(cond);
 	wait_threads(cond);
 	free_all(cond);
-	perror("error");
 	return (errno);
 }

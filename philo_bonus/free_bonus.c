@@ -6,7 +6,7 @@
 /*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:56:09 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/15 20:01:12 by han-yeseul       ###   ########.fr       */
+/*   Updated: 2022/09/15 20:42:55 by han-yeseul       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,8 @@
 
 void	remove_semaphores(t_condition *cond)
 {
-	sem_close(cond->print_lock);
 	sem_close(cond->fork_lock);
-	sem_close(cond->full_lock);
-	sem_unlink("print_lock");
 	sem_unlink("fork_lock");
-	sem_unlink("full_lock");
 }
 
 void	free_philosopher(t_condition *cond)
