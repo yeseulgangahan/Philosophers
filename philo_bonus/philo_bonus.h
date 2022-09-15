@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:52:42 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/15 12:27:36 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/15 14:43:34 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,15 @@
 #include <stdio.h>//for test
 
 /* for monitor threads */
-# define MONITOR_CNT 2
+# define MONITOR_CNT 1
 # define M_DEATH 0
-# define M_MUSTEAT 1
 
 /* process id */
 # define CHILD 0
 
 /* exit status */
 # define E_DEATH 2
+# define E_FULL 3
 
 /* for print state */
 typedef enum e_state_type
@@ -67,14 +67,13 @@ typedef struct s_condition_of_simulation
 
 	t_msec			start_time_of_simlutation;
 
+	sem_t			*start_lock;
 	sem_t			*print_lock;
 	sem_t			*fork_lock;
 	sem_t			*full_lock;
 
 	pid_t			*philosopher_pid;
 	t_philosopher	*self;
-
-	pthread_t		*monitor_tid;
 }	t_condition;
 
 /** NOTE:
@@ -89,6 +88,7 @@ typedef struct s_state_of_philosopher
 	int			name;
 	t_msec		start_time_of_last_meal;
 	int			number_of_times_eaten;
+	pthread_t	*monitor_tid;
 }	t_philosopher;
 
 /* init.c */
@@ -109,8 +109,7 @@ void	sleeping(t_condition *cond);
 void	thinking(t_condition *cond);
 
 /* monitor.c */
-void	create_monitor_death(t_condition *cond);
-void	create_monitor_must_eat(t_condition *cond);
+void	create_monitor_death_self(t_condition *cond);
 
 /* free.c */
 void	remove_semaphores(t_condition *cond);

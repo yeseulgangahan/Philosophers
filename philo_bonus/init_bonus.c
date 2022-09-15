@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:51:38 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/15 10:56:13 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/15 14:41:30 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ static bool	init_philosopher(t_condition *cond)
 		= ft_calloc(cond->number_of_philosophers, sizeof(pid_t));
 	if (cond->philosopher_pid == NULL)
 		return (false);
-	
 	cond->self = ft_calloc(1, sizeof(t_philosopher));
 	if (cond->self == NULL)
 	{
@@ -28,14 +27,13 @@ static bool	init_philosopher(t_condition *cond)
 	}
 	cond->self->start_time_of_last_meal \
 		= cond->start_time_of_simlutation;
-	return (true);
-}
-
-static bool	init_monitor(t_condition *cond)
-{
-	cond->monitor_tid = ft_calloc(MONITOR_CNT, sizeof(pthread_t));
-	if (cond->monitor_tid == NULL)
+	cond->self->monitor_tid = ft_calloc(MONITOR_CNT, sizeof(pthread_t));
+	if (cond->self->monitor_tid == NULL)
+	{
+		free(cond->philosopher_pid);
+		free(cond->self);
 		return (false);
+	}
 	return (true);
 }
 
@@ -45,8 +43,7 @@ static bool	init_monitor(t_condition *cond)
  * STEP:
  * 1) init arguments
  * 2) init start time
- * 3) malloc & init need_stop valuable and mutex
- * 4) malloc & init forks valuable and mutex
+ * 3) create semaphores
  * 5) malloc & init philosophers
  * 6) malloc monitor
  */
@@ -59,12 +56,6 @@ bool	init_condition(t_condition *cond, int argc, char **argv)
 	if (init_philosopher(cond) == false)
 	{
 		remove_semaphores(cond);
-		return (false);
-	}
-	if (init_monitor(cond) == false)
-	{
-		remove_semaphores(cond);
-		free_philosopher(cond);
 		return (false);
 	}
 	return (true);

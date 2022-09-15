@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:53:54 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/15 12:23:56 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/15 15:04:25 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,13 @@
 #include "philo_bonus.h"
 
 /** NOTE:
- * 1) visualizer: https://nafuka11
- .github.io/philosophers-visualizer/
+ * 1) visualizer: https://nafuka11.github.io/philosophers-visualizer/
  * 2) error control:
  * 2-1) only user-set errors print error message.
  * 2-2) function returns -1 when error occurs, check their return value.
  * 2-3) for others, main() returns 'errno'.
+ * STEPS:
+ * 1) remove semaphores (which previous proccess left) before start.
 */
 int	main(int argc, char **argv)
 {
@@ -33,7 +34,6 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	cond = ft_calloc(1, sizeof(t_condition));
-	remove_semaphores(cond);
 	if (init_condition(cond, argc, argv) == false)
 	{
 		free(cond);
@@ -42,5 +42,6 @@ int	main(int argc, char **argv)
 	create_philosophers(cond);
 	wait_threads(cond);
 	free_all(cond);
+	perror("error");//
 	return (errno);
 }
