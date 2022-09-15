@@ -6,51 +6,39 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:52:27 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/15 12:28:40 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/15 15:39:50 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_bonus.h"
 #include <stdlib.h>
+#include "philo_bonus.h"
 
 /** STEPS:
- * 1) wait any philosopher end, by monitoring itself.
- */
-static void	*death_routine(void *arg)
+ * 1) if the name is odd number, sleep for 3 milliseconds.
+ * 1-1) make order to prevent data race.
+ * 1-2) the enough time to wait all threads generated.
+ * 2) 4 actions return false, if the 'need_stop' valuable turns to 'true'.
+*/
+
+static void	*death_self_routine(void *arg)
 {
 	t_condition		*cond;
+	t_philosopher	philo;
 
 	cond = (t_condition *)arg;
-	waitpid(-1, NULL, 0);
-	kill_all(cond);
-	exit(0);
-}
-
-/** STEPS:
- * 1) wait all "full_lock" semaphores to check everyone full.
- */
-static void	*must_eat_routine(void *arg)
-{
-	t_condition		*cond;
-	int				i;
-
-	cond = (t_condition *)arg;
-	i = 0;
-	while (i < cond->number_of_philosophers)
+	while (1)
 	{
-		sem_wait(cond->full_lock);
-		i++;
+			philo = *(cond->self);
+			if (get_current_time() - philo.start_time_of_last_meal
+				>= cond->time_to_die)
+			{
+				print_state(cond, philo.name, DEAD);
+				exit(E_DEATH);
+			}
 	}
-	kill_all(cond);
-	exit(0);
 }
 
-void	create_monitor_death(t_condition *cond)
+void	create_monitor_death_self(t_condition *cond)
 {
-	pthread_create(&(cond->monitor_tid[M_DEATH]), NULL, death_routine, cond);
-}
-
-void	create_monitor_must_eat(t_condition *cond)
-{
-	pthread_create(&(cond->monitor_tid[M_MUSTEAT]), NULL, must_eat_routine, cond);
+	pthread_create(&(cond->self->monitor_tid[M_DEATH]), NULL, death_self_routine, cond);
 }
