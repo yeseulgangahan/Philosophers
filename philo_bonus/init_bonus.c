@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:51:38 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/15 16:44:43 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/15 20:46:03 by han-yeseul       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ static bool	init_philosopher(t_condition *cond)
 	}
 	cond->self->start_time_of_last_meal \
 		= cond->start_time_of_simlutation;
-	cond->self->e_death = false;
-	cond->self->e_full = false;
-	cond->self->monitor_tid = ft_calloc(MONITOR_CNT, sizeof(pthread_t));
+	cond->self->is_dead = false;
+	cond->self->is_full = false;
+	cond->self->monitor_tid = ft_calloc(1, sizeof(pthread_t));
 	if (cond->self->monitor_tid == NULL)
 	{
 		free(cond->philosopher_pid);

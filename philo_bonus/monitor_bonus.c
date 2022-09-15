@@ -6,13 +6,16 @@
 /*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:52:27 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/15 20:35:35 by han-yeseul       ###   ########.fr       */
+/*   Updated: 2022/09/15 21:04:53 by han-yeseul       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "philo_bonus.h"
 
+/** NOTE:
+ * 1) only place where "is_dead" "is_full" variable is modified.
+ */
 static void	*self_routine(void *arg)
 {
 	t_condition		*cond;

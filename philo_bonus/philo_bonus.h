@@ -6,7 +6,7 @@
 /*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:52:42 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/15 20:42:23 by han-yeseul       ###   ########.fr       */
+/*   Updated: 2022/09/15 21:02:22 by han-yeseul       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@
 # include <semaphore.h>
 # include <stdbool.h>
 # include <sys/time.h>
-
-#include <stdio.h>//for test
 
 /* process id */
 # define CHILD 0
@@ -39,9 +37,6 @@ typedef enum e_state_type
 
 /* milliseconds */
 typedef long long							t_msec;
-
-/* fork valuable */
-typedef int									t_fork;
 
 typedef struct s_state_of_philosopher t_philosopher;
 

@@ -6,7 +6,7 @@
 /*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:55:09 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/15 20:33:47 by han-yeseul       ###   ########.fr       */
+/*   Updated: 2022/09/15 21:03:28 by han-yeseul       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 /** STEPS:
  * 1) first n philosophers could have chance to take a fork.
- * 2) this proccess end, if monitoring thread exit().
+ * 2) when monitoring thread end, proccess returns.
 */
 int	run_simulation(t_condition *cond)
 {

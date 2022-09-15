@@ -6,7 +6,7 @@
 /*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:54:29 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/15 19:43:48 by han-yeseul       ###   ########.fr       */
+/*   Updated: 2022/09/15 21:01:21 by han-yeseul       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,6 @@ bool	take_forks(t_condition *cond)
  * 2) reset valuables about eating.
  * 3) sleep until 'time_to_eat'.
  * 4) put down forks.
- * NOTE:
- * 1) if you want to use fork valuable, add codes before unlock fork-mutexs.
  * */
 bool	eating(t_condition *cond)
 {

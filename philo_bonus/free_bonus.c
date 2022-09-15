@@ -6,7 +6,7 @@
 /*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:56:09 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/15 20:42:55 by han-yeseul       ###   ########.fr       */
+/*   Updated: 2022/09/15 21:06:06 by han-yeseul       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,10 @@ void	kill_all(t_condition *cond)
 	}
 }
 
-//모두를 기다리되, wstatus가 die면 모두 죽인다.
+/** STEPS:
+ * 1) wait all
+ * 2) if someone die, kill everyone.
+*/
 void	wait_threads(t_condition *cond)
 {
 	int	i;
@@ -50,12 +53,12 @@ void	wait_threads(t_condition *cond)
 	while (i < cond->number_of_philosophers)
 	{
 		waitpid(-1, &wstatus, 0);
-		if (WEXITSTATUS(wstatus) == E_DEATH)
+		if (WEXITSTATUS(wstatus) == EXIT_DEATH)
 		{
 			kill_all(cond);
 			break ;
 		}
-		else if (WEXITSTATUS(wstatus) == E_FULL)
+		else if (WEXITSTATUS(wstatus) == EXIT_FULL)
 			i++;
 	}
 }
