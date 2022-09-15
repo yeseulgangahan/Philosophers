@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:52:27 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/14 13:59:15 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/15 12:28:40 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,10 @@ static void	*must_eat_routine(void *arg)
 
 void	create_monitor_death(t_condition *cond)
 {
-	pthread_create(&(cond->monitor_tid[DEATH]), NULL, death_routine, cond);
+	pthread_create(&(cond->monitor_tid[M_DEATH]), NULL, death_routine, cond);
 }
 
 void	create_monitor_must_eat(t_condition *cond)
 {
-	pthread_create(&(cond->monitor_tid[MUSTEAT]), NULL, must_eat_routine, cond);
+	pthread_create(&(cond->monitor_tid[M_MUSTEAT]), NULL, must_eat_routine, cond);
 }

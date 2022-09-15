@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:56:09 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/15 10:54:27 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/15 12:13:07 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,10 @@ void	wait_threads(t_condition *cond)
 	while (i < cond->number_of_philosophers)
 	{
 		waitpid(-1, &wstatus, 0);
-		if (wstatus == 2)
+		if (WEXITSTATUS(wstatus) == 2)
 			kill_all(cond);
 		i++;
 	}
-	// pthread_join(cond->monitor_tid[DEATH], NULL);
-	// if (cond->number_of_times_each_must_eat > 0)
-	// 	pthread_join(cond->monitor_tid[MUSTEAT], NULL);
 }
 
 void	free_all(t_condition *cond)

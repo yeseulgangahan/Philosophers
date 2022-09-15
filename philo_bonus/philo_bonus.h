@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:52:42 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/15 10:55:38 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/15 12:27:36 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,14 @@
 
 /* for monitor threads */
 # define MONITOR_CNT 2
-# define DEATH 0
-# define MUSTEAT 1
+# define M_DEATH 0
+# define M_MUSTEAT 1
+
+/* process id */
+# define CHILD 0
+
+/* exit status */
+# define E_DEATH 2
 
 /* for print state */
 typedef enum e_state_type
