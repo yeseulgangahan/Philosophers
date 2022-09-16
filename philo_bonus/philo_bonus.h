@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:52:42 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/16 16:59:02 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/16 17:16:15 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # include <semaphore.h>
 # include <stdbool.h>
 # include <sys/time.h>
+
+#include <stdio.h>/////////////
 
 /* process id */
 # define CHILD 0

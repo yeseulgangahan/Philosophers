@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:55:09 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/16 16:58:27 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/16 17:30:51 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,6 @@ static int	run_simulation(t_condition *cond)
 			break ;
 	}
 	pthread_join(*(self->monitor_tid), NULL);
-	if (self->exit_status == EXIT_DEATH)
-		print_state(cond, self->name, DIE);
 	return (self->exit_status);
 }
 

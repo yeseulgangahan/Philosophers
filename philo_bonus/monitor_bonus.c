@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:52:27 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/16 16:54:14 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/16 17:31:05 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ static void	*self_routine(void *arg)
 			>= cond->time_to_die)
 		{
 			cond->self->exit_status = EXIT_DEATH;
+			print_state(cond, cond->self->name, DIE);
 			return (NULL);
 		}
 		if (cond->number_of_times_each_must_eat > -1
