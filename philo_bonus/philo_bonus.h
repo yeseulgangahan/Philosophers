@@ -6,19 +6,17 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:52:42 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/16 17:16:15 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/16 17:37:10 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_BONUS_H
 # define PHILO_BONUS_H
 
-#include <pthread.h>
+# include <pthread.h>
 # include <semaphore.h>
 # include <stdbool.h>
 # include <sys/time.h>
-
-#include <stdio.h>/////////////
 
 /* process id */
 # define CHILD 0
@@ -38,9 +36,9 @@ typedef enum e_state_type
 }	t_state_type;
 
 /* milliseconds */
-typedef long long							t_msec;
+typedef long long						t_msec;
 
-typedef struct s_state_of_philosopher t_philosopher;
+typedef struct s_state_of_philosopher	t_philosopher;
 
 /** NOTE:
  * 1) first 5 members are arguments got from user.

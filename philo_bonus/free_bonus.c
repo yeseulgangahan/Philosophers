@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:56:09 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/16 17:30:10 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/16 17:35:11 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	wait_proccess(t_condition *cond)
 	i = 0;
 	while (i < cond->number_of_philosophers)
 	{
-		pid = waitpid(-1, &wstatus, 0);	
+		pid = waitpid(-1, &wstatus, 0);
 		if (WEXITSTATUS(wstatus) == EXIT_DEATH)
 		{
 			kill_all(cond, pid);

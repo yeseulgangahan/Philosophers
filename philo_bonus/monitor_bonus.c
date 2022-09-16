@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:52:27 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/16 17:31:05 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/16 17:36:27 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static void	*self_routine(void *arg)
 {
 	t_condition		*cond;
 	t_philosopher	self;
+
 	cond = (t_condition *)arg;
 	while (1)
 	{
@@ -38,7 +39,8 @@ static void	*self_routine(void *arg)
 			return (NULL);
 		}
 		if (cond->number_of_times_each_must_eat > -1
-			&& self.number_of_times_eaten >= cond->number_of_times_each_must_eat)
+			&& self.number_of_times_eaten \
+				>= cond->number_of_times_each_must_eat)
 		{
 			cond->self->exit_status = EXIT_FULL;
 			return (NULL);
