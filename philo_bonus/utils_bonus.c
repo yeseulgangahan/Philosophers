@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:55:40 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/16 16:02:15 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/16 16:51:59 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,13 @@ t_msec	get_current_time(void)
 	return ((time.tv_sec * 1000000 + time.tv_usec) / 1000);
 }
 
+/** NOTES:
+ * 1) this function is called by main thread of a philosopher only.
+ * 2) this function is also checks exit_status to finish immediately.
+ * 3) when this called with DIE type, won't use return value.
+ * STEPS:
+ * 1) if monitor thread set exit_status, no print is done.
+*/
 bool	print_state(t_condition *cond, int name, t_state_type type)
 {
 	static char		*state_list[] = {"has taken a fork", \
@@ -51,14 +58,15 @@ bool	print_state(t_condition *cond, int name, t_state_type type)
 	t_msec			time_passed;
 	t_philosopher	self;
 
-	time_passed = get_current_time() - cond->start_time_of_simlutation;
 	self = *(cond->self);
-	if (self.exit_status == 0)
+	if (self.exit_status == 0 || type == DIE)
 	{
+		time_passed = get_current_time() - cond->start_time_of_simlutation;
 		printf("%lld %d %s\n", time_passed, name, state_list[type]);
 		return (true);
 	}
-	return (false);
+	else
+		return (false);
 }
 
 /** NOTE:

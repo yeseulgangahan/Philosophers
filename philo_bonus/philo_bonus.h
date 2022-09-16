@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:52:42 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/16 16:04:48 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/16 16:59:02 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,6 @@
 # include <semaphore.h>
 # include <stdbool.h>
 # include <sys/time.h>
-
-#include <stdio.h>///////////////////
-#include <unistd.h>///////////////////
 
 /* process id */
 # define CHILD 0
@@ -80,33 +77,28 @@ typedef struct s_state_of_philosopher
 	pthread_t	*monitor_tid;
 }	t_philosopher;
 
-/* init.c */
+/* init_bonus.c */
 bool	init_condition(t_condition *cond, int argc, char **argv);
 
-/* init2.c */
-bool	init_argument(t_condition *cond, int argc, char **argv);
-void	init_semaphores(t_condition *cond);
-
-/* philo.c */
-int		run_simulation(t_condition *cond);
+/* philo_bonus.c */
 void	create_philosophers(t_condition *cond);
 
-/* philo2.c */
+/* philo2_bonus.c */
 bool	take_forks(t_condition *cond);
 bool	eating(t_condition *cond);
 bool	sleeping(t_condition *cond);
 bool	thinking(t_condition *cond);
 
-/* monitor.c */
+/* monitor_bonus.c */
 void	create_monitor_self(t_condition *cond);
 
-/* free.c */
-void	free_philosopher(t_condition *cond);
-void	kill_all(t_condition *cond, pid_t pid);
+/* free_bonus.c */
 void	wait_proccess(t_condition *cond);
+void	kill_all(t_condition *cond, pid_t pid);
+void	free_philosopher(t_condition *cond);
 void	free_all(t_condition *cond);
 
-/* utils.c */
+/* utils_bonus.c */
 void	*ft_calloc(size_t count, size_t size);
 t_msec	get_current_time(void);
 bool	print_state(t_condition *cond, int name, t_state_type type);

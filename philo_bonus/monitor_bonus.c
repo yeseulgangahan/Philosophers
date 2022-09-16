@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:52:27 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/16 16:04:37 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/16 16:54:14 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,12 @@
 #include "philo_bonus.h"
 
 /** STEPS:
- * 1) check own's death. if so, exit philo's proccess.
- * 2) check own's full. if so, exit philo's proccess.
+ * 1) check own's death.
+ * 2) check own's full.
  * NOTES:
  * 1) since this thread can be pushed to a lower priority 
  * due to while statement, need to sleep for a while.
+ * 2) this function is only place where exit_status valuable is modified.
 */
 static void	*self_routine(void *arg)
 {

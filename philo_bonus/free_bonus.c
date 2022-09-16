@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:56:09 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/16 16:20:40 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/16 16:55:08 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,28 @@
 #include <sys/wait.h>
 #include "philo_bonus.h"
 
-void	free_philosopher(t_condition *cond)
+/** STEPS:
+ * 1) wait all
+ * 2) if someone die(with die message), kill everyone.
+*/
+void	wait_proccess(t_condition *cond)
 {
-	free(cond->philosopher_pid);
-	free(cond->self->monitor_tid);
-	free(cond->self);
+	int		i;
+	pid_t	pid;
+	int		wstatus;
+
+	i = 0;
+	while (i < cond->number_of_philosophers)
+	{
+		pid = waitpid(-1, &wstatus, 0);	
+		if (WEXITSTATUS(wstatus) == EXIT_DEATH)
+		{
+			kill_all(cond, pid);
+			break ;
+		}
+		else
+			i++;
+	}
 }
 
 void	kill_all(t_condition *cond, pid_t pid)
@@ -35,37 +52,11 @@ void	kill_all(t_condition *cond, pid_t pid)
 	}
 }
 
-/** STEPS:
- * 1) wait all
- * 2) if someone die, kill everyone.
- * 3) and print death. (this action must be done after kill,
- * so no print is allowed after "die" message.)
-*/
-void	wait_proccess(t_condition *cond)
+void	free_philosopher(t_condition *cond)
 {
-	int		i;
-	pid_t	pid;
-	int		wstatus;
-
-	i = 0;
-	while (i < cond->number_of_philosophers)
-	{
-		pid = waitpid(-1, &wstatus, 0);	
-		if (WEXITSTATUS(wstatus) == EXIT_DEATH)
-		{
-			kill_all(cond, pid);
-			i = 0;
-			while (i < cond->number_of_philosophers)
-			{
-				if (cond->philosopher_pid[i] == pid)
-					print_state(cond, i + 1, DIE);
-				i++;
-			}
-			break ;
-		}
-		else
-			i++;
-	}
+	free(cond->philosopher_pid);
+	free(cond->self->monitor_tid);
+	free(cond->self);
 }
 
 void	free_all(t_condition *cond)

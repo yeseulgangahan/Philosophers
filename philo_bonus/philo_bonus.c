@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:55:09 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/16 14:27:15 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/16 16:58:27 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@
  * 2) when monitoring thread end, proccess returns.
  * NOTES:
  * 1) this proccess will end up as
- * 1-1) own's full or death -> exit by own's monitor thread.
+ * 1-1) own's full or death -> terminate itself.
  * 1-2) other's death -> killed by main proccess.
 */
-int	run_simulation(t_condition *cond)
+static int	run_simulation(t_condition *cond)
 {
 	t_philosopher	*self;
 
@@ -42,6 +42,8 @@ int	run_simulation(t_condition *cond)
 			break ;
 	}
 	pthread_join(*(self->monitor_tid), NULL);
+	if (self->exit_status == EXIT_DEATH)
+		print_state(cond, self->name, DIE);
 	return (self->exit_status);
 }
 
