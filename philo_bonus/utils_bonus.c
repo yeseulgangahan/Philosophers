@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:55:40 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/16 11:11:51 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/16 14:06:45 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,16 +58,16 @@ bool	print_state(t_condition *cond, int name, t_state_type type)
 	if (self->exit_status == 0)//모니터에 의해 full로 바꾸어 있을 수 있다.
 	{
 		printf("%lld %d %s\n", time_passed, name, state_list[type]);
-		if (type == DIE)
-		{
-			self->exit_status = EXIT_DEATH;//나만 보는 변수. 이것도 모니터가 호출했을 때 변경됨. //세마포어 안 풀고 끝낸다
-		}
-		else
-			sem_post(cond->print_lock);
+		// if (type == DIE)
+		// 	self->exit_status = EXIT_DEATH;//나만 보는 변수. 이것도 모니터가 호출했을 때 변경됨. //세마포어 안 풀고 끝낸다
+		sem_post(cond->print_lock);
 		return (true);
 	}
-	sem_post(cond->print_lock);
-	return (false);
+	else
+	{
+		sem_post(cond->print_lock);
+		return (false);
+	}
 }
 
 /** NOTE:
