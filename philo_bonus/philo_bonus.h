@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:52:42 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/16 13:27:51 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/16 16:04:48 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ typedef struct s_condition_of_simulation
 	int				number_of_times_each_must_eat;
 	t_msec			start_time_of_simlutation;
 	sem_t			*fork_lock;
-	sem_t			*print_lock;
 	pid_t			*philosopher_pid;
 	t_philosopher	*self;
 }	t_condition;
@@ -102,7 +101,6 @@ bool	thinking(t_condition *cond);
 void	create_monitor_self(t_condition *cond);
 
 /* free.c */
-void	remove_semaphores(t_condition *cond);
 void	free_philosopher(t_condition *cond);
 void	kill_all(t_condition *cond, pid_t pid);
 void	wait_proccess(t_condition *cond);
@@ -113,6 +111,6 @@ void	*ft_calloc(size_t count, size_t size);
 t_msec	get_current_time(void);
 bool	print_state(t_condition *cond, int name, t_state_type type);
 void	usleep_precise(t_condition *cond, t_msec must_time);
-// bool	is_exit_status_set(t_condition *cond);
+bool	is_exit_status_set(t_condition *cond);
 
 #endif /* PHILO_BONUS_H */

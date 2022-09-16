@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:55:09 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/16 14:12:52 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/16 14:27:15 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,17 @@ int	run_simulation(t_condition *cond)
 		usleep(3000);
 	while (1)
 	{
-		take_forks(cond);
-		eating(cond);
-		sleeping(cond);
-		thinking(cond);
+		if (take_forks(cond) == false)
+			break ;
+		if (eating(cond) == false)
+			break ;
+		if (sleeping(cond) == false)
+			break ;
+		if (thinking(cond) == false)
+			break ;
 	}
+	pthread_join(*(self->monitor_tid), NULL);
+	return (self->exit_status);
 }
 
 void	create_philosophers(t_condition *cond)
@@ -49,7 +55,7 @@ void	create_philosophers(t_condition *cond)
 		cond->self->name = i + 1;
 		cond->philosopher_pid[i] = fork();
 		if (cond->philosopher_pid[i] == CHILD)
-			run_simulation(cond);
+			exit(run_simulation(cond));
 		else
 			i++;
 	}

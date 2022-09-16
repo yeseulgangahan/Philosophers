@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:52:27 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/16 14:13:10 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/16 16:04:37 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,23 +24,23 @@
 static void	*self_routine(void *arg)
 {
 	t_condition		*cond;
-	t_philosopher	*self;
-
+	t_philosopher	self;
 	cond = (t_condition *)arg;
 	while (1)
 	{
-		self = cond->self;
-		if (get_current_time() - self->start_time_of_last_meal \
+		self = *(cond->self);
+		if (get_current_time() - self.start_time_of_last_meal \
 			>= cond->time_to_die)
 		{
-			sem_wait(cond->print_lock);
 			cond->self->exit_status = EXIT_DEATH;
-			sem_post(cond->print_lock);
 			return (NULL);
 		}
 		if (cond->number_of_times_each_must_eat > -1
-			&& self->number_of_times_eaten >= cond->number_of_times_each_must_eat)
-			exit(EXIT_FULL);
+			&& self.number_of_times_eaten >= cond->number_of_times_each_must_eat)
+		{
+			cond->self->exit_status = EXIT_FULL;
+			return (NULL);
+		}
 		usleep(100);
 	}
 }

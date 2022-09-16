@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:56:09 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/16 13:19:50 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/16 16:03:33 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,6 @@
 #include <signal.h>
 #include <sys/wait.h>
 #include "philo_bonus.h"
-
-void	remove_semaphores(t_condition *cond)
-{
-	(void)cond;
-	// 필요할 때만 하는 것으로 변경하기.
-	sem_close(cond->fork_lock);
-	sem_close(cond->print_lock);
-	sem_unlink("fork_lock");
-	sem_unlink("print_lock");
-}
 
 void	free_philosopher(t_condition *cond)
 {
@@ -72,7 +62,8 @@ void	wait_proccess(t_condition *cond)
 
 void	free_all(t_condition *cond)
 {
-	remove_semaphores(cond);
+	sem_close(cond->fork_lock);
+	sem_unlink("fork_lock");
 	free_philosopher(cond);
 	free(cond);
 }

@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:54:29 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/16 13:32:35 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/16 15:29:39 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ bool	eating(t_condition *cond)
 	t_philosopher	*self;
 
 	self = cond->self;
-	print_state(cond, self->name, EAT);
+	if (print_state(cond, self->name, EAT) == false)
 	{
 		sem_post(cond->fork_lock);
 		sem_post(cond->fork_lock);
