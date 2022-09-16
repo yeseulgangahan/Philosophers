@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:56:09 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/16 16:03:33 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/16 16:20:40 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ void	kill_all(t_condition *cond, pid_t pid)
 /** STEPS:
  * 1) wait all
  * 2) if someone die, kill everyone.
+ * 3) and print death. (this action must be done after kill,
+ * so no print is allowed after "die" message.)
 */
 void	wait_proccess(t_condition *cond)
 {
@@ -52,7 +54,13 @@ void	wait_proccess(t_condition *cond)
 		if (WEXITSTATUS(wstatus) == EXIT_DEATH)
 		{
 			kill_all(cond, pid);
-			print_state(cond, 0, DIE);//pid의 인덱스 구해서 넘버 출력
+			i = 0;
+			while (i < cond->number_of_philosophers)
+			{
+				if (cond->philosopher_pid[i] == pid)
+					print_state(cond, i + 1, DIE);
+				i++;
+			}
 			break ;
 		}
 		else
