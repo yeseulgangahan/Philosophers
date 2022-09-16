@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo2_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
+/*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:54:29 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/15 21:01:21 by han-yeseul       ###   ########.fr       */
+/*   Updated: 2022/09/16 11:16:57 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ bool	take_forks(t_condition *cond)
 	if (cond->number_of_philosophers == 1)
 	{
 		sem_post(cond->fork_lock);
-		usleep_precise(cond->time_to_die * 2);
+		usleep_precise(cond, cond->time_to_die * 2);
 	}
 	sem_wait(cond->fork_lock);
 	if (print_state(cond, self->name, FORK) == false)
@@ -56,7 +56,7 @@ bool	eating(t_condition *cond)
 		return (false);
 	}
 	self->start_time_of_last_meal = get_current_time();
-	usleep_precise(cond->time_to_eat);
+	usleep_precise(cond, cond->time_to_eat);
 	self->number_of_times_eaten++;
 	sem_post(cond->fork_lock);
 	sem_post(cond->fork_lock);
@@ -70,7 +70,7 @@ bool	sleeping(t_condition *cond)
 	self = cond->self;
 	if (print_state(cond, self->name, SLEEP) == false)
 		return (false);
-	usleep_precise(cond->time_to_sleep);
+	usleep_precise(cond, cond->time_to_sleep);
 	return (true);
 }
 
@@ -90,6 +90,6 @@ bool	thinking(t_condition *cond)
 		return (false);
 	if (cond->number_of_philosophers % 2 \
 		&& cond->time_to_eat >= cond->time_to_sleep)
-		usleep_precise(cond->time_to_eat);
+		usleep_precise(cond, cond->time_to_eat);
 	return (true);
 }

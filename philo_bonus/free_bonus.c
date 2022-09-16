@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:56:09 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/16 09:32:52 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/16 11:23:47 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,15 @@ void	free_philosopher(t_condition *cond)
 	free(cond->self);
 }
 
-void	kill_all(t_condition *cond)
+void	kill_all(t_condition *cond, pid_t pid)
 {
 	int	i;
 
 	i = 0;
 	while (i < cond->number_of_philosophers)
 	{
-		kill(cond->philosopher_pid[i], SIGTERM);
+		if (cond->philosopher_pid[i] != pid)
+			kill(cond->philosopher_pid[i], SIGTERM);
 		i++;
 	}
 }
@@ -50,16 +51,19 @@ void	kill_all(t_condition *cond)
 */
 void	wait_threads(t_condition *cond)
 {
-	int	i;
-	int	wstatus;
+	int		i;
+	pid_t	pid;
+	int		wstatus;
 
 	i = 0;
 	while (i < cond->number_of_philosophers)
 	{
-		waitpid(-1, &wstatus, 0);
+		pid = waitpid(-1, &wstatus, 0);	
 		if (WEXITSTATUS(wstatus) == EXIT_DEATH)
 		{
-			kill_all(cond);
+			kill_all(cond, pid);
+			print_state(cond, 3, DIE);
+			sem_post(cond->print_lock);
 			break ;
 		}
 		else

@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:51:38 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/16 09:17:12 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/16 11:03:14 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ static bool	init_philosopher(t_condition *cond)
  * 5) malloc & init philosophers
  * 6) malloc monitor
  */
+
 bool	init_condition(t_condition *cond, int argc, char **argv)
 {
 	if (init_argument(cond, argc, argv) == false)

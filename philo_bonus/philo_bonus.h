@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:52:42 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/16 09:33:08 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/16 10:48:09 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <sys/time.h>
 
 #include <stdio.h>///////////////////
+#include <unistd.h>///////////////////
 
 /* process id */
 # define CHILD 0
@@ -103,7 +104,7 @@ void	create_monitor_self(t_condition *cond);
 /* free.c */
 void	remove_semaphores(t_condition *cond);
 void	free_philosopher(t_condition *cond);
-void	kill_all(t_condition *cond);
+void	kill_all(t_condition *cond, pid_t pid);
 void	wait_threads(t_condition *cond);
 void	free_all(t_condition *cond);
 
@@ -111,6 +112,7 @@ void	free_all(t_condition *cond);
 void	*ft_calloc(size_t count, size_t size);
 t_msec	get_current_time(void);
 bool	print_state(t_condition *cond, int name, t_state_type type);
-void	usleep_precise(t_msec must_time);
+void	usleep_precise(t_condition *cond, t_msec must_time);
+bool	is_exit_status_set(t_condition *cond);
 
 #endif /* PHILO_BONUS_H */

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
+/*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:55:09 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/15 21:47:19 by han-yeseul       ###   ########.fr       */
+/*   Updated: 2022/09/16 12:53:48 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	run_simulation(t_condition *cond)
 		if (thinking(cond) == false)
 			break ;
 	}
-	pthread_join(self->monitor_tid[0], NULL);
+	pthread_join(*(self->monitor_tid), NULL);
 	return (self->exit_status);
 }
 
