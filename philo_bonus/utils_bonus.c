@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
+/*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:55:40 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/15 21:32:30 by han-yeseul       ###   ########.fr       */
+/*   Updated: 2022/09/16 09:33:38 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,18 +54,18 @@ bool	print_state(t_condition *cond, int name, t_state_type type)
 	time_passed = get_current_time() - cond->start_time_of_simlutation;
 
 	self = cond->self;
-	sem_wait(self->print_lock);
+	sem_wait(cond->print_lock);
 	if (self->exit_status == 0)
 	{
 		printf("%lld %d %s\n", time_passed, name, state_list[type]);
 		if (type == DIE)
-			self->exit_status = EXIT_DEATH;
-		sem_post(self->print_lock);
+			self->exit_status = EXIT_DEATH;//나만 보는 변수.
+		sem_post(cond->print_lock);
 		return (true);
 	}
 	else
 	{
-		sem_post(self->print_lock);
+		sem_post(cond->print_lock);
 		return (false);
 	}
 }

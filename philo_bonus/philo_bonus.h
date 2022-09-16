@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
+/*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:52:42 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/15 21:51:00 by han-yeseul       ###   ########.fr       */
+/*   Updated: 2022/09/16 09:33:08 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct s_condition_of_simulation
 	int				number_of_times_each_must_eat;
 	t_msec			start_time_of_simlutation;
 	sem_t			*fork_lock;
+	sem_t			*print_lock;
 	pid_t			*philosopher_pid;
 	t_philosopher	*self;
 }	t_condition;
@@ -76,7 +77,6 @@ typedef struct s_state_of_philosopher
 	t_msec		start_time_of_last_meal;
 	int			number_of_times_eaten;
 	int			exit_status;
-	sem_t		*print_lock;
 	pthread_t	*monitor_tid;
 }	t_philosopher;
 

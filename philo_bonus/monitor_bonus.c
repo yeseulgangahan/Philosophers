@@ -3,16 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   monitor_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
+/*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:52:27 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/15 21:32:46 by han-yeseul       ###   ########.fr       */
+/*   Updated: 2022/09/16 08:43:00 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include <unistd.h>
 #include "philo_bonus.h"
 
+/** NOTES:
+ * 1) since this thread can be pushed to a lower priority 
+ * due to while statement, need to sleep for a while.
+*/
 static void	*self_routine(void *arg)
 {
 	t_condition		*cond;
@@ -34,6 +39,7 @@ static void	*self_routine(void *arg)
 			self->exit_status = EXIT_FULL;
 			return (NULL);
 		}
+		usleep(100);
 	}
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
+/*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:56:09 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/15 21:50:06 by han-yeseul       ###   ########.fr       */
+/*   Updated: 2022/09/16 09:32:52 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void	remove_semaphores(t_condition *cond)
 {
 	(void)cond;
 	// 필요할 때만 하는 것으로 변경하기.
-	// sem_close(cond->fork_lock);
-	// sem_close(cond->self->print_lock);
+	sem_close(cond->fork_lock);
+	sem_close(cond->print_lock);
 	sem_unlink("fork_lock");
 	sem_unlink("print_lock");
 }
@@ -62,7 +62,7 @@ void	wait_threads(t_condition *cond)
 			kill_all(cond);
 			break ;
 		}
-		else if (WEXITSTATUS(wstatus) == EXIT_FULL)
+		else
 			i++;
 	}
 }
