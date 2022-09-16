@@ -6,7 +6,11 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:55:40 by yehan             #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2022/09/16 13:28:25 by yehan            ###   ########seoul.kr  */
+=======
+/*   Updated: 2022/09/16 14:06:45 by yehan            ###   ########seoul.kr  */
+>>>>>>> fix3
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +55,21 @@ bool	print_state(t_condition *cond, int name, t_state_type type)
 	t_msec			time_passed;
 
 	time_passed = get_current_time() - cond->start_time_of_simlutation;
-	sem_wait(cond->print_lock);//시간이 엇갈리지 않게 하는 역할
-	printf("%lld %d %s\n", time_passed, name, state_list[type]);
-	sem_post(cond->print_lock);
-	return (true);
+	self = cond->self;
+	sem_wait(cond->print_lock);
+	if (self->exit_status == 0)//모니터에 의해 full로 바꾸어 있을 수 있다.
+	{
+		printf("%lld %d %s\n", time_passed, name, state_list[type]);
+		// if (type == DIE)
+		// 	self->exit_status = EXIT_DEATH;//나만 보는 변수. 이것도 모니터가 호출했을 때 변경됨. //세마포어 안 풀고 끝낸다
+		sem_post(cond->print_lock);
+		return (true);
+	}
+	else
+	{
+		sem_post(cond->print_lock);
+		return (false);
+	}
 }
 
 /** NOTE:
