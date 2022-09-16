@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 15:31:38 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/10 16:17:22 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/16 18:47:28 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ static void	*death_routine(void *arg)
 	cond = (t_condition *)arg;
 	while (1)
 	{
+		if (is_need_stop_true(cond) == true)
+			return (NULL);
 		i = 0;
 		while (i < cond->number_of_philosophers)
 		{
@@ -35,13 +37,11 @@ static void	*death_routine(void *arg)
 			if (get_current_time() - philo.start_time_of_last_meal
 				>= cond->time_to_die)
 			{
-				print_state(cond, philo.name, DEAD);
+				print_state(cond, philo.name, DIE);
 				return (NULL);
 			}
 			i++;
 		}
-		if (is_need_stop_true(cond) == true)
-			return (NULL);
 	}
 }
 
@@ -60,6 +60,8 @@ static void	*must_eat_routine(void *arg)
 	i = 0;
 	while (i < cond->number_of_philosophers)
 	{
+		if (is_need_stop_true(cond) == true)
+			return (NULL);
 		philo = cond->philosopher[i];
 		if (philo.number_of_times_eaten < cond->number_of_times_each_must_eat)
 		{
@@ -68,8 +70,6 @@ static void	*must_eat_routine(void *arg)
 		}
 		else
 			i++;
-		if (is_need_stop_true(cond) == true)
-			return (NULL);
 	}
 	pthread_mutex_lock(cond->need_stop_lock);
 	cond->need_stop = true;

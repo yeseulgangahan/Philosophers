@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 15:22:20 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/10 15:27:06 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/16 18:47:43 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,16 +55,16 @@ bool	print_state(t_condition *cond, int name, t_state_type type)
 	if (cond->need_stop == false)
 	{
 		printf("%lld %d %s\n", time_passed, name, state_list[type]);
-		if (type == DEAD)
+		if (type == DIE)
 			cond->need_stop = true;
 		pthread_mutex_unlock(cond->need_stop_lock);
+		return (true);
 	}
 	else
 	{
 		pthread_mutex_unlock(cond->need_stop_lock);
 		return (false);
 	}
-	return (true);
 }
 
 /** NOTE: 

@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 15:30:10 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/15 08:14:35 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/16 18:47:41 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,16 @@ typedef enum e_state_type
 	EAT,
 	SLEEP,
 	THINK,
-	DEAD
+	DIE
 }	t_state_type;
 
 /* milliseconds */
-typedef long long							t_msec;
+typedef long long						t_msec;
 
 /* fork valuable */
-typedef int									t_fork;
+typedef int								t_fork;
 
-typedef struct s_state_of_philosopher t_philosopher;
+typedef struct s_state_of_philosopher	t_philosopher;
 
 /** NOTE:
  * 1) first 5 members are arguments got from user.

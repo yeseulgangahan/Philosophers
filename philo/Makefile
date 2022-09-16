@@ -6,7 +6,7 @@
 #    By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/14 09:53:06 by yehan             #+#    #+#              #
-#    Updated: 2022/09/14 13:49:56 by yehan            ###   ########seoul.kr   #
+#    Updated: 2022/09/16 18:39:27 by yehan            ###   ########seoul.kr   #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,14 @@ CFLAGS		:= -Wall -Wextra -Werror
 RM			:= rm -f
 
 ifdef DEBUG
+	CFLAGS	+=	-g
+endif
+
+ifdef ADDRESS
+	CFLAGS	+=	-fsanitize=address
+endif
+
+ifdef THREAD
 	CFLAGS	+=	-fsanitize=thread
 endif
 
@@ -32,12 +40,18 @@ SRCS	:= \
 
 OBJS		= $(SRCS:.c=.o)
 
-.PHONY:			all de clean fclean re
+.PHONY:			all g th ad clean fclean re
 
 all:			$(NAME)
 
-de:			
+g:				fclean
 				$(MAKE) DEBUG=true
+
+th:				fclean
+				$(MAKE) THREAD=true
+
+ad:				fclean
+				$(MAKE) ADDRESS=true
 
 clean:
 				$(RM) $(OBJS) $(OBJS_BONUS)

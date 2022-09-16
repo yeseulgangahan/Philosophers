@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 15:33:22 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/10 16:54:11 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/16 18:44:08 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,5 @@ int	main(int argc, char **argv)
 		create_monitor_must_eat(cond);
 	wait_threads(cond);
 	free_all(cond);
-	return (errno);
+	return (0);
 }

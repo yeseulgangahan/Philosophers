@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 15:37:54 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/10 15:38:12 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/16 18:28:43 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	wait_threads(t_condition *cond)
 		i++;
 	}
 	pthread_join(cond->monitor_tid[DEATH], NULL);
-	if (cond->number_of_times_each_must_eat > 0)
+	if (cond->number_of_times_each_must_eat > -1)
 		pthread_join(cond->monitor_tid[MUSTEAT], NULL);
 }
 
