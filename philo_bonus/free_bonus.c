@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:56:09 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/16 11:23:47 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/16 13:19:50 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	kill_all(t_condition *cond, pid_t pid)
  * 1) wait all
  * 2) if someone die, kill everyone.
 */
-void	wait_threads(t_condition *cond)
+void	wait_proccess(t_condition *cond)
 {
 	int		i;
 	pid_t	pid;
@@ -62,8 +62,7 @@ void	wait_threads(t_condition *cond)
 		if (WEXITSTATUS(wstatus) == EXIT_DEATH)
 		{
 			kill_all(cond, pid);
-			print_state(cond, 3, DIE);
-			sem_post(cond->print_lock);
+			print_state(cond, 0, DIE);//pid의 인덱스 구해서 넘버 출력
 			break ;
 		}
 		else

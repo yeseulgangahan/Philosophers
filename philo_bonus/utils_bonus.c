@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:55:40 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/16 11:11:51 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/16 13:28:25 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,25 +49,12 @@ bool	print_state(t_condition *cond, int name, t_state_type type)
 								"is thinking", \
 								"died"};
 	t_msec			time_passed;
-	t_philosopher	*self;
 
 	time_passed = get_current_time() - cond->start_time_of_simlutation;
-
-	self = cond->self;
-	sem_wait(cond->print_lock);
-	if (self->exit_status == 0)//모니터에 의해 full로 바꾸어 있을 수 있다.
-	{
-		printf("%lld %d %s\n", time_passed, name, state_list[type]);
-		if (type == DIE)
-		{
-			self->exit_status = EXIT_DEATH;//나만 보는 변수. 이것도 모니터가 호출했을 때 변경됨. //세마포어 안 풀고 끝낸다
-		}
-		else
-			sem_post(cond->print_lock);
-		return (true);
-	}
+	sem_wait(cond->print_lock);//시간이 엇갈리지 않게 하는 역할
+	printf("%lld %d %s\n", time_passed, name, state_list[type]);
 	sem_post(cond->print_lock);
-	return (false);
+	return (true);
 }
 
 /** NOTE:
@@ -80,24 +67,25 @@ void	usleep_precise(t_condition *cond, t_msec must_time)
 	enter_time = get_current_time();
 	while (1)
 	{
-		if (is_exit_status_set(cond) == true)
-			break ;
+		(void)cond;
+		// if (is_exit_status_set(cond) == true)
+		// 	break ;
 		if (get_current_time() - enter_time >= must_time)
 			break ;
 		usleep(100);
 	}
 }
 
-bool	is_exit_status_set(t_condition *cond)
-{
-	t_philosopher	*self;
-	bool			is_set;
+// bool	is_exit_status_set(t_condition *cond)
+// {
+// 	t_philosopher	*self;
+// 	bool			is_set;
 
-	self = cond->self;
-	is_set = false;
-	sem_wait(cond->print_lock);
-	if (self->exit_status != 0)
-		is_set = true;
-	sem_post(cond->print_lock);
-	return (is_set);
-}
+// 	self = cond->self;
+// 	is_set = false;
+// 	sem_wait(cond->print_lock);
+// 	if (self->exit_status != 0)
+// 		is_set = true;
+// 	sem_post(cond->print_lock);
+// 	return (is_set);
+// }

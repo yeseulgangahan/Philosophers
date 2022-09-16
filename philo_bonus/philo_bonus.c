@@ -6,11 +6,10 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:55:09 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/16 12:53:48 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/16 13:23:30 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include "philo_bonus.h"
@@ -18,6 +17,10 @@
 /** STEPS:
  * 1) first n philosophers could have chance to take a fork.
  * 2) when monitoring thread end, proccess returns.
+ * NOTES:
+ * 1) this proccess will end up as
+ * 1-1) own's full or death -> exit by own's monitor thread.
+ * 1-2) other's death -> killed by main proccess.
 */
 int	run_simulation(t_condition *cond)
 {
@@ -29,17 +32,11 @@ int	run_simulation(t_condition *cond)
 		usleep(3000);
 	while (1)
 	{
-		if (take_forks(cond) == false)
-			break ;
-		if (eating(cond) == false)
-			break ;
-		if (sleeping(cond) == false)
-			break ;
-		if (thinking(cond) == false)
-			break ;
+		take_forks(cond);
+		eating(cond);
+		sleeping(cond);
+		thinking(cond);
 	}
-	pthread_join(*(self->monitor_tid), NULL);
-	return (self->exit_status);
 }
 
 void	create_philosophers(t_condition *cond)
@@ -52,7 +49,7 @@ void	create_philosophers(t_condition *cond)
 		cond->self->name = i + 1;
 		cond->philosopher_pid[i] = fork();
 		if (cond->philosopher_pid[i] == CHILD)
-			exit(run_simulation(cond));
+			run_simulation(cond);
 		else
 			i++;
 	}

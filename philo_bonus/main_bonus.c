@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:53:54 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/16 10:59:40 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/16 13:23:39 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	create_philosophers(cond);
-	wait_threads(cond);
+	wait_proccess(cond);
 	free_all(cond);
 	return (errno);
 }
