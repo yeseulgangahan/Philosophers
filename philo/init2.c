@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 15:35:10 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/14 11:02:21 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/19 10:04:30 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 
 static bool	init_number(int *buf, char *str)
 {
-	long long	num;
-	int			i;
+	int	num;
+	int	i;
 
 	num = 0;
 	i = 0;
@@ -37,8 +37,8 @@ static bool	init_number(int *buf, char *str)
 
 static bool	init_msec(t_msec *buf, char *str)
 {
-	long long	num;
-	int			i;
+	t_msec	num;
+	int		i;
 
 	num = 0;
 	i = 0;
@@ -59,7 +59,7 @@ static bool	init_msec(t_msec *buf, char *str)
 /** NOTE:
  * 1) init_number() and init_msec() are different
  * just because they have different argument type.
- * 2) both doesn't handle overflow or underflow.
+ * 2) both doesn't handle overflow nor underflow.
  */
 bool	init_argument(t_condition *cond, int argc, char **argv)
 {

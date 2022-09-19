@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 15:30:10 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/16 18:47:41 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/19 10:29:36 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ void	free_all(t_condition *cond);
 
 /* utils.c */
 void	*ft_calloc(size_t count, size_t size);
-t_msec	get_current_time(void);
+t_msec	get_current_msec(void);
 bool	print_state(t_condition *cond, int name, t_state_type type);
 void	usleep_precise(t_condition *cond, t_msec must_time);
 bool	is_need_stop_true(t_condition *cond);

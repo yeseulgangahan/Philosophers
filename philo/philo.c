@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 15:30:35 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/16 18:44:21 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/19 10:29:30 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	*start_routine(void *arg)
 	self = (t_philosopher *)arg;
 	if (self->name % 2)
 		usleep(3000);
-	while (1)
+	while (true)
 	{
 		if (take_forks(self) == false)
 			break ;

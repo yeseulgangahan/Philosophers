@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:54:29 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/16 15:29:39 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/19 10:29:27 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ bool	eating(t_condition *cond)
 		sem_post(cond->fork_lock);
 		return (false);
 	}
-	self->start_time_of_last_meal = get_current_time();
+	self->start_time_of_last_meal = get_current_msec();
 	usleep_precise(cond, cond->time_to_eat);
 	self->number_of_times_eaten++;
 	sem_post(cond->fork_lock);

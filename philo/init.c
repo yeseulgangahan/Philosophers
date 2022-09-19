@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 15:35:58 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/10 15:36:23 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/19 10:31:11 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ bool	init_condition(t_condition *cond, int argc, char **argv)
 {
 	if (init_argument(cond, argc, argv) == false)
 		return (false);
-	cond->start_time_of_simlutation = get_current_time();
+	cond->start_time_of_simlutation = get_current_msec();
 	if (init_need_stop(cond) == false)
 		return (false);
 	if (init_forks(cond) == false)

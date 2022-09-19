@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:52:27 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/16 17:36:27 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/19 10:29:28 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	*self_routine(void *arg)
 	while (1)
 	{
 		self = *(cond->self);
-		if (get_current_time() - self.start_time_of_last_meal \
+		if (get_current_msec() - self.start_time_of_last_meal \
 			>= cond->time_to_die)
 		{
 			cond->self->exit_status = EXIT_DEATH;

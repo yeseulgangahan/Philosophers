@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 15:33:22 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/16 18:44:08 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/19 10:29:31 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,7 @@
 
 /** NOTE:
  * 1) visualizer: https://nafuka11.github.io/philosophers-visualizer/
- * 2) error control:
- * 2-1) only user-set errors print error message.
- * 2-2) function returns -1 when error occurs, check their return value.
- * 2-3) for others, main() returns 'errno'.
+ * 2) error control: only user-set errors print error message.
 */
 int	main(int argc, char **argv)
 {

@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 15:31:38 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/16 18:47:28 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/19 10:29:37 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	*death_routine(void *arg)
 		while (i < cond->number_of_philosophers)
 		{
 			philo = cond->philosopher[i];
-			if (get_current_time() - philo.start_time_of_last_meal
+			if (get_current_msec() - philo.start_time_of_last_meal
 				>= cond->time_to_die)
 			{
 				print_state(cond, philo.name, DIE);

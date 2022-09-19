@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:51:38 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/16 17:37:33 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/19 10:29:29 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ bool	init_condition(t_condition *cond, int argc, char **argv)
 {
 	if (init_argument(cond, argc, argv) == false)
 		return (false);
-	cond->start_time_of_simlutation = get_current_time();
+	cond->start_time_of_simlutation = get_current_msec();
 	sem_unlink("fork_lock");
 	cond->fork_lock = sem_open("fork_lock", \
 		O_CREAT | O_EXCL, 0644, cond->number_of_philosophers);

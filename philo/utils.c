@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 15:22:20 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/19 09:34:43 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/19 10:29:29 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	*ft_calloc(size_t count, size_t size)
  * 1-2) 1 microsecond == 1000 milliseconds == 1000000 seconds.
  * 3) gettimeofday() returns -1 when error occurs, but we ignore it.
 */
-t_msec	get_current_time(void)
+t_msec	get_current_msec(void)
 {
 	struct timeval	time;
 
@@ -51,7 +51,7 @@ bool	print_state(t_condition *cond, int name, t_state_type type)
 	t_msec		time_passed;
 
 	pthread_mutex_lock(cond->need_stop_lock);
-	time_passed = get_current_time() - cond->start_time_of_simlutation;
+	time_passed = get_current_msec() - cond->start_time_of_simlutation;
 	if (cond->need_stop == false)
 	{
 		printf("%lld %d %s\n", time_passed, name, state_list[type]);
@@ -74,12 +74,12 @@ void	usleep_precise(t_condition *cond, t_msec must_time)
 {
 	t_msec	enter_time;
 
-	enter_time = get_current_time();
+	enter_time = get_current_msec();
 	while (1)
 	{
 		if (is_need_stop_true(cond) == true)
 			break ;
-		if (get_current_time() - enter_time >= must_time)
+		if (get_current_msec() - enter_time >= must_time)
 			break ;
 		usleep(100);
 	}
