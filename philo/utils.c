@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 15:22:20 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/16 18:47:43 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/19 09:34:43 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ bool	print_state(t_condition *cond, int name, t_state_type type)
 								"died"};
 	t_msec		time_passed;
 
-	time_passed = get_current_time() - cond->start_time_of_simlutation;
 	pthread_mutex_lock(cond->need_stop_lock);
+	time_passed = get_current_time() - cond->start_time_of_simlutation;
 	if (cond->need_stop == false)
 	{
 		printf("%lld %d %s\n", time_passed, name, state_list[type]);
@@ -85,14 +85,13 @@ void	usleep_precise(t_condition *cond, t_msec must_time)
 	}
 }
 
-bool	is_need_stop_true(t_condition *cond)
+bool	is_need_stop_true(t_condition *pcond)
 {
-	bool	is_true;
+	t_condition	cond;
 
-	is_true = false;
-	pthread_mutex_lock(cond->need_stop_lock);
-	if (cond->need_stop == true)
-		is_true = true;
-	pthread_mutex_unlock(cond->need_stop_lock);
-	return (is_true);
+	cond = *pcond;
+	if (cond.need_stop == true)
+		return (true);
+	else
+		return (false);
 }
