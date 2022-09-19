@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:55:40 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/16 16:51:59 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/19 09:45:34 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,11 +91,10 @@ void	usleep_precise(t_condition *cond, t_msec must_time)
 bool	is_exit_status_set(t_condition *cond)
 {
 	t_philosopher	self;
-	bool			is_set;
 
 	self = *(cond->self);
-	is_set = false;
 	if (self.exit_status != 0)
-		is_set = true;
-	return (is_set);
+		return (true);
+	else
+		return (false);
 }
