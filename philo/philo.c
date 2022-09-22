@@ -6,7 +6,7 @@
 /*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 15:30:35 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/22 14:52:43 by han-yeseul       ###   ########.fr       */
+/*   Updated: 2022/09/22 15:16:44 by han-yeseul       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static void	*start_routine(void *arg)
 	return (NULL);
 }
 
-void	create_philosophers(t_condition *cond)
+bool	create_philosophers(t_condition *cond)
 {
 	int				i;
 	t_philosopher	*philo;
@@ -50,7 +50,9 @@ void	create_philosophers(t_condition *cond)
 	while (i < cond->number_of_philosophers)
 	{
 		philo = &(cond->philosopher[i]);
-		pthread_create(&(philo->tid), NULL, start_routine, philo);
+		if (pthread_create(&(philo->tid), NULL, start_routine, philo) != 0)
+			return (false);
 		i++;
 	}
+	return (true);
 }

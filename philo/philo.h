@@ -6,7 +6,7 @@
 /*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 15:30:10 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/22 14:56:19 by han-yeseul       ###   ########.fr       */
+/*   Updated: 2022/09/22 15:27:19 by han-yeseul       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include <pthread.h>
 # include <stdbool.h>
 # include <sys/time.h>
+
+# include <stdio.h>//./philo 3 1000 400 600
 
 /* for monitor threads */
 # define MONITOR_CNT 2
@@ -91,7 +93,7 @@ bool	init_print(t_condition *cond);
 bool	init_forks(t_condition *cond);
 
 /* philo.c */
-void	create_philosophers(t_condition *cond);
+bool	create_philosophers(t_condition *cond);
 
 /* philo2.c */
 bool	take_forks(t_philosopher *self);
@@ -100,8 +102,7 @@ bool	sleeping(t_philosopher *self);
 bool	thinking(t_philosopher *self);
 
 /* monitor.c */
-void	create_monitor_death(t_condition *cond);
-void	create_monitor_must_eat(t_condition *cond);
+bool	create_monitors(t_condition *cond, int cnt);
 
 /* free.c */
 void	wait_threads(t_condition *cond);
