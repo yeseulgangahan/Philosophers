@@ -6,7 +6,7 @@
 /*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:55:40 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/22 14:28:05 by han-yeseul       ###   ########.fr       */
+/*   Updated: 2022/09/22 14:38:39 by han-yeseul       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,21 +75,8 @@ void	usleep_precise(t_condition *cond, t_msec must_time)
 	while (1)
 	{
 		(void)cond;
-		if (is_exit_status_set(cond) == true)
-			break ;
 		if (get_current_msec() - enter_time >= must_time)
 			break ;
 		usleep(100);
 	}
-}
-
-bool	is_exit_status_set(t_condition *cond)
-{
-	t_philosopher	self;
-
-	self = *(cond->self);
-	if (self.exit_status != 0)
-		return (true);
-	else
-		return (false);
 }

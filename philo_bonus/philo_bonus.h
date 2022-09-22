@@ -6,7 +6,7 @@
 /*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:52:42 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/22 14:33:56 by han-yeseul       ###   ########.fr       */
+/*   Updated: 2022/09/22 14:38:17 by han-yeseul       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,5 @@ void	*ft_calloc(size_t count, size_t size);
 t_msec	get_current_msec(void);
 void	print_state(t_condition *cond, int name, t_state_type type);
 void	usleep_precise(t_condition *cond, t_msec must_time);
-bool	is_exit_status_set(t_condition *cond);
 
 #endif /* PHILO_BONUS_H */
