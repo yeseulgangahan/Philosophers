@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:55:09 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/19 10:29:32 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/22 14:26:44 by han-yeseul       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,9 @@
 
 /** STEPS:
  * 1) first n philosophers could have chance to take a fork.
- * 2) when monitoring thread end, proccess returns.
- * NOTES:
- * 1) this proccess will end up as
- * 1-1) own's full or death -> terminate itself.
- * 1-2) other's death -> killed by main proccess.
+ * 2) this proccess will end up as
+ * 2-1) own's full or death -> exit by own's thread.
+ * 2-2) other's death -> killed by main proccess.
 */
 static int	run_simulation(t_condition *cond)
 {
@@ -32,17 +30,11 @@ static int	run_simulation(t_condition *cond)
 		usleep(3000);
 	while (1)
 	{
-		if (take_forks(cond) == false)
-			break ;
-		if (eating(cond) == false)
-			break ;
-		if (sleeping(cond) == false)
-			break ;
-		if (thinking(cond) == false)
-			break ;
+		take_forks(cond);
+		eating(cond);
+		sleeping(cond);
+		thinking(cond);
 	}
-	pthread_join(*(self->monitor_tid), NULL);
-	return (self->exit_status);
 }
 
 void	create_philosophers(t_condition *cond)

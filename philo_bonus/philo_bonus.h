@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:52:42 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/19 10:29:28 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/22 14:33:56 by han-yeseul       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ typedef struct s_condition_of_simulation
 	int				number_of_times_each_must_eat;
 	t_msec			start_time_of_simlutation;
 	sem_t			*fork_lock;
+	sem_t			*print_lock;
 	pid_t			*philosopher_pid;
 	t_philosopher	*self;
 }	t_condition;
@@ -73,7 +74,6 @@ typedef struct s_state_of_philosopher
 	int			name;
 	t_msec		start_time_of_last_meal;
 	int			number_of_times_eaten;
-	int			exit_status;
 	pthread_t	*monitor_tid;
 }	t_philosopher;
 
@@ -84,10 +84,10 @@ bool	init_condition(t_condition *cond, int argc, char **argv);
 void	create_philosophers(t_condition *cond);
 
 /* philo2_bonus.c */
-bool	take_forks(t_condition *cond);
-bool	eating(t_condition *cond);
-bool	sleeping(t_condition *cond);
-bool	thinking(t_condition *cond);
+void	take_forks(t_condition *cond);
+void	eating(t_condition *cond);
+void	sleeping(t_condition *cond);
+void	thinking(t_condition *cond);
 
 /* monitor_bonus.c */
 void	create_monitor_self(t_condition *cond);
@@ -101,7 +101,7 @@ void	free_all(t_condition *cond);
 /* utils_bonus.c */
 void	*ft_calloc(size_t count, size_t size);
 t_msec	get_current_msec(void);
-bool	print_state(t_condition *cond, int name, t_state_type type);
+void	print_state(t_condition *cond, int name, t_state_type type);
 void	usleep_precise(t_condition *cond, t_msec must_time);
 bool	is_exit_status_set(t_condition *cond);
 

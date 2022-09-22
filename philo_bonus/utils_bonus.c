@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:55:40 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/19 10:29:26 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/22 14:28:05 by han-yeseul       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,7 @@ t_msec	get_current_msec(void)
 	return ((time.tv_sec * 1000000 + time.tv_usec) / 1000);
 }
 
-/** NOTES:
- * 1) this function is called by main thread of a philosopher only.
- * 2) this function is also checks exit_status to finish immediately.
- * 3) when this called with DIE type, won't use return value.
- * STEPS:
- * 1) if monitor thread set exit_status, no print is done.
-*/
-bool	print_state(t_condition *cond, int name, t_state_type type)
+void	print_state(t_condition *cond, int name, t_state_type type)
 {
 	static char		*state_list[] = {"has taken a fork", \
 								"is eating", \
@@ -56,17 +49,19 @@ bool	print_state(t_condition *cond, int name, t_state_type type)
 								"is thinking", \
 								"died"};
 	t_msec			time_passed;
-	t_philosopher	self;
 
-	self = *(cond->self);
-	if (self.exit_status == 0 || type == DIE)
+	sem_wait(cond->print_lock);
+	if (type == DIE)
 	{
 		time_passed = get_current_msec() - cond->start_time_of_simlutation;
 		printf("%lld %d %s\n", time_passed, name, state_list[type]);
-		return (true);
 	}
 	else
-		return (false);
+	{
+		time_passed = get_current_msec() - cond->start_time_of_simlutation;
+		printf("%lld %d %s\n", time_passed, name, state_list[type]);
+		sem_post(cond->print_lock);
+	}
 }
 
 /** NOTE:

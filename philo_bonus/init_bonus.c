@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:51:38 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/19 10:29:29 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/22 14:34:13 by han-yeseul       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ static bool	init_philosopher(t_condition *cond)
 		return (false);
 	cond->self->start_time_of_last_meal \
 		= cond->start_time_of_simlutation;
-	cond->self->exit_status = EXIT_SUCCESS;
 	cond->self->monitor_tid = ft_calloc(1, sizeof(pthread_t));
 	if (cond->self->monitor_tid == NULL)
 	{
@@ -110,8 +109,11 @@ bool	init_condition(t_condition *cond, int argc, char **argv)
 		return (false);
 	cond->start_time_of_simlutation = get_current_msec();
 	sem_unlink("fork_lock");
+	sem_unlink("print_lock");
 	cond->fork_lock = sem_open("fork_lock", \
 		O_CREAT | O_EXCL, 0644, cond->number_of_philosophers);
+	cond->print_lock = sem_open("print_lock", \
+		O_CREAT | O_EXCL, 0644, 1);
 	cond->philosopher_pid \
 		= ft_calloc(cond->number_of_philosophers, sizeof(pid_t));
 	if (cond->philosopher_pid == NULL)
@@ -120,6 +122,7 @@ bool	init_condition(t_condition *cond, int argc, char **argv)
 	{
 		sem_close(cond->fork_lock);
 		sem_unlink("fork_lock");
+		sem_unlink("print_lock");
 		free(cond->philosopher_pid);
 		return (false);
 	}
