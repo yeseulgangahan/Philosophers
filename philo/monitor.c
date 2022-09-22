@@ -6,7 +6,7 @@
 /*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 15:31:38 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/22 15:25:41 by han-yeseul       ###   ########.fr       */
+/*   Updated: 2022/09/22 15:35:52 by han-yeseul       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,20 +77,14 @@ static void	*must_eat_routine(void *arg)
 	return (NULL);
 }
 
-bool	create_monitors(t_condition *cond, int cnt)
+bool	create_monitors(t_condition *cond, int argc)
 {
 	if (pthread_create(&(cond->monitor_tid[M_DIE]), NULL, death_routine, cond) != 0)
-	{
-printf("!");
 		return (false);
-	}
-	if (cnt == 2)
+	if (argc == 6)
 	{
 		if (pthread_create(&(cond->monitor_tid[M_FULL]), NULL, must_eat_routine, cond) != 0)
-		{
-printf("?");
 			return (false);
-		}
 	}
 	return (true);
 }
