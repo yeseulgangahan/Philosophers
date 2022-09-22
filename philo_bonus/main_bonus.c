@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:53:54 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/19 10:29:35 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/22 15:49:39 by han-yeseul       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	main(int argc, char **argv)
 		free(cond);
 		return (1);
 	}
-	create_philosophers(cond);
+	create_philosopher(cond);
 	wait_proccess(cond);
 	free_all(cond);
 	return (errno);

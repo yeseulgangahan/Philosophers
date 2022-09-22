@@ -6,7 +6,7 @@
 /*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 15:35:10 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/22 14:59:17 by han-yeseul       ###   ########.fr       */
+/*   Updated: 2022/09/22 15:40:23 by han-yeseul       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,8 @@ bool	init_print(t_condition *cond)
 	cond->print_lock = ft_calloc(1, sizeof(pthread_mutex_t));
 	if (cond->print_lock == NULL)
 		return (false);
-	pthread_mutex_init(cond->print_lock, NULL);
+	if (pthread_mutex_init(cond->print_lock, NULL) != 0)
+		return (false);
 	return (true);
 }
 
@@ -104,7 +105,8 @@ bool	init_forks(t_condition *cond)
 	i = 0;
 	while (i < cond->number_of_philosophers)
 	{
-		pthread_mutex_init(&(cond->fork_lock[i]), NULL);
+		if (pthread_mutex_init(&(cond->fork_lock[i]), NULL) != 0)
+			return (false);
 		i++;
 	}
 	return (true);

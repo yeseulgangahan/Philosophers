@@ -6,7 +6,7 @@
 /*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:55:09 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/22 14:26:44 by han-yeseul       ###   ########.fr       */
+/*   Updated: 2022/09/22 15:46:44 by han-yeseul       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	run_simulation(t_condition *cond)
 	}
 }
 
-void	create_philosophers(t_condition *cond)
+void	create_philosopher(t_condition *cond)
 {
 	int				i;
 

@@ -6,7 +6,7 @@
 /*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 15:33:22 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/22 15:35:00 by han-yeseul       ###   ########.fr       */
+/*   Updated: 2022/09/22 15:48:25 by han-yeseul       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,17 @@ int	main(int argc, char **argv)
 		free(cond);
 		return (1);
 	}
-	if (create_philosophers(cond) == false)
+	if (create_philosopher(cond) == false)
 	{
 		free(cond);
 		return (errno);
 	}
-	if (create_monitors(cond, argc) == false)
+	if (create_monitor(cond, argc) == false)
 	{
 		free(cond);
 		return (errno);
 	}
-	wait_threads(cond);
+	wait_thread(cond);
 	free_all(cond);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:52:42 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/22 14:55:59 by han-yeseul       ###   ########.fr       */
+/*   Updated: 2022/09/22 15:46:47 by han-yeseul       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ typedef struct s_state_of_philosopher
 bool	init_condition(t_condition *cond, int argc, char **argv);
 
 /* philo_bonus.c */
-void	create_philosophers(t_condition *cond);
+void	create_philosopher(t_condition *cond);
 
 /* philo2_bonus.c */
 void	take_forks(t_condition *cond);
@@ -96,6 +96,7 @@ void	create_monitor_self(t_condition *cond);
 void	wait_proccess(t_condition *cond);
 void	kill_all(t_condition *cond, pid_t pid);
 void	free_philosopher(t_condition *cond);
+void	free_semaphore(t_condition *cond);
 void	free_all(t_condition *cond);
 
 /* utils_bonus.c */

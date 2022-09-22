@@ -6,7 +6,7 @@
 /*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 15:30:35 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/22 15:16:44 by han-yeseul       ###   ########.fr       */
+/*   Updated: 2022/09/22 15:47:09 by han-yeseul       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static void	*start_routine(void *arg)
 	return (NULL);
 }
 
-bool	create_philosophers(t_condition *cond)
+bool	create_philosopher(t_condition *cond)
 {
 	int				i;
 	t_philosopher	*philo;

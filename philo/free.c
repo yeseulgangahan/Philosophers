@@ -6,7 +6,7 @@
 /*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 15:37:54 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/22 14:57:25 by han-yeseul       ###   ########.fr       */
+/*   Updated: 2022/09/22 15:48:10 by han-yeseul       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	free_print(t_condition *cond)
 	free(cond->print_lock);
 }
 
-void	wait_threads(t_condition *cond)
+void	wait_thread(t_condition *cond)
 {
 	int				i;
 	t_philosopher	*philo;

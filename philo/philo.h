@@ -6,7 +6,7 @@
 /*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 15:30:10 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/22 15:27:19 by han-yeseul       ###   ########.fr       */
+/*   Updated: 2022/09/22 15:48:13 by han-yeseul       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ bool	init_print(t_condition *cond);
 bool	init_forks(t_condition *cond);
 
 /* philo.c */
-bool	create_philosophers(t_condition *cond);
+bool	create_philosopher(t_condition *cond);
 
 /* philo2.c */
 bool	take_forks(t_philosopher *self);
@@ -102,10 +102,10 @@ bool	sleeping(t_philosopher *self);
 bool	thinking(t_philosopher *self);
 
 /* monitor.c */
-bool	create_monitors(t_condition *cond, int cnt);
+bool	create_monitor(t_condition *cond, int cnt);
 
 /* free.c */
-void	wait_threads(t_condition *cond);
+void	wait_thread(t_condition *cond);
 void	free_forks(t_condition *cond);
 void	free_print(t_condition *cond);
 void	free_all(t_condition *cond);

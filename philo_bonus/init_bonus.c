@@ -6,7 +6,7 @@
 /*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:51:38 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/22 14:34:13 by han-yeseul       ###   ########.fr       */
+/*   Updated: 2022/09/22 15:46:08 by han-yeseul       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,17 +112,26 @@ bool	init_condition(t_condition *cond, int argc, char **argv)
 	sem_unlink("print_lock");
 	cond->fork_lock = sem_open("fork_lock", \
 		O_CREAT | O_EXCL, 0644, cond->number_of_philosophers);
+	if (cond->fork_lock == SEM_FAILED)
+		return (false);
 	cond->print_lock = sem_open("print_lock", \
 		O_CREAT | O_EXCL, 0644, 1);
-	cond->philosopher_pid \
-		= ft_calloc(cond->number_of_philosophers, sizeof(pid_t));
-	if (cond->philosopher_pid == NULL)
-		return (false);
-	if (init_philosopher(cond) == false)
+	if (cond->print_lock == SEM_FAILED)
 	{
 		sem_close(cond->fork_lock);
 		sem_unlink("fork_lock");
-		sem_unlink("print_lock");
+		return (false);
+	}
+	cond->philosopher_pid \
+		= ft_calloc(cond->number_of_philosophers, sizeof(pid_t));
+	if (cond->philosopher_pid == NULL)
+	{
+		free_semaphore(cond);
+		return (false);
+	}
+	if (init_philosopher(cond) == false)
+	{
+		free_semaphore(cond);
 		free(cond->philosopher_pid);
 		return (false);
 	}
