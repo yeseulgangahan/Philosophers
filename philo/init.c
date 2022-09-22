@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 15:35:58 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/19 10:31:11 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/22 14:52:43 by han-yeseul       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static bool	init_monitor(t_condition *cond)
  * STEP:
  * 1) init arguments
  * 2) init start time
- * 3) malloc & init need_stop valuable and mutex
+ * 3) malloc & init print valuable and mutex
  * 4) malloc & init forks valuable and mutex
  * 5) malloc & init philosophers
  * 6) malloc monitor
@@ -64,22 +64,22 @@ bool	init_condition(t_condition *cond, int argc, char **argv)
 	if (init_argument(cond, argc, argv) == false)
 		return (false);
 	cond->start_time_of_simlutation = get_current_msec();
-	if (init_need_stop(cond) == false)
+	if (init_print(cond) == false)
 		return (false);
 	if (init_forks(cond) == false)
 	{
-		free_need_stop(cond);
+		free_print(cond);
 		return (false);
 	}
 	if (init_philosophers(cond) == false)
-	{	
-		free_need_stop(cond);
+	{
+		free_print(cond);
 		free_forks(cond);
 		return (false);
 	}
 	if (init_monitor(cond) == false)
 	{
-		free_need_stop(cond);
+		free_print(cond);
 		free_forks(cond);
 		free(cond->philosopher);
 		return (false);

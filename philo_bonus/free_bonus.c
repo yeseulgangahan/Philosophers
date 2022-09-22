@@ -6,7 +6,7 @@
 /*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:56:09 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/22 14:21:13 by han-yeseul       ###   ########.fr       */
+/*   Updated: 2022/09/22 14:55:58 by han-yeseul       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	wait_proccess(t_condition *cond)
 	while (i < cond->number_of_philosophers)
 	{
 		pid = waitpid(-1, &wstatus, 0);
-		if (WEXITSTATUS(wstatus) == EXIT_DEATH)
+		if (WEXITSTATUS(wstatus) == EXIT_DIE)
 		{
 			kill_all(cond, pid);
 			sem_post(cond->print_lock);

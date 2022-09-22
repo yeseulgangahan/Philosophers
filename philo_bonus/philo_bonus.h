@@ -6,7 +6,7 @@
 /*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:52:42 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/22 14:38:17 by han-yeseul       ###   ########.fr       */
+/*   Updated: 2022/09/22 14:55:59 by han-yeseul       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # define CHILD 0
 
 /* exit status */
-# define EXIT_DEATH 2
+# define EXIT_DIE 2
 # define EXIT_FULL 3
 
 /* for print state */
@@ -43,7 +43,7 @@ typedef struct s_state_of_philosopher	t_philosopher;
 /** NOTE:
  * 1) first 5 members are arguments got from user.
  * 2) start_time_of_simlutation: to get time passed.
- * 3) need_stop: 1) check if somebody dead, 2) prevent message mixing.
+ * 3) print: 1) check if somebody dead, 2) prevent message mixing.
  * 4) fork: used while eating.
  * 5) philosopher: all structs of philosophers.
  * 6) monitor_tid: store monitor thread id.

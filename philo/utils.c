@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 15:22:20 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/19 10:29:29 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/22 14:51:45 by han-yeseul       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,24 +50,24 @@ bool	print_state(t_condition *cond, int name, t_state_type type)
 								"died"};
 	t_msec		time_passed;
 
-	pthread_mutex_lock(cond->need_stop_lock);
+	pthread_mutex_lock(cond->print_lock);
 	time_passed = get_current_msec() - cond->start_time_of_simlutation;
-	if (cond->need_stop == false)
+	if (cond->print == true)
 	{
 		printf("%lld %d %s\n", time_passed, name, state_list[type]);
 		if (type == DIE)
-			cond->need_stop = true;
-		pthread_mutex_unlock(cond->need_stop_lock);
+			cond->print = false;
+		pthread_mutex_unlock(cond->print_lock);
 		return (true);
 	}
 	else
 	{
-		pthread_mutex_unlock(cond->need_stop_lock);
+		pthread_mutex_unlock(cond->print_lock);
 		return (false);
 	}
 }
 
-/** NOTE: 
+/** NOTE:
  * 1) sleep for 0.1 milliseconds.
 */
 void	usleep_precise(t_condition *cond, t_msec must_time)
@@ -77,7 +77,7 @@ void	usleep_precise(t_condition *cond, t_msec must_time)
 	enter_time = get_current_msec();
 	while (1)
 	{
-		if (is_need_stop_true(cond) == true)
+		if (is_print_true(cond) == false)
 			break ;
 		if (get_current_msec() - enter_time >= must_time)
 			break ;
@@ -85,13 +85,17 @@ void	usleep_precise(t_condition *cond, t_msec must_time)
 	}
 }
 
-bool	is_need_stop_true(t_condition *pcond)
+bool	is_print_true(t_condition *cond)
 {
-	t_condition	cond;
-
-	cond = *pcond;
-	if (cond.need_stop == true)
+	pthread_mutex_lock(cond->print_lock);
+	if (cond->print == true)
+	{
+		pthread_mutex_unlock(cond->print_lock);
 		return (true);
+	}
 	else
+	{
+		pthread_mutex_unlock(cond->print_lock);
 		return (false);
+	}
 }

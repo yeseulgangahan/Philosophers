@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 15:35:10 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/19 10:04:30 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/09/22 14:59:17 by han-yeseul       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,13 +76,13 @@ bool	init_argument(t_condition *cond, int argc, char **argv)
 	return (true);
 }
 
-bool	init_need_stop(t_condition *cond)
+bool	init_print(t_condition *cond)
 {
-	cond->need_stop = false;
-	cond->need_stop_lock = ft_calloc(1, sizeof(pthread_mutex_t));
-	if (cond->need_stop_lock == NULL)
+	cond->print = true;
+	cond->print_lock = ft_calloc(1, sizeof(pthread_mutex_t));
+	if (cond->print_lock == NULL)
 		return (false);
-	pthread_mutex_init(cond->need_stop_lock, NULL);
+	pthread_mutex_init(cond->print_lock, NULL);
 	return (true);
 }
 

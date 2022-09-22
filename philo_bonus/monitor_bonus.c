@@ -6,7 +6,7 @@
 /*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:52:27 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/22 14:19:00 by han-yeseul       ###   ########.fr       */
+/*   Updated: 2022/09/22 14:55:56 by han-yeseul       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	*self_routine(void *arg)
 			>= cond->time_to_die)
 		{
 			print_state(cond, cond->self->name, DIE);
-			exit(EXIT_DEATH);
+			exit(EXIT_DIE);
 		}
 		if (cond->number_of_times_each_must_eat > -1
 			&& self.number_of_times_eaten \
