@@ -6,7 +6,7 @@
 /*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:55:09 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/22 15:46:44 by han-yeseul       ###   ########.fr       */
+/*   Updated: 2022/09/23 09:05:17 by han-yeseul       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	run_simulation(t_condition *cond)
 	t_philosopher	*self;
 
 	self = cond->self;
-	create_monitor_self(cond);
+	create_monitor(cond);
 	if (cond->number_of_philosophers / 2 < self->name)
 		usleep(3000);
 	while (1)

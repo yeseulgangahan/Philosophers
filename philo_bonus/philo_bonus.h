@@ -6,7 +6,7 @@
 /*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:52:42 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/22 15:46:47 by han-yeseul       ###   ########.fr       */
+/*   Updated: 2022/09/23 09:07:40 by han-yeseul       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ typedef struct s_condition_of_simulation
 	t_msec			start_time_of_simlutation;
 	sem_t			*fork_lock;
 	sem_t			*print_lock;
+	sem_t			*monitor_lock;
 	pid_t			*philosopher_pid;
 	t_philosopher	*self;
 }	t_condition;
@@ -90,7 +91,7 @@ void	sleeping(t_condition *cond);
 void	thinking(t_condition *cond);
 
 /* monitor_bonus.c */
-void	create_monitor_self(t_condition *cond);
+void	create_monitor(t_condition *cond);
 
 /* free_bonus.c */
 void	wait_proccess(t_condition *cond);

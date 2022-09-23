@@ -6,7 +6,7 @@
 /*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:51:38 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/22 15:46:08 by han-yeseul       ###   ########.fr       */
+/*   Updated: 2022/09/23 09:30:52 by han-yeseul       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,8 +108,7 @@ bool	init_condition(t_condition *cond, int argc, char **argv)
 	if (init_argument(cond, argc, argv) == false)
 		return (false);
 	cond->start_time_of_simlutation = get_current_msec();
-	sem_unlink("fork_lock");
-	sem_unlink("print_lock");
+	free_semaphore(cond);
 	cond->fork_lock = sem_open("fork_lock", \
 		O_CREAT | O_EXCL, 0644, cond->number_of_philosophers);
 	if (cond->fork_lock == SEM_FAILED)
@@ -118,8 +117,14 @@ bool	init_condition(t_condition *cond, int argc, char **argv)
 		O_CREAT | O_EXCL, 0644, 1);
 	if (cond->print_lock == SEM_FAILED)
 	{
-		sem_close(cond->fork_lock);
-		sem_unlink("fork_lock");
+		free_semaphore(cond);
+		return (false);
+	}
+	cond->monitor_lock = sem_open("monitor_lock", \
+		O_CREAT | O_EXCL, 0644, 1);
+	if (cond->monitor_lock == SEM_FAILED)
+	{
+		free_semaphore(cond);
 		return (false);
 	}
 	cond->philosopher_pid \

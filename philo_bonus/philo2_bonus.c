@@ -6,10 +6,11 @@
 /*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:54:29 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/22 14:31:45 by han-yeseul       ###   ########.fr       */
+/*   Updated: 2022/09/23 09:32:03 by han-yeseul       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include "philo_bonus.h"
 
 void	take_forks(t_condition *cond)
@@ -43,11 +44,17 @@ void	eating(t_condition *cond)
 
 	self = cond->self;
 	print_state(cond, self->name, EAT);
+	sem_wait(cond->monitor_lock);
 	self->start_time_of_last_meal = get_current_msec();
+	sem_post(cond->monitor_lock);
 	usleep_precise(cond, cond->time_to_eat);
 	self->number_of_times_eaten++;
 	sem_post(cond->fork_lock);
 	sem_post(cond->fork_lock);
+	if (cond->number_of_times_each_must_eat > -1
+		&& self->number_of_times_eaten \
+			>= cond->number_of_times_each_must_eat)
+		exit(EXIT_FULL);
 }
 
 void	sleeping(t_condition *cond)

@@ -6,7 +6,7 @@
 /*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:52:27 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/22 15:51:51 by han-yeseul       ###   ########.fr       */
+/*   Updated: 2022/09/23 09:31:50 by han-yeseul       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,36 +16,33 @@
 
 /** STEPS:
  * 1) check own's death.
- * 2) check own's full.
  * NOTES:
  * 1) since this thread can be pushed to a lower priority
  * due to while statement, need to sleep for a while.
- * 2) this function is only place where exit_status valuable is modified.
 */
-static void	*self_routine(void *arg)
+static void	*death_routine(void *arg)
 {
 	t_condition		*cond;
-	t_philosopher	self;
+	t_philosopher	*self;
 
 	cond = (t_condition *)arg;
+	self = cond->self;
 	while (true)
 	{
-		self = *(cond->self);
-		if (get_current_msec() - self.start_time_of_last_meal \
+		sem_wait(cond->monitor_lock);
+		if (get_current_msec() - self->start_time_of_last_meal \
 			>= cond->time_to_die)
 		{
-			print_state(cond, cond->self->name, DIE);
+			sem_post(cond->monitor_lock);
+			print_state(cond, self->name, DIE);
 			exit(EXIT_DIE);
 		}
-		if (cond->number_of_times_each_must_eat > -1
-			&& self.number_of_times_eaten \
-				>= cond->number_of_times_each_must_eat)
-			exit(EXIT_FULL);
+		sem_post(cond->monitor_lock);
 		usleep(100);
 	}
 }
 
-void	create_monitor_self(t_condition *cond)
+void	create_monitor(t_condition *cond)
 {
-	pthread_create(cond->self->monitor_tid, NULL, self_routine, cond);
+	pthread_create(cond->self->monitor_tid, NULL, death_routine, cond);
 }
