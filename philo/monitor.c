@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   monitor.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
+/*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 15:31:38 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/22 15:47:20 by han-yeseul       ###   ########.fr       */
+/*   Updated: 2022/09/27 10:12:20 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,11 +79,13 @@ static void	*must_eat_routine(void *arg)
 
 bool	create_monitor(t_condition *cond, int argc)
 {
-	if (pthread_create(&(cond->monitor_tid[M_DIE]), NULL, death_routine, cond) != 0)
+	if (pthread_create(&(cond->monitor_tid[M_DIE]), \
+		NULL, death_routine, cond) != 0)
 		return (false);
 	if (argc == 6)
 	{
-		if (pthread_create(&(cond->monitor_tid[M_FULL]), NULL, must_eat_routine, cond) != 0)
+		if (pthread_create(&(cond->monitor_tid[M_FULL]), \
+			NULL, must_eat_routine, cond) != 0)
 			return (false);
 	}
 	return (true);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
+/*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 15:33:22 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/22 15:48:25 by han-yeseul       ###   ########.fr       */
+/*   Updated: 2022/10/01 12:10:55 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,8 @@ int	main(int argc, char **argv)
 		free(cond);
 		return (1);
 	}
-	if (create_philosopher(cond) == false)
-	{
-		free(cond);
-		return (errno);
-	}
-	if (create_monitor(cond, argc) == false)
+	if (create_philosopher(cond) == false
+		|| create_monitor(cond, argc) == false)
 	{
 		free(cond);
 		return (errno);
