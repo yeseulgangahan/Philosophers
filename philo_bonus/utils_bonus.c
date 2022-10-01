@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
+/*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:55:40 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/22 14:38:39 by han-yeseul       ###   ########.fr       */
+/*   Updated: 2022/10/01 13:14:22 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,19 @@ void	usleep_precise(t_condition *cond, t_msec must_time)
 			break ;
 		usleep(100);
 	}
+}
+
+int	ft_strcmp(const char *s1, const char *s2)
+{
+	size_t	i;
+
+	i = 0;
+	while (s1[i] && s2[i])
+	{
+		if (s1[i] != s2[i])
+			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+		else
+			i++;
+	}
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }

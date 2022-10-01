@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo2_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
+/*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:54:29 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/23 09:32:03 by han-yeseul       ###   ########.fr       */
+/*   Updated: 2022/10/01 13:13:19 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,16 @@ void	take_forks(t_condition *cond)
 	t_philosopher	*self;
 
 	self = cond->self;
-	sem_wait(cond->fork_lock);
+	sem_wait(cond->sem_forks);
 	print_state(cond, self->name, FORK);
 	if (cond->number_of_philosophers == 1)
 	{
-		sem_post(cond->fork_lock);
+		sem_post(cond->sem_forks);
 		usleep_precise(cond, cond->time_to_die * 2);
 	}
 	else
 	{
-		sem_wait(cond->fork_lock);
+		sem_wait(cond->sem_forks);
 		print_state(cond, self->name, FORK);
 	}
 }
@@ -44,13 +44,13 @@ void	eating(t_condition *cond)
 
 	self = cond->self;
 	print_state(cond, self->name, EAT);
-	sem_wait(cond->monitor_lock);
+	sem_wait(cond->last_meal_lock);
 	self->start_time_of_last_meal = get_current_msec();
-	sem_post(cond->monitor_lock);
+	sem_post(cond->last_meal_lock);
 	usleep_precise(cond, cond->time_to_eat);
 	self->number_of_times_eaten++;
-	sem_post(cond->fork_lock);
-	sem_post(cond->fork_lock);
+	sem_post(cond->sem_forks);
+	sem_post(cond->sem_forks);
 	if (cond->number_of_times_each_must_eat > -1
 		&& self->number_of_times_eaten \
 			>= cond->number_of_times_each_must_eat)

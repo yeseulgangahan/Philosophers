@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
+/*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:52:42 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/23 09:07:40 by han-yeseul       ###   ########.fr       */
+/*   Updated: 2022/10/01 13:14:14 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,9 @@ typedef struct s_condition_of_simulation
 	t_msec			time_to_sleep;
 	int				number_of_times_each_must_eat;
 	t_msec			start_time_of_simlutation;
-	sem_t			*fork_lock;
+	sem_t			*sem_forks;
 	sem_t			*print_lock;
-	sem_t			*monitor_lock;
+	sem_t			*last_meal_lock;
 	pid_t			*philosopher_pid;
 	t_philosopher	*self;
 }	t_condition;
@@ -80,6 +80,9 @@ typedef struct s_state_of_philosopher
 
 /* init_bonus.c */
 bool	init_condition(t_condition *cond, int argc, char **argv);
+
+/* init2_bonus.c */
+bool	init_argument(t_condition *cond, int argc, char **argv);
 
 /* philo_bonus.c */
 void	create_philosopher(t_condition *cond);
@@ -105,5 +108,6 @@ void	*ft_calloc(size_t count, size_t size);
 t_msec	get_current_msec(void);
 void	print_state(t_condition *cond, int name, t_state_type type);
 void	usleep_precise(t_condition *cond, t_msec must_time);
+int		ft_strcmp(const char *s1, const char *s2);
 
 #endif /* PHILO_BONUS_H */

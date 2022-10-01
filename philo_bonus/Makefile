@@ -6,7 +6,7 @@
 #    By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/14 09:53:01 by yehan             #+#    #+#              #
-#    Updated: 2022/09/19 10:29:34 by yehan            ###   ########seoul.kr   #
+#    Updated: 2022/10/01 12:29:42 by yehan            ###   ########seoul.kr   #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ endif
 SRCS	:= \
 				main_bonus.c \
 				init_bonus.c \
+				init2_bonus.c \
 				philo_bonus.c \
 				philo2_bonus.c \
 				monitor_bonus.c \

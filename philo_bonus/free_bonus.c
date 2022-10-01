@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
+/*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:56:09 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/23 09:31:16 by han-yeseul       ###   ########.fr       */
+/*   Updated: 2022/10/01 13:13:19 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,21 @@ void	free_philosopher(t_condition *cond)
 
 void	free_semaphore(t_condition *cond)
 {
-	sem_close(cond->fork_lock);
-	sem_close(cond->print_lock);
-	sem_close(cond->monitor_lock);
-	sem_unlink("fork_lock");
-	sem_unlink("print_lock");
-	sem_unlink("monitor_lock");
+	if (cond->sem_forks)
+	{
+		sem_close(cond->sem_forks);
+		sem_unlink("sem_forks");
+	}
+	if (cond->print_lock)
+	{
+		sem_close(cond->print_lock);
+		sem_unlink("print_lock");
+	}
+	if (cond->last_meal_lock)
+	{
+		sem_close(cond->last_meal_lock);
+		sem_unlink("last_meal_lock");
+	}
 }
 
 void	free_all(t_condition *cond)

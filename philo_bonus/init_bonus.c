@@ -3,76 +3,57 @@
 /*                                                        :::      ::::::::   */
 /*   init_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
+/*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:51:38 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/23 09:30:52 by han-yeseul       ###   ########.fr       */
+/*   Updated: 2022/10/01 13:13:58 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include <stdlib.h>
+#include <errno.h>
 #include "philo_bonus.h"
 
-static bool	init_number(int *buf, char *str)
+static void	reopen_semaphore(t_condition *cond, char *sem_name)
 {
-	long long	num;
-	int			i;
-
-	num = 0;
-	i = 0;
-	while ('0' <= str[i] && str[i] <= '9')
+	if (ft_strcmp(sem_name, "sem_forks") == 0)
 	{
-		num = num * 10 + (str[i] - '0');
-		i++;
+		sem_unlink("sem_forks");
+		cond->sem_forks = sem_open("sem_forks", \
+			O_CREAT | O_EXCL, 0644, cond->number_of_philosophers);
 	}
-	if (str[i] != '\0')
+	if (ft_strcmp(sem_name, "print_lock") == 0)
 	{
-		printf("Error: arguments must be a number\n");
-		return (false);
+		sem_unlink("print_lock");
+		cond->print_lock = sem_open("print_lock", O_CREAT | O_EXCL, 0644, 1);
 	}
-	*buf = num;
-	return (true);
+	if (ft_strcmp(sem_name, "last_meal_lock") == 0)
+	{
+		sem_unlink("last_meal_lock");
+		cond->last_meal_lock = sem_open("last_meal_lock", \
+			O_CREAT | O_EXCL, 0644, 1);
+	}
 }
 
-static bool	init_msec(t_msec *buf, char *str)
+static bool	init_semaphores(t_condition *cond)
 {
-	long long	num;
-	int			i;
-
-	num = 0;
-	i = 0;
-	while ('0' <= str[i] && str[i] <= '9')
+	cond->sem_forks = sem_open("sem_forks", \
+		O_CREAT | O_EXCL, 0644, cond->number_of_philosophers);
+	if (cond->sem_forks == SEM_FAILED && errno == EEXIST)
+		reopen_semaphore(cond, "sem_forks");
+	cond->print_lock = sem_open("print_lock", O_CREAT | O_EXCL, 0644, 1);
+	if (cond->print_lock == SEM_FAILED && errno == EEXIST)
+		reopen_semaphore(cond, "print_lock");
+	cond->last_meal_lock = sem_open("last_meal_lock", \
+		O_CREAT | O_EXCL, 0644, 1);
+	if (cond->last_meal_lock == SEM_FAILED && errno == EEXIST)
+		reopen_semaphore(cond, "last_meal_lock");
+	if (cond->sem_forks == SEM_FAILED || cond->print_lock == SEM_FAILED \
+		|| cond->last_meal_lock == SEM_FAILED)
 	{
-		num = num * 10 + (str[i] - '0');
-		i++;
-	}
-	if (str[i] != '\0')
-	{
-		printf("Error: arguments must be a number\n");
+		free_semaphore(cond);
 		return (false);
 	}
-	*buf = num;
-	return (true);
-}
-
-/** NOTE:
- * 1) init_number() and init_msec() are different
- * just because they have different argument type.
- * 2) both doesn't handle overflow or underflow.
- */
-bool	init_argument(t_condition *cond, int argc, char **argv)
-{
-	if (init_number(&(cond->number_of_philosophers), argv[1]) == false
-		|| init_msec(&(cond->time_to_die), argv[2]) == false
-		|| init_msec(&(cond->time_to_eat), argv[3]) == false
-		|| init_msec(&(cond->time_to_sleep), argv[4]) == false)
-		return (false);
-	cond->number_of_times_each_must_eat = -1;
-	if (argc == 6)
-		if (init_number(&(cond->number_of_times_each_must_eat), argv[5])
-			== false)
-			return (false);
 	return (true);
 }
 
@@ -108,25 +89,8 @@ bool	init_condition(t_condition *cond, int argc, char **argv)
 	if (init_argument(cond, argc, argv) == false)
 		return (false);
 	cond->start_time_of_simlutation = get_current_msec();
-	free_semaphore(cond);
-	cond->fork_lock = sem_open("fork_lock", \
-		O_CREAT | O_EXCL, 0644, cond->number_of_philosophers);
-	if (cond->fork_lock == SEM_FAILED)
+	if (init_semaphores(cond) == false)
 		return (false);
-	cond->print_lock = sem_open("print_lock", \
-		O_CREAT | O_EXCL, 0644, 1);
-	if (cond->print_lock == SEM_FAILED)
-	{
-		free_semaphore(cond);
-		return (false);
-	}
-	cond->monitor_lock = sem_open("monitor_lock", \
-		O_CREAT | O_EXCL, 0644, 1);
-	if (cond->monitor_lock == SEM_FAILED)
-	{
-		free_semaphore(cond);
-		return (false);
-	}
 	cond->philosopher_pid \
 		= ft_calloc(cond->number_of_philosophers, sizeof(pid_t));
 	if (cond->philosopher_pid == NULL)
