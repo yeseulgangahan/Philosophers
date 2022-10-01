@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
+/*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:53:54 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/22 15:49:39 by han-yeseul       ###   ########.fr       */
+/*   Updated: 2022/10/01 13:31:34 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@
  * 1) visualizer: https://nafuka11.github.io/philosophers-visualizer/
  * 2) error control:
  * 2-1) only user-set errors print error message.
- * 2-2) function returns -1 when error occurs, check their return value.
- * 2-3) for others, main() returns 'errno'.
+ * 2-2) semaphore-initiation errors are only detached.
 */
 int	main(int argc, char **argv)
 {
@@ -40,5 +39,5 @@ int	main(int argc, char **argv)
 	create_philosopher(cond);
 	wait_proccess(cond);
 	free_all(cond);
-	return (errno);
+	return (0);
 }
