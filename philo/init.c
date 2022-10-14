@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
+/*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 15:35:58 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/22 14:52:43 by han-yeseul       ###   ########.fr       */
+/*   Updated: 2022/10/03 13:56:41 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,27 +61,14 @@ static bool	init_monitor(t_condition *cond)
  */
 bool	init_condition(t_condition *cond, int argc, char **argv)
 {
-	if (init_argument(cond, argc, argv) == false)
-		return (false);
 	cond->start_time_of_simlutation = get_current_msec();
-	if (init_print(cond) == false)
-		return (false);
-	if (init_forks(cond) == false)
+	if (init_argument(cond, argc, argv) == false \
+		|| init_print(cond) == false \
+		|| init_forks(cond) == false \
+		|| init_philosophers(cond) == false \
+		|| init_monitor(cond) == false)
 	{
-		free_print(cond);
-		return (false);
-	}
-	if (init_philosophers(cond) == false)
-	{
-		free_print(cond);
-		free_forks(cond);
-		return (false);
-	}
-	if (init_monitor(cond) == false)
-	{
-		free_print(cond);
-		free_forks(cond);
-		free(cond->philosopher);
+		free_all(cond);
 		return (false);
 	}
 	return (true);

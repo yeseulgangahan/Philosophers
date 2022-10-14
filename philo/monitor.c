@@ -22,7 +22,7 @@
 static void	*death_routine(void *arg)
 {
 	t_condition		*cond;
-	t_philosopher	philo;
+	t_philosopher	*philo;
 	int				i;
 
 	cond = (t_condition *)arg;
@@ -33,13 +33,16 @@ static void	*death_routine(void *arg)
 		i = 0;
 		while (i < cond->number_of_philosophers)
 		{
-			philo = cond->philosopher[i];
-			if (get_current_msec() - philo.start_time_of_last_meal
+			philo = &(cond->philosopher[i]);
+			//last_meal_mutex_lock
+			if (get_current_msec() - philo->start_time_of_last_meal
 				>= cond->time_to_die)
 			{
-				print_state(cond, philo.name, DIE);
+				//last_meal_mutex_unlock
+				print_state(cond, philo->name, DIE);
 				return (NULL);
 			}
+			//last_meal_mutex_unlock
 			i++;
 		}
 	}
@@ -53,7 +56,7 @@ static void	*death_routine(void *arg)
 static void	*must_eat_routine(void *arg)
 {
 	t_condition		*cond;
-	t_philosopher	philo;
+	t_philosopher	*philo;
 	int				i;
 
 	cond = (t_condition *)arg;
@@ -62,13 +65,16 @@ static void	*must_eat_routine(void *arg)
 	{
 		if (is_print_true(cond) == false)
 			return (NULL);
-		philo = cond->philosopher[i];
-		if (philo.number_of_times_eaten < cond->number_of_times_each_must_eat)
+		philo = &(cond->philosopher[i]);
+		//last_meal_mutex_lock
+		if (philo->number_of_times_eaten < cond->number_of_times_each_must_eat)
 		{
+			//last_meal_mutex_unlock
 			i = 0;
 			continue ;
 		}
 		else
+			//last_meal_mutex_unlock
 			i++;
 	}
 	pthread_mutex_lock(cond->print_lock);

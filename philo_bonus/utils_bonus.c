@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:55:40 by yehan             #+#    #+#             */
-/*   Updated: 2022/10/01 13:14:22 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/10/01 15:23:31 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	usleep_precise(t_condition *cond, t_msec must_time)
 	enter_time = get_current_msec();
 	while (1)
 	{
-		(void)cond;
+		(void)cond;//지워야 한다!
 		if (get_current_msec() - enter_time >= must_time)
 			break ;
 		usleep(100);

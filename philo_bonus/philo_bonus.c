@@ -6,7 +6,7 @@
 /*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 09:55:09 by yehan             #+#    #+#             */
-/*   Updated: 2022/10/01 13:30:31 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2022/10/01 15:16:40 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	run_simulation(t_condition *cond)
 
 void	create_philosopher(t_condition *cond)
 {
-	int				i;
+	int	i;
 
 	i = 0;
 	while (i < cond->number_of_philosophers)

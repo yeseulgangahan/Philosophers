@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
+/*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 15:30:10 by yehan             #+#    #+#             */
-/*   Updated: 2022/09/22 15:48:13 by han-yeseul       ###   ########.fr       */
+/*   Updated: 2022/10/01 14:41:43 by yehan            ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@
 # include <pthread.h>
 # include <stdbool.h>
 # include <sys/time.h>
-
-# include <stdio.h>//./philo 3 1000 400 600
 
 /* for monitor threads */
 # define MONITOR_CNT 2
