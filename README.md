@@ -1,7 +1,7 @@
 # Philosophers
 ![image](https://github.com/yeseulgangahan/Philosophers/assets/88709878/4ed31d17-edc9-4b11-af79-b22154ead202)
 
-철학자들(스레드, 프로세스)이 공평하게 밥을 먹고 잠을 자고 생각하는 시뮬레이션입니다. 운영체제의 Deadlock 상태를 설명하는 대표적인 예시인 식사하는 철학자 문제를 해결하고 있습니다.
+철학자들이 공평하게 밥을 먹고 잠을 자고 생각하는 시뮬레이션입니다. 운영체제의 Deadlock 상태를 설명하는 대표적인 예시인 식사하는 철학자 문제를 해결하고 있습니다.
 
 ## Preview
 
