@@ -1,7 +1,7 @@
 # Philosophers
 ![image](https://github.com/yeseulgangahan/Philosophers/assets/88709878/4ed31d17-edc9-4b11-af79-b22154ead202)
 
-철학자들이 공평하게 밥을 먹고 잠을 자고 생각하는 시뮬레이션입니다. 운영체제의 Deadlock 상태를 설명하는 대표적인 예시인 식사하는 철학자 문제를 해결하고 있습니다.
+철학자들이 공평하게 밥을 먹고 잠을 자고 생각하는 멀티스레드/멀티프로세스 시뮬레이션입니다. 운영체제의 Deadlock 상태를 설명하는 대표적인 예시인 식사하는 철학자 문제를 해결하고 있습니다.
 
 ## Preview
 
@@ -11,9 +11,21 @@
 - 철학자가 죽었을 시 10ms 이내에 메시지 출력 중단
 
 ## Usage
-1. `make`로 스레드와 뮤텍스를 사용하는 프로그램을, `make bonus`로 프로세스와 세마포어를 사용하는 프로그램을 빌드합니다.
-2. 조건을 인자로 넣어주면서 프로그램을 실행합니다.
-`./philo <number of philosophers> <time to die> <time to eat> <time to sleep> (<number of times each philosopher must eat>)`
+### 1. 빌드하기
+```
+make
+```
+로 스레드와 뮤텍스를 사용하는 프로그램을,
+```
+make bonus
+```
+로 프로세스와 세마포어를 사용하는 프로그램을 빌드합니다.
+
+### 2. 실행하기
+인자와 함께 프로그램을 실행합니다.
+```
+./philo <number of philosophers> <time to die> <time to eat> <time to sleep> (<number of times each philosopher must eat>)
+```
 
 - number of philosophers: 철학자의 수이자 포크의 수입니다.
 - time to die: 철학자는 마지막 먹은 후로 time to die 시간 전에 먹지 못하면 죽습니다. (millisecond 단위)
