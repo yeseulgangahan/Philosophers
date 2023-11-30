@@ -40,5 +40,3 @@ make bonus
 <img width="532" alt="image" src="https://github.com/yeseulgangahan/Philosophers/assets/88709878/4fef8d63-da70-4cc6-b15a-00da41e036c6">
 <img width="532" alt="image" src="https://github.com/yeseulgangahan/Philosophers/assets/88709878/3848e8fd-c0aa-4baa-b1a4-b33b98f3b69b">
 <img width="532" alt="image" src="https://github.com/yeseulgangahan/Philosophers/assets/88709878/0700ee35-3a3f-4b5e-840f-14195a296d64">
-
-## Notion Post
