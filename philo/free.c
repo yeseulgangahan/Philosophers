@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 15:37:54 by yehan             #+#    #+#             */
-/*   Updated: 2022/10/03 13:54:46 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2023/12/08 08:32:12 by han-yeseul       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	free_print(t_condition *cond)
 	free(cond->print_lock);
 }
 
-static	free_forks(t_condition *cond)
+static void free_forks(t_condition *cond)
 {
 	int	i;
 

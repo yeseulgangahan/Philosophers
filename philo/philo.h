@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yehan <yehan@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: han-yeseul <han-yeseul@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 15:30:10 by yehan             #+#    #+#             */
-/*   Updated: 2022/10/01 14:41:43 by yehan            ###   ########seoul.kr  */
+/*   Updated: 2023/12/08 08:33:31 by han-yeseul       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,8 +104,6 @@ bool	create_monitor(t_condition *cond, int cnt);
 
 /* free.c */
 void	wait_thread(t_condition *cond);
-void	free_forks(t_condition *cond);
-void	free_print(t_condition *cond);
 void	free_all(t_condition *cond);
 
 /* utils.c */
