@@ -4,9 +4,14 @@
 철학자들이 공평하게 밥을 먹고 잠을 자고 생각하는 멀티스레드/멀티프로세스 시뮬레이션입니다. 운영체제의 Deadlock 상태를 설명하는 대표적인 예시인 식사하는 철학자 문제를 해결하고 있습니다.
 
 ## Preview
+<img width="760" alt="image" src="https://github.com/yeseulgangahan/Philosophers/assets/88709878/40653501-7a07-4ad2-97a8-33662e63ec5d">
+
+<img width="760" alt="image" src="https://github.com/yeseulgangahan/Philosophers/assets/88709878/791fc3d2-9956-41a0-b94a-da8c06f90a92">
+
 
 ## Features
 - 사용자가 지정한 수만큼의 스레드 및 프로세스를 스케줄링
+- 데드락을 예방하고 기아를 방지
 - 타임스탬프와 함께 각 철학자의 현재 행동을 설명하는 메시지 출력
 - 철학자가 죽었을 시 10ms 이내에 메시지 출력 중단
 
